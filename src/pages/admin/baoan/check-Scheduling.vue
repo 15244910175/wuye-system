@@ -1,0 +1,13 @@
+<template>
+    <div>
+         <!-- 面包屑 -->
+        <el-breadcrumb separator-class="el-icon-arrow-right">
+          <el-breadcrumb-item :to="{ path: '/adminhome' }">首页</el-breadcrumb-item>
+          <el-breadcrumb-item>保安管理</el-breadcrumb-item></el-breadcrumb-item>
+          <el-breadcrumb-item>查看保安排班记录</el-breadcrumb-item>
+        </el-breadcrumb>
+    </div>
+</template>
+<style>
+
+</style>
