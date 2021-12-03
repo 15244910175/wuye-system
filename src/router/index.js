@@ -9,6 +9,10 @@ const routes = [{
     component: resolve=>require(['../views/loginRegister.vue'],resolve),
     // meta:{requireAuth:true,roles:['管理员','业主']}
   },
+  // {
+  //   path:'/ForgetPassword',
+  //   component:resolve=>require(['../views/ForgetPassword.vue'])
+  // },
   {
     path: '/userhome',
     name:'userhome',

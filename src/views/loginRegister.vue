@@ -4,28 +4,33 @@
 			<div class="big-box" :class="{active:isLogin}">
 				<div class="big-contain" v-if="isLogin">
 
-					<div class="btitle">账户登录</div>
+					<div class="btitle" name="first">账户登录</div>
 					<div class="bform">
 						<el-form :model="form" :rules="rules" ref="form" label-width="100px" class="demo-ruleForm"
 							:label-position="labelPosition">
-							<el-form-item label="邮箱" prop="email">
+							<!-- <el-form-item label="邮箱" prop="useremail">
 								<el-input v-model="form.useremail" type="email"></el-input>
-							</el-form-item>
-							<!-- <el-form-item label="用户名" prop="username">
-								<el-input v-model="form.username"></el-input>
 							</el-form-item> -->
-							<el-form-item label="密码" prop="password">
+							<el-form-item label="用户名" prop="username">
+								<el-input v-model="form.username"></el-input>
+							</el-form-item>
+							<el-form-item label="密码" prop="userpwd">
 								<el-input v-model="form.userpwd" type="password"></el-input>
 							</el-form-item>
+							<!-- <el-checkbox id="savePassword" checked="checked" @click="savePassword()">记住密码</el-checkbox>
+							<router-link to="/ForgetPassword">忘记密码</router-link> -->
 						</el-form>
 
 					</div>
 
+
 					<el-button class="bbutton" @click="login">登录</el-button>
 
+
 				</div>
+
 				<div class="big-contain" v-else>
-					<div class="btitle">创建账户</div>
+					<div class="btitle" name="second">创建账户</div>
 					<div class="bform">
 						<el-form :model="form" :rules="rules" ref="form" label-width="100px" class="demo-ruleForm"
 							:label-position="labelPosition">
@@ -33,11 +38,11 @@
 								<el-input v-model="form.username"></el-input>
 							</el-form-item>
 
-							<el-form-item label="邮箱" prop="email">
+							<el-form-item label="邮箱" prop="useremail">
 								<el-input v-model="form.useremail" type="email"></el-input>
 							</el-form-item>
 
-							<el-form-item label="密码" prop="password">
+							<el-form-item label="密码" prop="userpwd">
 								<el-input v-model="form.userpwd" type="password"></el-input>
 							</el-form-item>
 
@@ -107,24 +112,7 @@
 							trigger: 'blur'
 						}
 					],
-					password: [{
-							required: true,
-							message: '请输入密码',
-							trigger: 'blur'
-						},
-						{
-							min: 3,
-							max: 8,
-							message: '长度在 3 到 8 个字符',
-							trigger: 'blur'
-						}
-					],
-					role: [{
-						required: true,
-						message: '请选择活动区域',
-						trigger: 'change'
-					}],
-					email: [{
+					useremail: [{
 							required: true,
 							message: '请填写邮箱',
 							trigger: 'blur'
@@ -147,6 +135,23 @@
 							max: 30
 						}
 					],
+					userpwd: [{
+							required: true,
+							message: '请输入密码',
+							trigger: 'blur'
+						},
+						{
+							min: 3,
+							max: 8,
+							message: '长度在 3 到 8 个字符',
+							trigger: 'blur'
+						}
+					],
+					role: [{
+						required: true,
+						message: '请选择权限',
+						trigger: 'change'
+					}],
 
 
 
@@ -163,13 +168,13 @@
 			},
 			login() {
 				const self = this;
-				if (self.form.useremail != "" && self.form.userpwd != "" && self.form.username != "") {
+				if (self.form.username != "" && self.form.userpwd != "") {
 					self.$axios({
 							method: 'post',
 							url: 'http://127.0.0.1:10520/api/user/login',
 							data: {
 								username: self.form.username,
-								email: self.form.useremail,
+								// email: self.form.useremail,
 								password: self.form.userpwd
 							}
 						})
@@ -235,7 +240,20 @@
 				} else {
 					alert("填写不能为空！");
 				}
-			}
+			},
+			// 记住密码
+			// savePassword() {
+			// 	if (document.getElementById("savePassword").checked) {
+			// 		var username = this.user.username;
+			// 		var password = this.user.password;
+			// 		wind
+			// 		ow.sessionStorage.username = username;
+			// 		window.sessionStorage.password = password;
+			// 		localStorage.rmbPassword = true;
+			// 	} else {
+			// 		localStorage.rmbPassword = false;
+			// 	}
+			// }
 		}
 	}
 </script>
@@ -387,5 +405,9 @@
 		border-bottom-right-radius: inherit;
 		transform: translateX(-100%);
 		transition: all 1s;
+	}
+
+	.el-checkbox {
+		text-indent: 4px;
 	}
 </style>

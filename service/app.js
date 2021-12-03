@@ -3,7 +3,7 @@ const express = require('express');
 const cors = require('cors')
 const app = express();
 
-const userApi = require('./api/userApi.js');
+const userApi = require('./api/user/userApi.js');
 
 // 解析 application/x-www-form-urlencoded
 app.use(bodyParser.urlencoded({ extended: false }));
