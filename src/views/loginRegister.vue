@@ -3,14 +3,10 @@
 		<div class="contain">
 			<div class="big-box" :class="{active:isLogin}">
 				<div class="big-contain" v-if="isLogin">
-
 					<div class="btitle" name="first">账户登录</div>
 					<div class="bform">
 						<el-form :model="form" :rules="rules" ref="form" label-width="100px" class="demo-ruleForm"
 							:label-position="labelPosition">
-							<!-- <el-form-item label="邮箱" prop="useremail">
-								<el-input v-model="form.useremail" type="email"></el-input>
-							</el-form-item> -->
 							<el-form-item label="用户名" prop="username">
 								<el-input v-model="form.username"></el-input>
 							</el-form-item>
@@ -20,15 +16,9 @@
 							<!-- <el-checkbox id="savePassword" checked="checked" @click="savePassword()">记住密码</el-checkbox>
 							<router-link to="/ForgetPassword">忘记密码</router-link> -->
 						</el-form>
-
 					</div>
-
-
 					<el-button class="bbutton" @click="login">登录</el-button>
-
-
 				</div>
-
 				<div class="big-contain" v-else>
 					<div class="btitle" name="second">创建账户</div>
 					<div class="bform">
@@ -37,15 +27,12 @@
 							<el-form-item label="用户名" prop="username">
 								<el-input v-model="form.username"></el-input>
 							</el-form-item>
-
 							<el-form-item label="邮箱" prop="useremail">
 								<el-input v-model="form.useremail" type="email"></el-input>
 							</el-form-item>
-
 							<el-form-item label="密码" prop="userpwd">
 								<el-input v-model="form.userpwd" type="password"></el-input>
 							</el-form-item>
-
 							<el-form-item label="权限" prop="role">
 								<el-select v-model="form.role" placeholder="请选择">
 									<el-option v-for="item in options" :key="item.value" :label="item.label"
@@ -54,7 +41,6 @@
 								</el-select>
 							</el-form-item>
 						</el-form>
-
 					</div>
 					<button class="bbutton" @click="register">注册</button>
 				</div>
@@ -76,6 +62,11 @@
 </template>
 
 <script>
+	import {
+		setToken,
+		setUserName
+	} from "../utils/auth";
+	// import request from "../utils/request";
 	export default {
 		name: 'login-register',
 		data() {
@@ -85,6 +76,8 @@
 				passwordError: false,
 				existed: false,
 				labelPosition: 'right',
+				username:'',
+				password:'',
 				form: {
 					username: '',
 					useremail: '',
@@ -182,7 +175,8 @@
 							switch (res.data) {
 								case 0:
 									alert("登陆成功！");
-
+									setToken(res.token);
+									setUserName(res.username);
 									self.$router.push("userhome");
 
 									// if (self.form.role === '管理员') {
@@ -190,7 +184,12 @@
 									// } else if (self.form.role === '业主') {
 									// 	self.$router.push({name:'userhome'})
 									// }
-
+									// if(this.$route.query.redirect){
+									// 	let redirect_path=this.$route.query.redirect
+									// 	this.$router.push({path:redirect_path})
+									// }else{
+									// 	this.$router.push({name:'adminhome'})
+									// }
 
 									break;
 								case -1:
@@ -232,6 +231,10 @@
 									this.existed = true;
 									alert("用户名已经存在，请重新注册！")
 									break;
+								case -2:
+									this.existed = true;
+									alert("邮箱已经存在，请重新注册！")
+									break;
 							}
 						})
 						.catch(err => {
@@ -266,7 +269,7 @@
 	}
 
 	.contain {
-		width: 60%;
+		width: 40%;
 		height: 60%;
 		position: relative;
 		top: 50%;
@@ -311,25 +314,6 @@
 		flex-direction: column;
 		justify-content: space-around;
 		align-items: center;
-	}
-
-	.bform .errTips {
-		display: block;
-		width: 50%;
-		text-align: left;
-		color: red;
-		font-size: 0.7em;
-		margin-left: 1em;
-	}
-
-	.bform input {
-		width: 50%;
-		height: 30px;
-		border: none;
-		outline: none;
-		border-radius: 10px;
-		padding-left: 2em;
-		background-color: #f0f0f0;
 	}
 
 	.bbutton {

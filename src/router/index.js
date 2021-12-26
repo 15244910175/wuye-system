@@ -17,7 +17,7 @@ const routes = [{
     path: '/userhome',
     name:'userhome',
     component: resolve=>require(['../views/userhome.vue'],resolve),
-    // meta:{requireAuth:true,roles:['业主']},
+    meta:{requireAuth:true},
     children: [
       {
         path: '/',
@@ -54,6 +54,10 @@ const routes = [{
       {
         path: '/inNote',
         component: resolve=>require(['../pages/user/note/inNote.vue'],resolve),
+      },
+      {
+        path: '/speak',
+        component: resolve=>require(['../pages/user/note/speak.vue'],resolve),
       },
     ]
   },

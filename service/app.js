@@ -4,6 +4,7 @@ const cors = require('cors')
 const app = express();
 
 const userApi = require('./api/user/userApi.js');
+const adminApi=require('./api/admin/adminApi.js')
 
 // 解析 application/x-www-form-urlencoded
 app.use(bodyParser.urlencoded({ extended: false }));
@@ -23,6 +24,6 @@ app.all('*', function (req, res, next) {
 });
 
 app.use("/api/user",userApi);
-
+app.use("/api/admin",adminApi);
 app.listen(10520);
 console.log("success");

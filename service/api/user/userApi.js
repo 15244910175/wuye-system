@@ -4,15 +4,16 @@ const router = express.Router();
 const mysql = require('mysql');
 const $sql = require('../../db/sqlMap');
 
-const conn = mysql.createConnection(models.mysql);
+// 连接数据库
+var conn = mysql.createConnection(models.mysql);
 conn.connect();
 
 // 登录接口
 router.post('/login',(req,res)=>{
-	const user = req.body;
-	const sel_sql = $sql.user.select + " where username = '" + user.username + "'";
+	const resident = req.body;
+	const sel_sql = $sql.user.login + " where username = '" + resident.username + "'";
 	// console.log(sel_email);
-	conn.query(sel_sql, user.username, (error, results)=>{
+	conn.query(sel_sql, resident.username, (error, results)=>{
 		if (error) {
 			throw error;
 		}
@@ -20,7 +21,7 @@ router.post('/login',(req,res)=>{
 		if (results[0] === undefined) {
 			res.send("-1");  // -1 表示查询不到，用户不存在
 		} else{
-			if (results[0].username == user.username && results[0].password == user.password) {
+			if (results[0].username == resident.username && results[0].password == resident.password) {
 				res.send("0");  // 0 表示用户存在并且密码正确
 			} else{
 				res.send("1");  // 1 表示用户存在，但密码不正确
@@ -33,7 +34,7 @@ router.post('/login',(req,res)=>{
 router.post('/reg', (req, res) => {
 	const params = req.body;
 	const sel_sql = $sql.user.select + " where username = '" + params.username + "'";
-	const add_sql = $sql.user.add;
+	const add_sql = $sql.user.reg;
 	console.log(sel_sql);
 	
 	conn.query(sel_sql, params.username, (error, results) => {
@@ -42,7 +43,8 @@ router.post('/reg', (req, res) => {
 		}
 		if (results.length != 0 && params.username == results[0].username) {
 			res.send("-1");   // -1 表示用户名已经存在
-		} else {
+		}
+		else {
 			conn.query(add_sql, [params.username, params.email, params.password, params.role], (err, rst) => {
 				if (err) {
 					console.log(err);
@@ -54,6 +56,138 @@ router.post('/reg', (req, res) => {
 		}
 	});
 });
+// 查看报修列表
+router.post('/getRepairList', (req, res) => {
+	var sql = $sql.user.getRepairList;
+	var params = req.body;
+	console.log(params);
+	conn.query(sql, [], function (err, result) {
+	  var data = JSON.parse(JSON.stringify(result))
+	  
+	  return res.send({
+		status: 1,
+		msg: "查询成功",
+		list: data
+	  })
+	})
+  });
+
+
+
+// 修改用户名
+router.post('/updateUserEmail',(req,res)=>{
+	var sql=$sql.user.updateUserEmail;
+	console(req);
+	conn.query(sql,[req.body.username,req.body.password,req.body.id],function(err,result){
+		var data=req.body;
+		console.log(result)
+		return res.send({
+			status:1,
+			msg:'修改用户名和邮箱成功',
+			data:data
+		})
+	})
+});
+// 修改密码
+router.post('/updatePwd',(req,res)=>{
+	var sql=$sql.user.updatePwd;
+	console(req);
+	conn.query(sql,[req.body.password,req.body.id],function(err,result){
+		var data=req.body;
+		console.log(result)
+		return res.send({
+			status:1,
+			msg:'修改密码成功',
+			data:data
+		})
+	})
+})
+
+// 修改密码
+// 修改
+router.post('/updatePwd', (req, res) => {
+	var sql = $sql.user.updatePwd;
+	// var params = req.body;
+	console.log(req);
+	conn.query(sql, [req.body.username, req.body.email, req.body.role,req.body.password, req.body.id], function (err, result) {
+	  var data = req.body;
+	  console.log(result)
+	  return res.send({
+		status: 1,
+		msg: "修改密码成功",
+		data: data
+	  })
+	})
+  });
+
+// 用户信息查看查询
+router.post('/queryUserEmailRole', (req, res) => {
+	var sql = $sql.user.queryUserEmailRole;
+	var params = req.body;
+	console.log(params);
+	conn.query(sql, [], function (err, result) {
+	  var data = JSON.parse(JSON.stringify(result))
+	  
+	  return res.send({
+		status: 1,
+		msg: "查询成功",
+		list: data
+	  })
+	})
+  });
+
+// 查看住户资料接口
+
+
+
+  // 查看物业费用列表
+router.post('/getPayList', (req, res) => {
+	var sql = $sql.user.getPayList;
+	var params = req.body;
+	console.log(params);
+	conn.query(sql, [], function (err, result) {
+	  var data = JSON.parse(JSON.stringify(result))
+	  
+	  return res.send({
+		status: 1,
+		msg: "查询成功",
+		list: data
+	  })
+	})
+  });
+
+//   查看小区车位
+router.post('/getOrdercar', (req, res) => {
+	var sql = $sql.user.getOrdercar;
+	var params = req.body;
+	console.log(params);
+	conn.query(sql, [], function (err, result) {
+	  var data = JSON.parse(JSON.stringify(result))
+	  
+	  return res.send({
+		status: 1,
+		msg: "查询成功",
+		list: data
+	  })
+	})
+  });
+
+
+  //   查看留言
+router.post('/getNoteList', (req, res) => {
+	var sql = $sql.user.getNoteList;
+	var params = req.body;
+	console.log(params);
+	conn.query(sql, [], function (err, result) {
+	  var data = JSON.parse(JSON.stringify(result))
+	  
+	  return res.send({
+		status: 1,
+		msg: "查询成功",
+		list: data
+	  })
+	})
+  });
 
 
 module.exports = router;

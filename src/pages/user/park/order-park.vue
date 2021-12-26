@@ -1,13 +1,130 @@
 <template>
-    <div>
-         <!-- 面包屑 -->
-        <el-breadcrumb separator-class="el-icon-arrow-right">
-          <el-breadcrumb-item :to="{ path: '/userhome' }">首页</el-breadcrumb-item>
-          <el-breadcrumb-item>住户停车车位管理</el-breadcrumb-item>
-          <el-breadcrumb-item>预定小区车位查看</el-breadcrumb-item>
-        </el-breadcrumb>
+  <div>
+    <!-- 面包屑 -->
+    <el-breadcrumb separator-class="el-icon-arrow-right">
+      <el-breadcrumb-item :to="{ path: '/userhome' }">首页</el-breadcrumb-item>
+      <el-breadcrumb-item>住户停车车位管理</el-breadcrumb-item>
+      <el-breadcrumb-item>预定小区车位查看</el-breadcrumb-item>
+    </el-breadcrumb>
+
+    <div class="t_box">
+      <div class="search">
+        <el-form ref="form" :model="formInline" :inline="true" class="demo-form-inline">
+          <el-form-item label="住户姓名">
+            <el-input size="mini" v-model="formInline.userid"></el-input>
+          </el-form-item>
+          <el-form-item label="住户身份证">
+            <el-input size="mini" v-model="formInline.persionNo"></el-input>
+          </el-form-item>
+          <el-form-item label="联系电话">
+            <el-input size="mini" v-model="formInline.telephone"></el-input>
+          </el-form-item>
+          <el-form-item label="登记时间">
+            <el-date-picker v-model="formInline.changedate" type="datetime" placeholder="选择日期" style="width:100%">
+            </el-date-picker>
+          </el-form-item>
+          <el-form-item label="停车车位号">
+            <el-input size="mini" v-model="formInline.carAddress"></el-input>
+          </el-form-item>
+          <el-form-item label="住户地址">
+            <el-input size="mini" v-model="formInline.address"></el-input>
+          </el-form-item>
+          <el-form-item>
+            <el-button size="mini" type="primary">
+              <i class="el-icon-search"></i>查询</el-button>
+            <el-button size="mini" type="primary">
+              <i class="el-icon-refresh"></i>重置</el-button>
+          </el-form-item>
+        </el-form>
+      </div>
+      <el-table :data="typeList.slice((currentPage - 1) * pagesize, currentPage * pagesize)">
+        <el-table-column label="序号" width="150">
+          <template slot-scope="scope">{{scope.$index+1}}</template>
+        </el-table-column>
+        <el-table-column prop="userid" label="住户姓名">
+        </el-table-column>
+        <el-table-column prop="peisionNo" label="住户身份证">
+        </el-table-column>
+        <el-table-column prop="telephone" label="联系电话">
+        </el-table-column>
+        <el-table-column prop="changedate" label="登记日期">
+        </el-table-column>
+        <el-table-column prop="carAddress" label="停车车位号">
+        </el-table-column>
+        <el-table-column prop="address" label="住户地址">
+        </el-table-column>
+        <el-table-column prop="state" label="状态">
+        </el-table-column>
+      </el-table>
+      <div class="page">
+        <el-pagination @size-change="handleSizeChange" @current-change="handleCurrentChange" :current-page="currentPage"
+          :page-size="pagesize" layout=" prev, pager, next, sizes, jumper" :total="typeList.length">
+        </el-pagination>
+      </div>
     </div>
+  </div>
 </template>
+
+<script>
+import axios from 'axios'
+  export default {
+    data() {
+      return {
+        formInline: {
+          userid: '',
+          persionNo: '',
+          telephone: '',
+          changedate: '',
+          carAddress: '',
+          address: '',
+        },
+        typeList: [{
+          userid: '',
+          persionNo: '',
+          telephone: '',
+          changedate: '',
+          carAddress: '',
+          address: '',
+          state: ''
+        }],
+        currentPage: 1, //默认第一页
+        total: 0, //总条数
+        pagesize: 10 //默认第一页展示10条
+      }
+    },
+    created() {
+      this.getOrdercar();
+    },
+    methods: {
+       getOrdercar() {
+        var self = this;
+        //登陆成功之后get获取接口数据
+        axios
+          .post("http://127.0.0.1:10520/api/user/getOrdercar", {
+            //   params: {
+            //     pageNum: 5,
+            //     pageSize: 300
+            //   }
+          })
+          .then(function (res) {
+            if (res.data.status == 1) {
+              console.log("获取数据");
+              self.$message.success("数据已获取到！");
+            }
+            self.typeList = res.data.list;
+            // console.log(self.typeList);
+            console.log(res);
+          });
+      },
+      handleSizeChange(val) {
+        this.pageSize = val;
+      },
+      handleCurrentChange(val) {
+        this.currentPage = val;
+      },
+    }
+  }
+</script>
 <style>
 
 </style>

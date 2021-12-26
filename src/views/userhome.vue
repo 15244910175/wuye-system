@@ -22,14 +22,15 @@
             </el-tooltip>
             <span class="btn-bell-badge" v-if="message"></span>
           </div>
-          <!-- 用户头像 -->
+         <!-- 用户头像 -->
           <div class="user-avator">
             <img src="../assets/img/img.jpg">
+            <!-- {{username}} -->
           </div>
           <!-- 用户名下拉菜单 -->
-          <el-dropdown class="user-name" trigger="click" @command="hadleCommand">
+          <el-dropdown class="user-name" trigger="click" @command="hadleCommand" >
             <span class="el-dropdown-link">
-              {{username }}
+             {{ username }}
               <i class="el-icon-caret-bottom"></i>
             </span>
             <el-dropdown-menu slot="dropdown">
@@ -97,7 +98,8 @@
               <span>留言管理</span>
             </template>
             <el-menu-item-group>
-              <el-menu-item index="inNote" class="el-icon-menu">进入留言区</el-menu-item>
+              <el-menu-item index="speak" class="el-icon-menu">留言事项声明</el-menu-item>
+              <el-menu-item index="inNote" class="el-icon-menu">留言区</el-menu-item>
             </el-menu-item-group>
           </el-submenu>
 
@@ -109,28 +111,42 @@
         <router-view></router-view>
       </el-main>
     </el-container>
+
     <!-- 修改密码 -->
-    <el-dialog title="修改密码" :visible.sync="visibleEditPasswordDialog" width="30%">
-      <el-form ref="passForm" :model="passForm" :rules="passFormRules" label-width="80px">
-        <el-form-item label="新密码" prop="password">
-          <el-input v-model="passForm.password"></el-input>
+    <el-dialog title="修改密码" :isShow.sync="dialog_state" :visible.sync="visibleEditPasswordDialog" @close="init" width="30%">
+      <el-form ref="Form" :model="Form" :rules="FormRules" label-width="80px">
+        <el-form-item label="用户名" prop="password">
+          <el-input v-model="Form.username" disabled>{{username}}</el-input>
         </el-form-item>
+        <el-form-item label="邮箱" prop="email">
+          <el-input v-model="Form.email" disabled>{{email}}</el-input>
+        </el-form-item>
+         <el-form-item label="权 限" prop="role">
+          <el-input v-model="Form.role" disabled>{{role}}</el-input>
+        </el-form-item>
+        <el-form-item label="新密码" prop="password">
+          <el-input v-model="Form.password">{{password}}</el-input>
+        </el-form-item>
+        
       </el-form>
       <span slot="footer" class="dialog-footer">
-        <el-button @click="visibleEditPasswordDialog = false">取 消</el-button>
-        <el-button type="primary" @click="visibleEditPasswordDialog = false">确 定</el-button>
+        <el-button @click="visibleEditPasswordDialog = false">关 闭</el-button>
+        <el-button type="primary" @click="visibleEditPasswordDialog = false;Onsubmit">确认修改</el-button>
       </span>
     </el-dialog>
     <!-- 修改用户信息 -->
     <el-dialog title="修改用户信息" :visible.sync="visibleEditInfoDialog" width="30%">
-      <el-form ref="infoForm" :model="infoForm" :rules="infoFormRules" label-width="80px">
-        <el-form-item label="用户昵称" prop="nikeName">
-          <el-input v-model="infoForm.nikeName"></el-input>
+      <el-form ref="Form" :model="Form" :rules="FormRules" label-width="80px">
+        <el-form-item label="用户昵称" prop="username">
+          <el-input v-model="Form.username"></el-input>
+        </el-form-item>
+         <el-form-item label="用户邮箱" prop="email">
+          <el-input v-model="Form.email"></el-input>
         </el-form-item>
       </el-form>
       <span slot="footer" class="dialog-footer">
-        <el-button @click="visibleEditInfoDialog = false">取 消</el-button>
-        <el-button type="primary" @click="visibleEditInfoDialog = false">确 定</el-button>
+        <el-button @click="visibleEditInfoDialog = false">关 闭</el-button>
+        <el-button type="primary" @click="visibleEditInfoDialog = false">确认修改</el-button>
       </span>
     </el-dialog>
   </el-container>
@@ -139,44 +155,144 @@
 </template>
 
 <script>
+import { getUserName } from "../utils/auth";
+// import request from '../utils/request'
+// import Cookies from "js-cookie"
   export default {
     data() {
       return {
+        username: "",
+        password:'',
+          email:'',
+          role:'',
+          dialog_state: false,
         // 是否折叠
         isCollapse: false,
         // 被激活的链接地址
         activePath: '',
         fullscreen: false,
-        visibleEditPasswordDialog:false,
-        visibleEditInfoDialog:false,
+        visibleEditPasswordDialog: false,
+        visibleEditInfoDialog: false,
         message: '',
-        passForm: {
-          password: ''
+        Form: {
+          username:'',
+          password:'',
+          email:'',
+          role:''
         },
-        infoForm: {
-          nikeName: ''
-        },
-        passFormRules: {
-          password: [{
+        FormRules: {
+           password: [{
             required: true,
             message: '请输入新密码',
             trigger: 'blur'
-          }]
-        },
-        infoFormRules: {
-          nikeName: [{
+          }],
+          username: [{
             required: true,
             message: '请输入用户昵称',
             trigger: 'blur'
-          }]
+          }],
+          email:[{
+							required: true,
+							message: '请填写邮箱',
+							trigger: 'blur'
+						},
+						{
+							type: 'string',
+							message: '邮箱格式不正确',
+							trigger: 'blur',
+							transform(value) {
+								if (!/^\w+((-\w+)|(\.\w+))*@[A-Za-z0-9]+((\.|-)[A-Za-z0-9]+)*\.[A-Za-z0-9]+$/.test(
+										value)) {
+									return true
+								} else {}
+							}
+						},
+						{
+							type: 'string',
+							message: '长度不能超过30位',
+							trigger: 'blur',
+							max: 30
+						}
+					],
+          role: [{
+						required: true,
+						message: '请选择权限',
+						trigger: 'change'
+					}],
         }
       }
     },
+
+
+
+     watch: {
+    dialog_state(val, oldVal) {
+      console.log(this.obj)
+      if (val) {
+        this.params = this.obj;
+        this.queryUserEmailRole();
+      }
+    }
+  },
+
     created() {
       // this.getMenuList(),
       this.activePath = window.sessionStorage.getItem('activePath')
     },
     methods: {
+
+      
+      queryUserEmailRole(){
+        const self=this;
+        self.$axios({
+        url: "http://127.0.0.1:10520/api/user/queryUserEmailRole",
+        method: "post",
+        data: {}
+      }).then(res => {
+        console.log(res);
+        if (res.msg === "查询成功") {
+          this.typeList = res.list;
+        }
+      });
+      },
+      open_dialog(data) {
+      this.dialog_state = true;
+    },
+
+
+     Onsubmit() {
+       const self=this;
+       const params={
+         username:this.username,
+         email:this.email,
+         role:this.role,
+         password:this.password
+       };
+      self.$axios({
+        url: "http://127.0.0.1:10520/api/user/updatePwd",
+        method: "post",
+        data: params
+      }).then(res => {
+        console.log(res);
+        if (res.msg === "修改成功") {
+          this.$message({
+            message: "修改成功！",
+            type: "success"
+          });
+          this.dialog_state = false;
+        }
+      });
+    },
+    init() {
+      this.dialog_state = false;
+    },
+
+
+
+
+
+
+
       loginout() {
         window.sessionStorage.clear();
         this.$router.push('/');
@@ -234,12 +350,15 @@
           this.activePath = activePath
       }
     },
-    computed: {
-      username() {
-        let username = localStorage.getItem("ms_username");
-        return username ? username : this.name;
-      },
-    },
+    // computed: {
+		// 	username() {
+		// 		return localStorage.getItem("username");
+		// 	},
+		// },
+     mounted() {
+    this.username = getUserName();
+    // this.username=Cookies.get('username')
+  },
   }
 </script>
 
@@ -301,6 +420,7 @@
 
   .user-avator {
     margin-left: 20px;
+    // margin-bottom: 15px;
   }
 
   .user-avator img {
@@ -311,7 +431,7 @@
   }
 
   .user-name {
-    margin-left: 10px;
+    // margin-left: 10px;
   }
 
   .el-dropdown-link {
@@ -362,19 +482,9 @@
   }
 
   .user-name {
-    margin-left: 10px;
+    // margin-left: 10px;
   }
 
-  .user-avator {
-    margin-left: 20px;
-  }
-
-  .user-avator img {
-    display: block;
-    width: 40px;
-    height: 40px;
-    border-radius: 50%;
-  }
 
   .el-dropdown-link {
     color: #fff;

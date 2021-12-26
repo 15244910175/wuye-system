@@ -27,6 +27,7 @@
           <!-- 用户头像 -->
           <div class="user-avator">
             <img src="../assets/img/img.jpg">
+            <!-- {{userName}} -->
           </div>
           <!-- 用户名下拉菜单 -->
           <el-dropdown class="user-name" trigger="click" @command="hadleCommand">
@@ -168,29 +169,34 @@
         </el-form-item>
       </el-form>
       <span slot="footer" class="dialog-footer">
-        <el-button @click="visibleEditPasswordDialog = false">取 消</el-button>
-        <el-button type="primary" @click="visibleEditPasswordDialog = false">确 定</el-button>
+        <el-button @click="visibleEditPasswordDialog = false">关 闭</el-button>
+        <el-button type="primary" @click="visibleEditPasswordDialog = false">确认修改</el-button>
       </span>
     </el-dialog>
     <!-- 修改用户信息 -->
     <el-dialog title="修改用户信息" :visible.sync="visibleEditInfoDialog" width="30%">
       <el-form ref="infoForm" :model="infoForm" :rules="infoFormRules" label-width="80px">
-        <el-form-item label="用户昵称" prop="nikeName">
-          <el-input v-model="infoForm.nikeName"></el-input>
+        <el-form-item label="用户昵称" prop="username">
+          <el-input v-model="infoForm.username"></el-input>
+        </el-form-item>
+        <el-form-item label="用户邮箱" prop="email">
+          <el-input v-model="infoForm.email"></el-input>
         </el-form-item>
       </el-form>
       <span slot="footer" class="dialog-footer">
-        <el-button @click="visibleEditInfoDialog = false">取 消</el-button>
-        <el-button type="primary" @click="visibleEditInfoDialog = false">确 定</el-button>
+        <el-button @click="visibleEditInfoDialog = false">关 闭</el-button>
+        <el-button type="primary" @click="visibleEditInfoDialog = false">确认修改</el-button>
       </span>
     </el-dialog>
   </el-container>
 </template>
 
 <script>
+import { getUserName, getUsername } from "../utils/auth"
   export default {
     data() {
       return {
+        username:"",
         // 是否折叠
         isCollapse: false,
         // 被激活的链接地址
@@ -203,7 +209,8 @@
           password: ''
         },
         infoForm: {
-          nikeName: ''
+          username: '',
+          email:''
         },
         passFormRules: {
           password: [{
@@ -213,11 +220,34 @@
           }]
         },
         infoFormRules: {
-          nikeName: [{
+          username: [{
             required: true,
             message: '请输入用户昵称',
             trigger: 'blur'
-          }]
+          }],
+          email:[{
+							required: true,
+							message: '请填写邮箱',
+							trigger: 'blur'
+						},
+						{
+							type: 'string',
+							message: '邮箱格式不正确',
+							trigger: 'blur',
+							transform(value) {
+								if (!/^\w+((-\w+)|(\.\w+))*@[A-Za-z0-9]+((\.|-)[A-Za-z0-9]+)*\.[A-Za-z0-9]+$/.test(
+										value)) {
+									return true
+								} else {}
+							}
+						},
+						{
+							type: 'string',
+							message: '长度不能超过30位',
+							trigger: 'blur',
+							max: 30
+						}
+					],
         }
       }
     },
@@ -282,12 +312,15 @@
           this.activePath = activePath
       }
     },
-    computed: {
-      username() {
-        let username = localStorage.getItem("ms_username");
-        return username ? username : this.name;
-      },
-    },
+    //  computed: {
+    //   username() {
+    //     let userName = localStorage.getItem("ms_username");
+    //     return userName ? userName : this.name;
+    //   },
+    // },
+    mounted() {
+    this.username = getUserName();
+  },
   }
 </script>
 
