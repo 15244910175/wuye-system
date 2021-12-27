@@ -29,12 +29,12 @@
           <el-form-item label="住户地址">
             <el-input size="mini" v-model="formInline.address"></el-input>
           </el-form-item>
-          <el-form-item>
-            <el-button size="mini" type="primary">
-              <i class="el-icon-search"></i>查询</el-button>
-            <el-button size="mini" type="primary">
-              <i class="el-icon-refresh"></i>重置</el-button>
-          </el-form-item>
+         <el-form-item>
+         	<el-button size="mini" type="primary" class="el-icon-search">查询</el-button>
+         </el-form-item>
+         <el-form-item>
+         	<el-button size="mini" type="primary" class="el-icon-refresh">重置</el-button>
+         </el-form-item>
         </el-form>
       </div>
       <el-table :data="typeList.slice((currentPage - 1) * pagesize, currentPage * pagesize)">

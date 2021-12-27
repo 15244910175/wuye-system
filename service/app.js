@@ -1,5 +1,6 @@
 const bodyParser = require('body-parser');
 const express = require('express');
+const router = express.Router();
 const cors = require('cors')
 const app = express();
 
@@ -27,3 +28,6 @@ app.use("/api/user",userApi);
 app.use("/api/admin",adminApi);
 app.listen(10520);
 console.log("success");
+
+module.exports = app;
+// module.exports = router

@@ -9,9 +9,9 @@
 
     <el-card>
       <div slot="header" class="clearfix">
-        <span>添加保修事项</span>
+        <span>添加报修事项</span>
       </div>
-      <el-form :model="data" :rules="rules" label-width="120px">
+      <el-form :model="data" ref="data" :rules="rules" label-width="120px">
         <el-form-item label="报修事项名称" prop="name">
           <el-input v-model="data.name" placeholder="请输入报修事项名称"></el-input>
         </el-form-item>
@@ -28,12 +28,14 @@
         <el-form-item label="报修情况说明" prop="mark">
           <el-input type="textarea" v-model="data.mark" placeholder="请输入报修情况说明"></el-input>
         </el-form-item>
-        <el-button type="primary">保存</el-button>
+        <el-button type="primary" @click="addRepair">保存</el-button>
+		<el-button @click="resetForm('data')">重置</el-button>
       </el-form>
     </el-card>
   </div>
 </template>
 <script>
+	import axios from "axios";
   export default {
     data() {
       return {
@@ -92,7 +94,30 @@
           ],
         }
       }
-    }
+    },
+	methods:{
+		addRepair() {
+		  var _this = this;
+		  axios
+		    .post("http://127.0.0.1:10520/api/user/addRepair", {
+		      name: this.data.name,
+		      tel: this.data.tel,
+		      address: this.data.address,
+		      beDate: this.data.beDate,
+			  mark:this.data.mark
+		    })
+		    .then(function (res) {
+		      console.log("数据已被接收");
+		      console.log(res);
+		      _this.dialogFormVisible = false;
+		      _this.dialogForm = false;
+		      _this.getInitData();
+		    });
+		},
+		resetForm(data) {
+			this.$refs[data].resetFields();
+		}
+	}
   }
 </script>
 <style>
@@ -130,5 +155,8 @@
   }
   .el-form-item .el-input {
     text-align: left;
+  }
+  .el-button{
+	  margin-left:40%;
   }
 </style>

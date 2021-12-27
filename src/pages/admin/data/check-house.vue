@@ -24,10 +24,10 @@
             <el-input size="mini" v-model="formInline.address"></el-input>
           </el-form-item>
           <el-form-item>
-            <el-button size="mini" type="primary">
-              <i class="el-icon-search"></i>查询</el-button>
-            <el-button size="mini" type="primary">
-              <i class="el-icon-refresh"></i>重置</el-button>
+          	<el-button size="mini" type="primary" class="el-icon-search">查询</el-button>
+          </el-form-item>
+          <el-form-item>
+          	<el-button size="mini" type="primary" class="el-icon-refresh">重置</el-button>
           </el-form-item>
         </el-form>
       </div>
@@ -94,7 +94,7 @@ export default {
   methods:{
     getUserList(){
       var self=this;
-      axios.post("http://127.0.0.1:10520/api/user/getUserList",{
+      axios.post("http://127.0.0.1:10520/api/admin/getUserList",{
 
       })
       .then(function(res){

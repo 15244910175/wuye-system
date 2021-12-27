@@ -23,12 +23,12 @@
           <el-form-item label="职务">
             <el-input size="mini" v-model="formInline.post"></el-input>
           </el-form-item>
-          <el-form-item>
-            <el-button size="mini" type="primary">
-              <i class="el-icon-search"></i>查询</el-button>
-            <el-button size="mini" type="primary">
-              <i class="el-icon-refresh"></i>重置</el-button>
-          </el-form-item>
+         <el-form-item>
+         	<el-button size="mini" type="primary" class="el-icon-search">查询</el-button>
+         </el-form-item>
+         <el-form-item>
+         	<el-button size="mini" type="primary" class="el-icon-refresh">重置</el-button>
+         </el-form-item>
         </el-form>
       </div>
       <el-table :data="typeList.slice((currentPage - 1) * pagesize, currentPage * pagesize)">
@@ -89,6 +89,7 @@
 </template>
 
 <script>
+	import axios from "axios";
   export default {
     data() {
       return {
@@ -139,7 +140,30 @@
         }
       }
     },
+	created(){
+		this.getBaList();
+	},
     methods: {
+		getBaList() {
+		  var self = this;
+		  //登陆成功之后get获取接口数据
+		  axios
+		    .post("http://127.0.0.1:10520/api/admin/getBaList", {
+		      //   params: {
+		      //     pageNum: 5,
+		      //     pageSize: 300
+		      //   }
+		    })
+		    .then(function (res) {
+		      if (res.data.status == 1) {
+		        console.log("获取数据");
+		        self.$message.success("数据已获取到！");
+		      }
+		      self.typeList = res.data.list;
+		      // console.log(self.typeList);
+		      console.log(res);
+		    });
+		},
       handleSizeChange(val) {
         this.pageSize = val;
       },

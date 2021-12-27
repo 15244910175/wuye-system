@@ -23,12 +23,12 @@
           <el-form-item label="登记人">
             <el-input size="mini" v-model="formInline.inName"></el-input>
           </el-form-item>
-          <el-form-item>
-            <el-button size="mini" type="primary">
-              <i class="el-icon-search"></i>查询</el-button>
-            <el-button size="mini" type="primary">
-              <i class="el-icon-refresh"></i>重置</el-button>
-          </el-form-item>
+         <el-form-item>
+         	<el-button size="mini" type="primary" class="el-icon-search">查询</el-button>
+         </el-form-item>
+         <el-form-item>
+         	<el-button size="mini" type="primary" class="el-icon-refresh">重置</el-button>
+         </el-form-item>
         </el-form>
       </div>
       <el-table :data="typeList.slice((currentPage - 1) * pagesize, currentPage * pagesize)">
@@ -86,6 +86,7 @@
 </template>
 
 <script>
+	import axios from "axios";
   export default {
     data() {
       return {
@@ -132,7 +133,25 @@
         }
       }
     },
+	created(){
+		this.getEquipList();
+	},
     methods: {
+		getEquipList() {
+			var self = this;
+			axios.post("http://127.0.0.1:10520/api/admin/getEquipList", {
+		
+				})
+				.then(function(res) {
+					if (res.data.status == 1) {
+						console.log("获取数据");
+						self.$message.success("数据已获取到！");
+					}
+					self.typeList = res.data.list;
+					// console.log(self.typeList);
+					console.log(res);
+				})
+		},
       handleSizeChange(val) {
         this.pageSize = val;
       },
