@@ -11,13 +11,14 @@
 			<div class="search">
 				<el-form ref="formInline" :model="formInline" :inline="true">
 					<el-form-item label="单据编号">
-						<el-input size="mini" v-model="formInline.dNo"></el-input>
+						<el-input size="mini" v-model="formInline.dNo" placeholder="输入单据编号"></el-input>
 					</el-form-item>
 					<el-form-item label="住户姓名">
-						<el-input size="mini" v-model="formInline.zName"></el-input>
+						<el-input size="mini" v-model="formInline.zName" placeholder="输入住户姓名"></el-input>
 					</el-form-item>
 					<el-form-item label="缴纳日期">
-						<el-input size="mini" v-model="formInline.changedate"></el-input>
+						<el-date-picker size="mini" v-model="formInline.changedate" type="date" placeholder="选择日期" style="width:100%">
+						</el-date-picker>
 					</el-form-item>
 
 					<el-form-item>
@@ -36,7 +37,7 @@
 				</el-table-column>
 				<el-table-column prop="zName" label="住户姓名">
 				</el-table-column>
-				<el-table-column prop="changedate" label="缴纳日期">
+				<el-table-column prop="changedate" label="缴纳日期" :formatter="dateFormat">
 				</el-table-column>
 				<el-table-column prop="cases" label="缴费总额">
 				</el-table-column>
@@ -132,6 +133,7 @@
 </template>
 
 <script>
+	import moment from 'moment';
 	import axios from "axios";
 	export default {
 		data() {
@@ -203,6 +205,16 @@
 			this.getPayListL();
 		},
 		methods: {
+			// 时间格式化
+			dateFormat:function(row,column){
+			
+			        var date = row[column.property];
+			
+			        if(date == undefined){return ''};
+			
+			        return moment(date).format("YYYY-MM-DD HH:mm:ss")
+			
+			    },
 			getPayListL() {
 				var self = this;
 				axios.post("http://127.0.0.1:10520/api/admin/getPayListL", {

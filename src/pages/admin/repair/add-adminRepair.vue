@@ -11,30 +11,32 @@
 			<div slot="header">添加报修事项</div>
 			<el-form ref="addForm" :model="addForm" :rules="addFormRules" label-width="120px">
 				<el-form-item label="报修事项名称" prop="name">
-					<el-input v-model="addForm.name" placeholder="请输入单据编号"></el-input>
+					<el-input v-model="addForm.name" placeholder="请输入保修事项名称"></el-input>
 				</el-form-item>
 				<el-form-item label="报修人" prop="inName">
-					<el-input v-model="addForm.inName" placeholder="请输入住户姓名"></el-input>
+					<el-input v-model="addForm.inName" placeholder="请输入报修人"></el-input>
 				</el-form-item>
 				<el-form-item label="联系电话" prop="tel">
-					<el-input v-model="addForm.tel" placeholder="请输入缴费方式"></el-input>
+					<el-input v-model="addForm.tel" placeholder="请输入联系电话"></el-input>
 				</el-form-item>
 				<el-form-item label="住户地址" prop="address">
-					<el-input v-model="addForm.address" placeholder="请输入缴费总额"></el-input>
+					<el-input v-model="addForm.address" placeholder="请输入住户地址"></el-input>
 				</el-form-item>
 					<el-form-item label="报修时间" prop="beDate">
-						<el-input v-model="addForm.beDate" placeholder="请输入收费人员"></el-input>
+						<el-date-picker v-model="addForm.beDate" type="datetime" placeholder="请选择报修时间" style="width:80%">
+						</el-date-picker>
 					</el-form-item>
 					<el-form-item label="保修情况说明" prop="mark">
-						<el-input v-model="addForm.mark" type="textarea" placeholder="请输入备注"></el-input>
+						<el-input v-model="addForm.mark" type="textarea" placeholder="请输入备注" style="width:80%"></el-input>
 					</el-form-item>
-					<el-button type="primary">保存</el-button>
+					<el-button type="primary" @click="onSubmit">保存</el-button>
 					<el-button @click="resetForm('addForm')">重置</el-button>
 			</el-form>
 		</el-card>
 	</div>
 </template>
 <script>
+	import request from "../../../utils/request.js"
 	export default {
 		data() {
 			return {
@@ -50,7 +52,7 @@
 					name: [{
 							required: true,
 							message: '请输入报修事项名称',
-							rigger: 'blur'
+							trigger: 'blur'
 						},
 						{
 							min: 2,
@@ -62,7 +64,7 @@
 					inName: [{
 							required: true,
 							message: '请输入报修人',
-							rigger: 'blur'
+							trigger: 'blur'
 						},
 						{
 							min: 2,
@@ -74,35 +76,55 @@
 					tel: [{
 							required: true,
 							message: '请输入联系电话',
-							rigger: 'blur'
+							trigger: 'blur'
 						},
 						{
-							type: 'number',
+							// type: 'number',
 							max: 11,
 							message: '联系电话输入11位正整数',
-							trigger: 'blur'
+							// trigger: 'blur'
 						}
 					],
 					address: [{
 						required: true,
 						message: '请输入住户地址',
-						rigger: 'blur'
+						trigger: 'blur'
 					}, ],
 					beDate: [{
 						required: true,
-						message: '请输入报修时间',
-						rigger: 'blur'
+						message: '请选择报修时间',
+						trigger: 'blur'
 					}, ],
 					mark: [{
 						required: true,
 						message: '请输入备注信息',
-						rigger: 'blur'
+						trigger: 'blur'
 					}, ],
 
 				}
 			}
 		},
 		methods: {
+			onSubmit() {
+				request({
+					url: "http://127.0.0.1:10520/api/admin/addRepair",
+					method: "post",
+					data: this.addForm
+				}).then(res => {
+					console.log(res);
+					if (res.msg === "新增成功") {
+						this.$message({
+							message: "恭喜你，新增成功",
+							type: "success"
+						});
+						this.init();
+					}
+				});
+			},
+			init() {
+				// this.dialog_state = false;
+				this.addForm = {};
+			},
 			resetForm(addForm) {
 				this.$refs[addForm].resetFields();
 			}

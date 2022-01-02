@@ -11,22 +11,23 @@
 			<div class="search">
 				<el-form ref="formInline" :model="formInline" :inline="true">
 					<el-form-item label="住户姓名">
-						<el-input size="mini" v-model="formInline.userid"></el-input>
+						<el-input size="mini" v-model="formInline.userid" placeholder="输入住户姓名"></el-input>
 					</el-form-item>
 					<el-form-item label="住户身份证">
-						<el-input size="mini" v-model="formInline.persionNo"></el-input>
+						<el-input size="mini" v-model="formInline.persionNo" placeholder="输入住户身份证"></el-input>
 					</el-form-item>
 					<el-form-item label="联系电话">
-						<el-input size="mini" v-model="formInline.telephone"></el-input>
+						<el-input size="mini" v-model="formInline.telephone" placeholder="输入联系电话"></el-input>
 					</el-form-item>
 					<el-form-item label="登记日期">
-						<el-input size="mini" v-model="formInline.changedate"></el-input>
+						<el-date-picker size="mini" v-model="formInline.changedate" type="date" placeholder="选择日期" style="width:100%">
+						</el-date-picker>
 					</el-form-item>
 					<el-form-item label="停车车位号">
-						<el-input size="mini" v-model="formInline.carAddress"></el-input>
+						<el-input size="mini" v-model="formInline.carAddress" placeholder="输入停车车位号"></el-input>
 					</el-form-item>
 					<el-form-item label="住户地址">
-						<el-input size="mini" v-model="formInline.address"></el-input>
+						<el-input size="mini" v-model="formInline.address" placeholder="输入住户地址"></el-input>
 					</el-form-item>
 
 					<el-form-item>
@@ -47,7 +48,7 @@
 				</el-table-column>
 				<el-table-column prop="telephone" label="联系电话">
 				</el-table-column>
-				<el-table-column prop="changedate" label="登记日期">
+				<el-table-column prop="changedate" label="登记日期" :formatter="dateFormat">
 				</el-table-column>
 				<el-table-column prop="carAddress" label="停车车位号">
 				</el-table-column>
@@ -91,6 +92,7 @@
 </template>
 
 <script>
+	import moment from 'moment';
 import axios from "axios";
 	export default {
 		data() {
@@ -133,6 +135,16 @@ import axios from "axios";
 			this.getCarparkList();
 		},
 		methods: {
+			// 时间格式化
+			dateFormat:function(row,column){
+			
+			        var date = row[column.property];
+			
+			        if(date == undefined){return ''};
+			
+			        return moment(date).format("YYYY-MM-DD HH:mm:ss")
+			
+			    },
 			getCarparkList() {
 				var self = this;
 				axios.post("http://127.0.0.1:10520/api/admin/getCarparkList", {

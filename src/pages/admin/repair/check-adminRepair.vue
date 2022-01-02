@@ -11,19 +11,20 @@
 			<div class="search">
 				<el-form ref="formInline" :model="formInline" :inline="true">
 					<el-form-item label="报修事项名称">
-						<el-input size="mini" v-model="formInline.name"></el-input>
+						<el-input size="mini" v-model="formInline.name" placeholder="输入保修事项名称"></el-input>
 					</el-form-item>
 					<el-form-item label="报修人">
-						<el-input size="mini" v-model="formInline.inName"></el-input>
+						<el-input size="mini" v-model="formInline.inName" placeholder="输入报修人"></el-input>
 					</el-form-item>
 					<el-form-item label="电话">
-						<el-input size="mini" v-model="formInline.tel"></el-input>
+						<el-input size="mini" v-model="formInline.tel" placeholder="输入电话"></el-input>
 					</el-form-item>
-					<el-form-item label="保修日期">
-						<el-input size="mini" v-model="formInline.beDate"></el-input>
+					<el-form-item label="报修日期">
+						<el-date-picker size="mini" v-model="formInline.beDate" type="date" placeholder="选择日期" style="width:100%">
+						</el-date-picker>
 					</el-form-item>
 					<el-form-item label="住户地址">
-						<el-input size="mini" v-model="formInline.address"></el-input>
+						<el-input size="mini" v-model="formInline.address" placeholder="输入住户地址"></el-input>
 					</el-form-item>
 
 					<el-form-item>
@@ -50,8 +51,11 @@
 				</el-table-column>
 				<el-table-column prop="revalue" label="是否已修">
 				</el-table-column>
-				<el-table-column label="具体操作" width="300">
+				<el-table-column label="具体操作" width="500">
 					<template slot-scope="scope">
+						<el-button type="primary" size="small">
+							<a @click="dialogTableVisible = true">标记已修</a>
+						</el-button>
 						<el-button type="primary" size="small">
 							<a @click="dialogTableVisible = true">查看</a>
 						</el-button>

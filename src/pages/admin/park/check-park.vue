@@ -11,7 +11,7 @@
 			<div class="search">
 				<el-form ref="formInline" :model="formInline" :inline="true">
 					<el-form-item label="车位总数">
-						<el-input size="mini" v-model="formInline.num"></el-input>
+						<el-input size="mini" v-model="formInline.num" placeholder="输入车位总数"></el-input>
 					</el-form-item>
 					<el-form-item>
 						<el-button size="mini" type="primary" class="el-icon-search">查询</el-button>

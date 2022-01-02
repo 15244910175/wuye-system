@@ -25,13 +25,14 @@
 				<el-form-item label="预留车位号" prop="carAddress">
 					<el-input v-model="addForm.carAddress" placeholder="请输入预留车位号"></el-input>
 				</el-form-item>
-				<el-button type="primary">保存</el-button>
+				<el-button type="primary" @click="onSubmit">保存</el-button>
 				<el-button @click="resetForm('addForm')">重置</el-button>
 			</el-form>
 		</el-card>
 	</div>
 </template>
 <script>
+	import request from "../../../utils/request.js"
 	export default {
 		data() {
 			return {
@@ -46,7 +47,7 @@
 					userid: [{
 							required: true,
 							message: '请输入住户姓名',
-							rigger: 'blur'
+							trigger: 'blur'
 						},
 						{
 							min: 2,
@@ -58,7 +59,7 @@
 					persionNo: [{
 							required: true,
 							message: '请输入身份证',
-							rigger: 'blur'
+							trigger: 'blur'
 						},
 						{
 							min: 18,
@@ -70,7 +71,7 @@
 					telephone: [{
 							required: true,
 							message: '请输入联系电话',
-							rigger: 'blur'
+							trigger: 'blur'
 						},
 						{
 							type: 'number',
@@ -82,18 +83,38 @@
 					address: [{
 						required: true,
 						message: '请输入住户地址',
-						rigger: 'blur'
+						trigger: 'blur'
 					}, ],
 					carAddress: [{
 						required: true,
 						message: '请输入预留车位号',
-						rigger: 'blur'
+						trigger: 'blur'
 					}, ],
 
 				}
 			}
 		},
 		methods: {
+			onSubmit() {
+				request({
+					url: "http://127.0.0.1:10520/api/admin/addOrderPark",
+					method: "post",
+					data: this.addForm
+				}).then(res => {
+					console.log(res);
+					if (res.msg === "新增成功") {
+						this.$message({
+							message: "恭喜你，新增成功",
+							type: "success"
+						});
+						this.init();
+					}
+				});
+			},
+			init() {
+				// this.dialog_state = false;
+				this.addForm = {};
+			},
 			resetForm(addForm) {
 				this.$refs[addForm].resetFields();
 			}

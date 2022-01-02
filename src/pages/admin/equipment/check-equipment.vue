@@ -11,17 +11,17 @@
       <div class="search">
         <el-form ref="formInline" :model="formInline" :inline="true">
           <el-form-item label="设备名称">
-            <el-input size="mini" v-model="formInline.name"></el-input>
+            <el-input size="mini" v-model="formInline.name" placeholder="输入设备名称"></el-input>
           </el-form-item>
           <el-form-item label="采购时间">
-            <el-date-picker v-model="formInline.beDate" type="date" placeholder="请选择上班时间" style="width:100%">
+            <el-date-picker size="mini" v-model="formInline.beDate" type="date" placeholder="选择采购时间" style="width:100%">
             </el-date-picker>
           </el-form-item>
           <el-form-item label="设备型号">
-            <el-input size="mini" v-model="formInline.model"></el-input>
+            <el-input size="mini" v-model="formInline.model" placeholder="输入设备型号"></el-input>
           </el-form-item>
           <el-form-item label="登记人">
-            <el-input size="mini" v-model="formInline.inName"></el-input>
+            <el-input size="mini" v-model="formInline.inName" placeholder="输入登记人"></el-input>
           </el-form-item>
          <el-form-item>
          	<el-button size="mini" type="primary" class="el-icon-search">查询</el-button>

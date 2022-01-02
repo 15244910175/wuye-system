@@ -45,7 +45,7 @@
 				</el-table-column>
 				<el-table-column prop="leaverName" label="留言者">
 				</el-table-column>
-				<el-table-column prop="time" label="参与时间">
+				<el-table-column prop="time" label="参与时间" :formatter="dateFormat">
 				</el-table-column>
 				<el-table-column prop="answerContent" label="管理员回复">
 				</el-table-column>
@@ -54,7 +54,7 @@
 			</el-table>
 			<div class="page" style="margin-top: 20px;text-align: center;">
 				<el-pagination @size-change="handleSizeChange" @current-change="handleCurrentChange"
-					:current-page="currentPage" :page-size="pagesize" layout=" prev, pager, next, sizes, jumper"
+					:current-page="currentPage" :page-sizes="[5,10,15,20]" :page-size="5" layout=" prev, pager, next, sizes, jumper"
 					:total="typeList.length">
 				</el-pagination>
 			</div>
@@ -75,14 +75,17 @@
 				    <el-option label="投诉" value="投诉"></el-option>
 				  </el-select>
 				  </el-form-item>
-				  <el-button type="primary">提交</el-button>
+				  <el-button type="primary" @click="onSubmit">提交</el-button>
 				  <el-button @click="resetForm('addForm')">重置</el-button>
 			</el-form>
 		</el-card>
 	</div>
 </template>
 <script>
+	import moment from 'moment';
 	import axios from "axios";
+	import request from "../../../utils/request.js"
+	import {formatDate} from "../../../utils/format.js"
 	export default {
 		data() {
 			return {
@@ -129,6 +132,16 @@
 			this.getNoteList();
 		},
 		methods: {
+			// 时间格式化
+			dateFormat:function(row,column){
+			
+			        var date = row[column.property];
+			
+			        if(date == undefined){return ''};
+			
+			        return moment(date).format("YYYY-MM-DD HH:mm:ss")
+			
+			    },
 			getNoteList() {
 			  var self = this;
 			  //登陆成功之后get获取接口数据
@@ -149,6 +162,27 @@
 			      console.log(res);
 			    });
 			},
+			
+			onSubmit() {
+				request({
+				        url: "http://127.0.0.1:10520/api/user/addNote",
+				        method: "post",
+				        data: this.addForm
+				      }).then(res => {
+				        console.log(res);
+				        if (res.msg === "新增成功") {
+				          this.$message({
+				            message: "恭喜你，新增成功",
+				            type: "success"
+				          });
+				          this.init();
+				        }
+				      });
+			},
+			init() {
+			      // this.dialog_state = false;
+			      this.addForm = {};
+			    },
 			resetForm(addForm) {
 				this.$refs[addForm].resetFields();
 			},

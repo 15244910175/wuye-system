@@ -74,13 +74,14 @@
 				<el-form-item label="备注" prop="remark">
 					<el-input v-model="addForm.remark" type="textarea" placeholder="请输入备注"></el-input>
 				</el-form-item>
-				<el-button type="primary">保存</el-button>
+				<el-button type="primary" @click="onSubmit">保存</el-button>
 				<el-button @click="resetForm('addForm')">重置</el-button>
 			</el-form>
 		</el-card>
 	</div>
 </template>
 <script>
+	import request from "../../../utils/request.js"
 	export default {
 		data() {
 			return {
@@ -144,6 +145,26 @@
 			}
 		},
 		methods:{
+			onSubmit() {
+				request({
+					url: "http://127.0.0.1:10520/api/admin/addPay",
+					method: "post",
+					data: this.addForm
+				}).then(res => {
+					console.log(res);
+					if (res.msg === "新增成功") {
+						this.$message({
+							message: "恭喜你，新增成功",
+							type: "success"
+						});
+						this.init();
+					}
+				});
+			},
+			init() {
+				// this.dialog_state = false;
+				this.addForm = {};
+			},
 			resetForm(addForm) {
 			        this.$refs[addForm].resetFields();
 			      }

@@ -11,18 +11,18 @@
 			<div class="search">
 				<el-form ref="formInline" :model="formInline" :inline="true">
 					<el-form-item label="管理员姓名">
-						<el-input size="mini" v-model="formInline.username"></el-input>
+						<el-input size="mini" v-model="formInline.username" placeholder="输入管理员姓名"></el-input>
 					</el-form-item>
 					<el-form-item label="身份证">
-						<el-input size="mini" v-model="formInline.persionNo"></el-input>
+						<el-input size="mini" v-model="formInline.persionNo" placeholder="输入身份证"></el-input>
 					</el-form-item>
 					<el-form-item label="工作开始日期">
-						<el-date-picker v-model="formInline.begDate" type="date" placeholder="请选择工作日期"
+						<el-date-picker size="mini" v-model="formInline.begDate" type="date" placeholder="请选择工作日期"
 							style="width:100%">
 						</el-date-picker>
 					</el-form-item>
 					<el-form-item label="职务">
-						<el-input size="mini" v-model="formInline.post"></el-input>
+						<el-input size="mini" v-model="formInline.post" placeholder="输入职务"></el-input>
 					</el-form-item>
 					<el-form-item>
 						<el-button size="mini" type="primary" class="el-icon-search">查询</el-button>

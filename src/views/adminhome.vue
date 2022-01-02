@@ -121,7 +121,7 @@
           <el-submenu index="7">
             <template slot="title">
               <i class="iconfont icon-wuyebaoxiu"></i>
-              <span>住户保修管理</span>
+              <span>住户报修管理</span>
             </template>
             <el-menu-item-group>
               <el-menu-item index="add-adminRepair" class="el-icon-menu">添加报修事项</el-menu-item>

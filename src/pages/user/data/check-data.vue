@@ -11,29 +11,30 @@
       <div slot="header" class="clearfix">
         <span>住户信息</span>
       </div>
-      <el-form :model="data" :rules="rules" label-width="100px">
+      <el-form :model="dataForm" :rules="rules" label-width="100px">
         <el-form-item label="住户姓名" prop="username">
-          <el-input v-model="data.username"></el-input>
+          <el-input v-model="dataForm.username" placeholder="请输入住户姓名"></el-input>
         </el-form-item>
         <el-form-item label="住户密码" prop="password">
-          <el-input v-model="data.password"></el-input>
+          <el-input v-model="dataForm.password" placeholder="请输入住户密码"></el-input>
         </el-form-item>
         <el-form-item label="住户身份证" prop="persionNo">
-          <el-input v-model="data.persionNo"></el-input>
+          <el-input v-model="dataForm.persionNo" placeholder="请输入住户身份证"></el-input>
         </el-form-item>
         <el-form-item label="住户性别" prop="sex">
-          <el-select v-model="data.sex" placeholder="请选择性别" style="width:100%">
+          <el-select v-model="dataForm.sex" placeholder="请选择性别" style="width:100%">
             <el-option label="男" value="nan"></el-option>
             <el-option label="女" value="nv"></el-option>
           </el-select>
         </el-form-item>
         <el-form-item label="住户电话" prop="telephone">
-          <el-input v-model="data.telephone"></el-input>
+          <el-input v-model="dataForm.telephone" placeholder="请输入住户电话"></el-input>
         </el-form-item>
         <el-form-item label="住户地址" prop="address">
-          <el-input v-model="data.address"></el-input>
+          <el-input v-model="dataForm.address" placeholder="请输入住户地址"></el-input>
         </el-form-item>
         <el-button type="primary">保存</el-button>
+		<el-button @click="resetForm(`dataForm`)">重置</el-button>
       </el-form>
     </el-card>
   </div>
@@ -43,7 +44,7 @@
   export default {
     data() {
       return {
-        data: {
+        dataForm: {
           username: '',
           password: '',
           persionNo: '',
@@ -110,7 +111,12 @@
           ],
         }
       }
-    }
+    },
+	methods:{
+		resetForm(dataForm) {
+		        this.$refs[dataForm].resetFields();
+		      }
+	}
   }
 </script>
 <style>
@@ -155,6 +161,7 @@
   }
   .el-button {
     /* position: relative; */
-    text-align: center;
+    /* text-align: center; */
+	margin-left: 40%;
   }
 </style>

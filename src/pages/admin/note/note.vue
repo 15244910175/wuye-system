@@ -11,16 +11,17 @@
 			<div class="search">
 				<el-form ref="formInline" :model="formInline" :inline="true">
 					<el-form-item label="标题">
-						<el-input size="mini" v-model="formInline.title"></el-input>
+						<el-input size="mini" v-model="formInline.title" placeholder="输入标题"></el-input>
 					</el-form-item>
 					<el-form-item label="留言内容">
-						<el-input size="mini" v-model="formInline.mark"></el-input>
+						<el-input size="mini" v-model="formInline.mark" placeholder="输入留言内容"></el-input>
 					</el-form-item>
 					<el-form-item label="留言者">
-						<el-input size="mini" v-model="formInline.leaverName"></el-input>
+						<el-input size="mini" v-model="formInline.leaverName" placeholder="输入留言者"></el-input>
 					</el-form-item>
 					<el-form-item label="参与时间">
-						<el-input size="mini" v-model="formInline.time"></el-input>
+						<el-date-picker size="mini" v-model="formInline.time" type="datetime" placeholder="选择时间" style="width:100%">
+						</el-date-picker>
 					</el-form-item>
 
 					<el-form-item>
@@ -41,7 +42,7 @@
 				</el-table-column>
 				<el-table-column prop="leaverName" label="留言者">
 				</el-table-column>
-				<el-table-column prop="time" label="参与时间">
+				<el-table-column prop="time" label="参与时间" :formatter="dateFormat">
 				</el-table-column>
 				<el-table-column label="具体操作" width="400" style="text-align: center;">
 					<template slot-scope="scope">
@@ -88,6 +89,7 @@
 </template>
 
 <script>
+	import moment from 'moment';
 import axios from "axios";
 	export default {
 		data() {
@@ -129,6 +131,16 @@ import axios from "axios";
 			this.getNoteList();
 		},
 		methods: {
+			// 时间格式化
+			dateFormat:function(row,column){
+			
+			        var date = row[column.property];
+			
+			        if(date == undefined){return ''};
+			
+			        return moment(date).format("YYYY-MM-DD HH:mm:ss")
+			
+			    },
 			getNoteList() {
 			  var self = this;
 			  //登陆成功之后get获取接口数据

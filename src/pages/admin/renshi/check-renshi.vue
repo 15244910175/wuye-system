@@ -12,16 +12,17 @@
 			<div class="search">
 				<el-form ref="formInline" :model="formInline" :inline="true">
 					<el-form-item label="员工姓名">
-						<el-input size="mini" v-model="formInline.AdminName"></el-input>
+						<el-input size="mini" v-model="formInline.AdminName" placeholder="输入员工姓名"></el-input>
 					</el-form-item>
 					<el-form-item label="身份证">
-						<el-input size="mini" v-model="formInline.persionNo"></el-input>
+						<el-input size="mini" v-model="formInline.persionNo" placeholder="输入身份证"></el-input>
 					</el-form-item>
 					<el-form-item label="工作开始日期">
-						<el-input size="mini" v-model="formInline.begDate"></el-input>
+						<el-date-picker size="mini" v-model="formInline.begDate" type="date" placeholder="选择日期" style="width:100%">
+						</el-date-picker>
 					</el-form-item>
 					<el-form-item label="员工职务">
-						<el-input size="mini" v-model="formInline.post"></el-input>
+						<el-input size="mini" v-model="formInline.post" placeholder="输入职务"></el-input>
 					</el-form-item>
 					<el-form-item>
 						<el-button size="mini" type="primary" class="el-icon-search">查询</el-button>
@@ -32,18 +33,18 @@
 				</el-form>
 			</div>
 			<el-table :data="typeList.slice((currentPage - 1) * pagesize, currentPage * pagesize)">
-				<el-table-column label="序号" width="150">
+				<el-table-column label="序号" >
 					<template slot-scope="scope">{{scope.$index+1}}</template>
 				</el-table-column>
 				<el-table-column prop="AdminName" label="员工姓名">
 				</el-table-column>
-				<el-table-column prop="peisionNo" label="身份证">
+				<el-table-column prop="persionNo" label="身份证">
 				</el-table-column>
 				<el-table-column prop="begDate" label="开始工作日期">
 				</el-table-column>
 				<el-table-column prop="post" label="员工职务">
 				</el-table-column>
-				<el-table-column label="具体操作" width="300">
+				<el-table-column label="具体操作" width="300" >
 					<template slot-scope="scope">
 						<el-button type="primary" size="small">
 							<a @click="dialogTableVisible = true">编辑</a>

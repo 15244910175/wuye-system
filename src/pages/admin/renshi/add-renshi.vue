@@ -25,12 +25,13 @@
         <el-form-item label="工作开始日期" prop="begDate">
           <el-date-picker v-model="addForm.begDate" type="date" placeholder="请选择工作开始日期" style="width:100%"></el-date-picker>
         </el-form-item>
-        <el-button type="primary" >保存</el-button>
+        <el-button type="primary" @click="onSubmit">保存</el-button>
       </el-form>
     </el-card>
   </div>
 </template>
 <script>
+	import request from "../../../utils/request.js"
 export default {
   data() {
     return{
@@ -57,6 +58,28 @@ export default {
           ],
         }
     }
+  },
+  methods:{
+	  onSubmit() {
+	  	request({
+	  		url: "http://127.0.0.1:10520/api/admin/addRs",
+	  		method: "post",
+	  		data: this.addForm
+	  	}).then(res => {
+	  		console.log(res);
+	  		if (res.msg === "新增成功") {
+	  			this.$message({
+	  				message: "恭喜你，新增成功",
+	  				type: "success"
+	  			});
+	  			this.init();
+	  		}
+	  	});
+	  },
+	  init() {
+	  	// this.dialog_state = false;
+	  	this.addForm = {};
+	  },
   }
 }
 </script>

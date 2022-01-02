@@ -20,19 +20,20 @@
           <el-input v-model="addForm.num" placeholder="请输入设备数量"></el-input>
         </el-form-item>
          <el-form-item label="采购时间" prop="beDate">
-          <el-input v-model="addForm.beDate" placeholder="请选择采购时间"></el-input>
+			 <el-date-picker type="date" v-model="addForm.beDate" placeholder="请选择采购时间"></el-date-picker>
         </el-form-item>
          <el-form-item label="设备说明" prop="mark">
           <el-input type="textarea" v-model="addForm.mark" placeholder="请输入设备说明"></el-input>
         </el-form-item>
         
         
-        <el-button type="primary" >保存</el-button>
+        <el-button type="primary" @click="onSubmit">保存</el-button>
       </el-form>
     </el-card>
   </div>
 </template>
 <script>
+	import request from "../../../utils/request.js"
 export default {
   data() {
     return{
@@ -51,8 +52,8 @@ export default {
             {required: true,message: '请输入设备型号',trigger: 'blur'},
           ],
           num: [
-            {required: true,message: '请选择性别',trigger: 'blur'},
-            {type:'number' ,message: '数量必须为数字',trigger: 'blur'}
+            {required: true,message: '请选输入数量',trigger: 'blur'},
+            // {type:'number' ,message: '数量必须为数字',trigger: 'blur'}
           ],
           beDate: [
             {required: true,message: '请选择采购时间',trigger: 'blur'},
@@ -62,7 +63,30 @@ export default {
           ]
         }
     }
+  },
+  methods:{
+	  onSubmit() {
+	  	request({
+	  		url: "http://127.0.0.1:10520/api/admin/addEqu",
+	  		method: "post",
+	  		data: this.addForm
+	  	}).then(res => {
+	  		console.log(res);
+	  		if (res.msg === "新增成功") {
+	  			this.$message({
+	  				message: "恭喜你，新增成功",
+	  				type: "success"
+	  			});
+	  			this.init();
+	  		}
+	  	});
+	  },
+	  init() {
+	  	// this.dialog_state = false;
+	  	this.addForm = {};
+	  },
   }
+  
 }
 </script>
 <style>
