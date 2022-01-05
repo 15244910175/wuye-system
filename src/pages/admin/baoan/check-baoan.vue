@@ -43,21 +43,22 @@
         </el-table-column>
         <el-table-column prop="post" label="职务">
         </el-table-column>
-        <el-table-column label="具体操作" width="300">
+        <el-table-column label="具体操作" >
           <template slot-scope="scope">
             <el-button type="primary" size="small">
               <a @click="dialogTableVisible = true">编辑</a>
             </el-button>
             <el-button type="danger" size="small">
-              <a @click="dialogTableVisible = true">删除</a>
+              <a @click="deleteBa(scope.row.id)">删除</a>
             </el-button>
           </template>
         </el-table-column>
       </el-table>
       <div class="page">
-        <el-pagination @size-change="handleSizeChange" @current-change="handleCurrentChange" :current-page="currentPage"
-          :page-size="pagesize" layout=" prev, pager, next, sizes, jumper" :total="typeList.length">
-        </el-pagination>
+       <el-pagination @size-change="handleSizeChange" @current-change="handleCurrentChange"
+       	:current-page="currentPage" :page-sizes="[5,10,15,20]" :page-size="pagesize" layout=" prev, pager, next, sizes, jumper"
+       	:total="typeList.length">
+       </el-pagination>
       </div>
     </div>
 
@@ -90,6 +91,8 @@
 
 <script>
 	import axios from "axios";
+	import request from "../../../utils/request.js"
+	
   export default {
     data() {
       return {
@@ -116,7 +119,7 @@
         },
         currentPage: 1, //默认第一页
         total: 0, //总条数
-        pagesize: 10, //默认第一页展示10条
+        pagesize: 5, //默认第一页展示10条
         dialogTableVisible: false,
         infoListRules:{
           name: [
@@ -164,8 +167,31 @@
 		      console.log(res);
 		    });
 		},
+		
+		// 删除保安信息
+		deleteBa(id) {
+			request({
+			        url: "http://127.0.0.1:10520/api/admin/deleteBa",
+			        method: "post",
+			        data: { id: id }
+			      }).then(res => {
+			        console.log(res);
+			        if (res.msg === "删除成功") {
+			          this.$message({
+			            message: "删除成功！",
+			            type: "success"
+			          });
+			          this.getBaList();
+			        }else {
+						this.$message({
+							message:'删除失败！',
+							type:"danger"
+						})
+					}
+			      });
+		},
       handleSizeChange(val) {
-        this.pageSize = val;
+        this.pagesize = val;
       },
       handleCurrentChange(val) {
         this.currentPage = val;
@@ -203,6 +229,6 @@
   .el-button {
     /* position: relative; */
     /* text-align: center; */
-    margin-left: 50%;
+    /* margin-left: 50%; */
   }
 </style>

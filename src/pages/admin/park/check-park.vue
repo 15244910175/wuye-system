@@ -27,31 +27,37 @@
 				</el-table-column>
 				<el-table-column prop="num" label="车位总数">
 				</el-table-column>
+				<el-table-column prop="date" label="年份">
+				</el-table-column>
 				<el-table-column label="具体操作" width="300">
 					<template slot-scope="scope">
 						<el-button type="primary" size="small">
 							<a @click="dialogTableVisible = true">编辑</a>
 						</el-button>
 						<el-button type="danger" size="small">
-							<a @click="dialogTableVisible = true">删除</a>
+							<a @click="deleteCarnum(scope.row.id)">删除</a>
 						</el-button>
 					</template>
 				</el-table-column>
 			</el-table>
 			<div class="page">
 				<el-pagination @size-change="handleSizeChange" @current-change="handleCurrentChange"
-					:current-page="currentPage" :page-size="pagesize" layout=" prev, pager, next, sizes, jumper"
-					:total="typeList.length">
+					:current-page="currentPage" :page-sizes="[5,10,15,20]" :page-size="pagesize"
+					layout=" prev, pager, next, sizes, jumper" :total="typeList.length">
 				</el-pagination>
 			</div>
 			<el-card style="margin-top: 50px;">
 				<div slot="header" class="clearfix">
-				  <span>车位明细</span>
+					<span>车位明细</span>
 				</div>
-				<el-form ref="infoList" :model="infoList" :rules="infoListRules" >
+				<el-form ref="infoList" :model="infoList" :rules="infoListRules">
 					<el-form-item label="本年车位数" prop="num">
 						<el-input size="mini" v-model="infoList.num"></el-input>
 					</el-form-item>
+					<el-form-item label="年份" prop="date">
+						<el-input size="mini" v-model="infoList.date"></el-input>
+					</el-form-item>
+					<el-button type="primary" size="medium" style="margin-left: 50%;	">保存</el-button>
 				</el-form>
 			</el-card>
 		</div>
@@ -62,43 +68,57 @@
 					<el-input size="mini" v-model="infoList.num"></el-input>
 				</el-form-item>
 
-				<el-button type="primary" @click="dialogTableVisible = false">保存</el-button>
+				<el-button type="primary" @click="dialogTableVisible = false" style="margin-left: 50%;">保存</el-button>
 			</el-form>
 		</el-dialog>
 	</div>
 </template>
 
 <script>
-import axios from "axios";
+	import axios from "axios";
+	import request from "../../../utils/request.js"
 	export default {
 		data() {
 			return {
 				formInline: {
-					num:''
+					num: '',
+					date: '',
 				},
 				typeList: [{
-					num:''
+					num: '',
+					date: '',
 				}],
 				infoList: {
-					num:''
+					num: '',
+					date: '',
 				},
 				currentPage: 1, //默认第一页
 				total: 0, //总条数
-				pagesize: 10, //默认第一页展示10条
+				pagesize: 5, //默认第一页展示10条
 				dialogTableVisible: false,
 				infoListRules: {
 					num: [{
-						required: true,
-						message: '请选择状态',
-						trigger: 'blur'
-					},
-					{
-						type:'number',
-						message:'请输入正整数',
-						trigger:'blur'
-					}
+							required: true,
+							message: '请输入车位总数',
+							trigger: 'blur'
+						},
+						{
+							// type: 'number',
+							message: '请输入正整数',
+							trigger: 'blur'
+						}
 					],
-					
+					date: [{
+							required: true,
+							message: '请选择年份',
+							trigger: 'blur'
+						},
+						{
+							// type: 'number',
+							message: '请输入正整数',
+							trigger: 'blur'
+						}
+					]
 				}
 			}
 		},
@@ -109,7 +129,7 @@ import axios from "axios";
 			getNumList() {
 				var self = this;
 				axios.post("http://127.0.0.1:10520/api/admin/getNumList", {
-			
+
 					})
 					.then(function(res) {
 						if (res.data.status == 1) {
@@ -121,8 +141,30 @@ import axios from "axios";
 						console.log(res);
 					})
 			},
+			// 删除车位明细
+			deleteCarnum(id) {
+				request({
+				        url: "http://127.0.0.1:10520/api/admin/deleteCarnum",
+				        method: "post",
+				        data: { id: id }
+				      }).then(res => {
+				        console.log(res);
+				        if (res.msg === "删除成功") {
+				          this.$message({
+				            message: "删除成功！",
+				            type: "success"
+				          });
+				          this.getNumList();
+				        }else {
+							this.$message({
+								message:'删除失败！',
+								type:"danger"
+							})
+						}
+				      });
+			},
 			handleSizeChange(val) {
-				this.pageSize = val;
+				this.pagesize = val;
 			},
 			handleCurrentChange(val) {
 				this.currentPage = val;
@@ -160,7 +202,7 @@ import axios from "axios";
 	.el-button {
 		/* position: relative; */
 		/* text-align: center; */
-		margin-left: 50%;
+		/* margin-left: 50%; */
 	}
 
 	.el-input {

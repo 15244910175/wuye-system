@@ -37,7 +37,9 @@
 <script>
 	import axios from "axios";
 	import request from "../../../utils/request.js"
-	import {formatDate} from "../../../utils/format.js"
+	import {
+		formatDate
+	} from "../../../utils/format.js"
 	export default {
 		data() {
 			return {
@@ -47,7 +49,7 @@
 					address: '',
 					beDate: '',
 					mark: '',
-					revalue:'未修'
+					revalue: '未修'
 				},
 				rules: {
 					name: [{
@@ -100,30 +102,43 @@
 		},
 		methods: {
 			onSubmit() {
-				request({
-				        url: "http://127.0.0.1:10520/api/user/addRepair",
-				        method: "post",
-				        data: this.data
-				      }).then(res => {
-				        console.log(res);
-				        if (res.msg === "新增成功") {
-				          this.$message({
-				            message: "恭喜你，新增成功",
-				            type: "success"
-				          });
-				          this.init();
-				        }
-				      });
-			},
-			init() {
-			      // this.dialog_state = false;
-			      this.data = {};
-			    },
-			resetForm(data) {
-				this.$refs[data].resetFields();
+				if (
+					this.data.name == "" ||
+					this.data.tel == "" ||
+					this.data.address == "" ||
+					this.data.beDate == "" ||
+					this.data.mark == ""
+				) {
+					this.$message({
+						message: "参数不能为空！",
+						type: "error",
+					});
+				} else {
+					request({
+						url: "http://127.0.0.1:10520/api/user/addRepair",
+						method: "post",
+				 	data: this.data
+					}).then(res => {
+						console.log(res);
+						if (res.msg === "新增成功") {
+							this.$message({
+								message: "恭喜你，新增成功",
+								type: "success"
+							});
+				 		this.init();
+						}
+					});
+					}
+				},
+				init() {
+						// this.dialog_state = false;
+						this.data = {};
+					},
+					resetForm(data) {
+						this.$refs[data].resetFields();
+					}
 			}
 		}
-	}
 </script>
 <style>
 	.el-card {

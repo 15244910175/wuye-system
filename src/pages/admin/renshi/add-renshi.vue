@@ -61,6 +61,17 @@ export default {
   },
   methods:{
 	  onSubmit() {
+		  if (
+		  	this.addForm.AdminName == "" ||
+		  	this.addForm.persionNo == "" ||
+		  	this.addForm.sex == "" ||
+		  	this.addForm.begDate == "" 
+		  ) {
+		  	this.$message({
+		  		message: "参数不能为空！",
+		  		type: "error",
+		  	});
+		  } else {
 	  	request({
 	  		url: "http://127.0.0.1:10520/api/admin/addRs",
 	  		method: "post",
@@ -75,6 +86,7 @@ export default {
 	  			this.init();
 	  		}
 	  	});
+		}
 	  },
 	  init() {
 	  	// this.dialog_state = false;

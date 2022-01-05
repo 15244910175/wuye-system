@@ -117,12 +117,15 @@ router.post('/addRepair', (req, res) => {
     })
   })
 });
+
+
+
 // 新增留言、投诉
 router.post('/addNote', (req, res) => {
   var sql = $sql.user.addNote;
   // var params = req.body;
   console.log(req);
-  conn.query(sql, [req.body.title, req.body.mark, req.body.type], function (err, result) {
+  conn.query(sql, [req.body.title, req.body.mark, req.body.type,req.body.time,req.body.leaverName], function (err, result) {
     var data = req.body;
     console.log(result)
     return res.send({

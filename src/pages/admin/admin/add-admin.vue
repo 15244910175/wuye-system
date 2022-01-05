@@ -25,7 +25,7 @@
 						<el-option label="女" value="nv"></el-option>
 					</el-select>
 				</el-form-item>
-				<el-form-item label="工作开始日期" prop="begDate">
+				<el-form-item label="工作开始日期" prop="begDate" >
 					<el-date-picker v-model="addForm.begDate" type="date" placeholder="请选择工作日期" style="width:100%">
 					</el-date-picker>
 				</el-form-item>
@@ -114,6 +114,19 @@
 		},
 		methods: {
 			onSubmit() {
+				if (
+					this.addForm.AdminName == "" ||
+					this.addForm.LoginName == "" ||
+					this.addForm.persionNo == "" ||
+					this.addForm.sex == "" ||
+					this.addForm.begDate == "" ||
+					this.addForm.post == ""
+				) {
+					this.$message({
+						message: "参数不能为空！",
+						type: "error",
+					});
+				} else {
 				request({
 					url: "http://127.0.0.1:10520/api/admin/addAdmin",
 					method: "post",
@@ -128,6 +141,7 @@
 						this.init();
 					}
 				});
+				}
 			},
 			init() {
 				// this.dialog_state = false;

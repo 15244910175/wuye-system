@@ -41,7 +41,7 @@
         </el-table-column>
         <el-table-column prop="cases" label="缴费总额">
         </el-table-column>
-        <el-table-column label="具体操作" width="300">
+        <el-table-column label="具体操作" >
           <template slot-scope="scope">
             <el-button type="text" size="small">
               <a @click="dialogTableVisible = true">查看详细信息</a>
@@ -103,7 +103,7 @@ import axios from 'axios';
         dialogTableVisible: false,
         currentPage: 1, //默认第一页
         total: 0, //总条数
-        pagesize: 10 //默认第一页展示10条
+        pagesize: 5 //默认第一页展示10条
       }
     },
     created() {
@@ -146,7 +146,7 @@ import axios from 'axios';
 
       
       handleSizeChange(val) {
-        this.pageSize = val;
+        this.pagesize = val;
       },
       handleCurrentChange(val) {
         this.currentPage = val;

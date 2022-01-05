@@ -120,6 +120,19 @@
 		},
 		methods: {
 			onSubmit() {
+				if (
+					this.addForm.username == "" ||
+					this.addForm.persionNo == "" ||
+					this.addForm.sex == "" ||
+					this.addForm.telephone == "" ||
+					this.addForm.address == "" ||
+					this.addForm.type == ""
+				) {
+					this.$message({
+						message: "参数不能为空！",
+						type: "error",
+					});
+				} else {
 				request({
 					url: "http://127.0.0.1:10520/api/admin/addData",
 					method: "post",
@@ -134,6 +147,7 @@
 						this.init();
 					}
 				});
+				}
 			},
 			init() {
 				// this.dialog_state = false;

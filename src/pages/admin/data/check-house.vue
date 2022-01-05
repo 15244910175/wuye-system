@@ -35,6 +35,8 @@
 				<el-table-column label="序号" width="150">
 					<template slot-scope="scope">{{scope.$index+1}}</template>
 				</el-table-column>
+				<!-- <el-table-column prop="id" label="住户id">
+				</el-table-column> -->
 				<el-table-column prop="username" label="住户姓名">
 				</el-table-column>
 				<el-table-column prop="telephone" label="住户电话">
@@ -45,20 +47,20 @@
 				</el-table-column>
 				<el-table-column prop="sex" label="住户性别">
 				</el-table-column>
-				<el-table-column label="具体操作" width="300">
+				<el-table-column label="具体操作" width="240px">
 					<template slot-scope="scope">
 						<el-button type="primary" size="small">
 							<a @click="dialogTableVisible = true">编辑</a>
 						</el-button>
 						<el-button type="danger" size="small">
-							<a @click="deleteHouse()">删除</a>
+							<a @click="deleteHouse(scope.row.id)">删除</a>
 						</el-button>
 					</template>
 				</el-table-column>
 			</el-table>
 			<div class="page">
 				<el-pagination @size-change="handleSizeChange" @current-change="handleCurrentChange"
-					:current-page="currentPage" :page-size="pagesize" layout=" prev, pager, next, sizes, jumper"
+					:current-page="currentPage" :page-sizes="[5,10,15,20]" :page-size="pagesize" layout=" prev, pager, next, sizes, jumper"
 					:total="typeList.length">
 				</el-pagination>
 			</div>
@@ -93,6 +95,7 @@
 </template>
 <script>
 	import axios from "axios";
+	import request from "../../../utils/request.js"
 	export default {
 		data() {
 			return {
@@ -107,7 +110,8 @@
 					telephone: '',
 					persionNo: '',
 					address: '',
-					sex: ''
+					sex: '',
+					id:''
 				}, ],
 				infoList: {
 				  username: '',
@@ -142,7 +146,7 @@
 				dialogTableVisible: false,
 				currentPage: 1, //默认第一页
 				total: 0, //总条数
-				pagesize: 10 //默认第一页展示10条
+				pagesize: 5 //默认第一页展示10条
 			}
 		},
 		created() {
@@ -166,22 +170,29 @@
 					})
 			},
 			// 删除住户信息
-			deleteHouse() {
-				var _this = this;
-				console.log();
-				axios
-					.delete("http://127.0.0.1:10520/api/admin/deleteHouse", {
-						// productsId: this.cardId,
-					})
-					.then(function(res) {
-						_this.$message.success("删除成功！");
-						console.log("删除成功！");
-						console.log(res);
-						_this.getUserList();
-					});
+			deleteHouse(id) {
+				request({
+				        url: "http://127.0.0.1:10520/api/admin/deleteHouse",
+				        method: "post",
+				        data: { id: id }
+				      }).then(res => {
+				        console.log(res);
+				        if (res.msg === "删除成功") {
+				          this.$message({
+				            message: "删除成功！",
+				            type: "success"
+				          });
+				          this.getUserList();
+				        }else {
+							this.$message({
+								message:'删除失败！',
+								type:"danger"
+							})
+						}
+				      });
 			},
 			handleSizeChange(val) {
-				this.pageSize = val;
+				this.pagesize = val;
 			},
 			handleCurrentChange(val) {
 				this.currentPage = val;

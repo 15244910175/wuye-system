@@ -44,7 +44,7 @@
 				</el-table-column>
 				<el-table-column prop="userid" label="住户姓名">
 				</el-table-column>
-				<el-table-column prop="peisionNo" label="住户身份证">
+				<el-table-column prop="persionNo" label="住户身份证">
 				</el-table-column>
 				<el-table-column prop="telephone" label="联系电话">
 				</el-table-column>
@@ -130,7 +130,8 @@
 					});
 			},
 			handleSizeChange(val) {
-				this.pageSize = val;
+				console.log(`每页 ${size} 条`);
+				this.pagesize = val;
 			},
 			handleCurrentChange(val) {
 				this.currentPage = val;
@@ -139,5 +140,22 @@
 	}
 </script>
 <style>
+.t_box {
+		height: 100%;
+		margin: 0 auto;
+		margin-top: 20px;
+	}
 
+	.search {
+		/* width: 30%; */
+		float: left;
+	}
+/* .el-table {
+	width: 95%;
+} */
+	.page {
+		width: 30%;
+		margin: auto;
+		margin-top: 30px;
+	}
 </style>

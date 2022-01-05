@@ -66,6 +66,18 @@ export default {
   },
   methods:{
 	  onSubmit() {
+		  if (
+		  	this.addForm.name == "" ||
+		  	this.addForm.model == "" ||
+		  	this.addForm.num == "" ||
+		  	this.addForm.beDate == "" ||
+		  	this.addForm.mark == ""
+		  ) {
+		  	this.$message({
+		  		message: "参数不能为空！",
+		  		type: "error",
+		  	});
+		  } else {
 	  	request({
 	  		url: "http://127.0.0.1:10520/api/admin/addEqu",
 	  		method: "post",
@@ -80,6 +92,7 @@ export default {
 	  			this.init();
 	  		}
 	  	});
+		}
 	  },
 	  init() {
 	  	// this.dialog_state = false;

@@ -64,6 +64,16 @@
 		},
 		methods: {
 			onSubmit() {
+				if (
+					this.addForm.name == "" ||
+					this.addForm.startTime == "" ||
+					this.addForm.endTime == "" 
+				) {
+					this.$message({
+						message: "参数不能为空！",
+						type: "error",
+					});
+				} else {
 				request({
 				        url: "http://127.0.0.1:10520/api/admin/addPb",
 				        method: "post",
@@ -78,6 +88,7 @@
 				          this.init();
 				        }
 				      });
+					  }
 			},
 			init() {
 			      // this.dialog_state = false;

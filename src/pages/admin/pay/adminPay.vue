@@ -146,6 +146,24 @@
 		},
 		methods:{
 			onSubmit() {
+				if (
+					this.addForm.dNo == "" ||
+					this.addForm.zName == "" ||
+					this.addForm.type == "" ||
+					this.addForm.cases == "" ||
+					this.addForm.changeName == "" ||
+					this.addForm.waterCase =="" ||
+					this.addForm.eCase =="" ||
+					this.addForm.gasCase == "" ||
+					this.addForm.stopCase == "" || 
+					this.addForm.mandCase == "" ||
+					this.addForm.remark == ""
+				) {
+					this.$message({
+						message: "参数不能为空！",
+						type: "error",
+					});
+				} else {
 				request({
 					url: "http://127.0.0.1:10520/api/admin/addPay",
 					method: "post",
@@ -160,6 +178,7 @@
 						this.init();
 					}
 				});
+				}
 			},
 			init() {
 				// this.dialog_state = false;

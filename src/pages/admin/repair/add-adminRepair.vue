@@ -46,7 +46,8 @@
 					tel: '',
 					address: '',
 					beDate: '',
-					mark: ''
+					mark: '',
+					revalue: '未修'
 				},
 				addFormRules: {
 					name: [{
@@ -106,6 +107,19 @@
 		},
 		methods: {
 			onSubmit() {
+				if (
+					this.addForm.name == "" ||
+					this.addForm.inName == "" ||
+					this.addForm.tel == "" ||
+					this.addForm.address == "" ||
+					this.addForm.beDate == "" ||
+					this.addForm.mark == ""
+				) {
+					this.$message({
+						message: "参数不能为空！",
+						type: "error",
+					});
+				} else {
 				request({
 					url: "http://127.0.0.1:10520/api/admin/addRepair",
 					method: "post",
@@ -120,6 +134,7 @@
 						this.init();
 					}
 				});
+				}
 			},
 			init() {
 				// this.dialog_state = false;

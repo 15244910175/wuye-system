@@ -60,25 +60,7 @@
 			</div>
 			
 		</div>
-		<el-card style="margin-top: 20px;">
-			<div slot="header">添加投诉、留言</div>
-			<el-form ref="addForm" :model="addForm" :rules="addFormRules" label-width="120px">
-				<el-form-item label="标题" prop="title">
-					<el-input v-model="addForm.title" placeholder="请输入标题"></el-input>
-				</el-form-item>
-				<el-form-item label="内容" prop="mark">
-					<el-input v-model="addForm.mark" placeholder="请输入标题"></el-input>
-				</el-form-item>
-				<el-form-item label="留言类型" prop="type">
-				  <el-select v-model="addForm.type" placeholder="请选择留言类型" style="width:100%">
-				    <el-option label="留言" value="留言"></el-option>
-				    <el-option label="投诉" value="投诉"></el-option>
-				  </el-select>
-				  </el-form-item>
-				  <el-button type="primary" @click="onSubmit">提交</el-button>
-				  <el-button @click="resetForm('addForm')">重置</el-button>
-			</el-form>
-		</el-card>
+		
 	</div>
 </template>
 <script>
@@ -105,24 +87,7 @@
 					answerContent: '',
 					reDate: ''
 				}],
-				addForm:{
-					title:'',
-					mark:'',
-					type:''
-				},
-				addFormRules:{
-					title: [
-					  {required: true,message: '请输入标题',trigger: 'blur'},
-					  {min: 2,max: 20,message: '长度在 2 到 20 个字符',trigger: 'blur'}
-					],
-					mark: [
-					  {required: true,message: '请输入留言内容',trigger: 'blur'},
-					  {min: 2,max: 20,message: '长度在 2 到 20 个字符',trigger: 'blur'}
-					],
-					type: [
-					  {required: true,message: '请选择留言类型',trigger: 'blur'},
-					],
-				},
+				
 				currentPage: 1, //默认第一页
 				total: 0, //总条数
 				pagesize: 5 //默认第一页展示10条
@@ -163,31 +128,9 @@
 			    });
 			},
 			
-			onSubmit() {
-				request({
-				        url: "http://127.0.0.1:10520/api/user/addNote",
-				        method: "post",
-				        data: this.addForm
-				      }).then(res => {
-				        console.log(res);
-				        if (res.msg === "新增成功") {
-				          this.$message({
-				            message: "恭喜你，新增成功",
-				            type: "success"
-				          });
-				          this.init();
-				        }
-				      });
-			},
-			init() {
-			      // this.dialog_state = false;
-			      this.addForm = {};
-			    },
-			resetForm(addForm) {
-				this.$refs[addForm].resetFields();
-			},
+			
 			handleSizeChange(val) {
-				this.pageSize = val;
+				this.pagesize = val;
 			},
 			handleCurrentChange(val) {
 				this.currentPage = val;
@@ -210,7 +153,7 @@
 	.page {
 		width: 30%;
 		margin: auto;
-		margin-top: 50px;
+		margin-top: 30px;
 	}
 	
 	.el-form-item {

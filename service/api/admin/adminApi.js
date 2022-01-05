@@ -211,7 +211,7 @@ router.post('/addRepair', (req, res) => {
   var sql = $sql.admin.addRepair;
   // var params = req.body;
   console.log(req);
-  conn.query(sql, [req.body.name, req.body.inName, req.body.tel, req.body.address,req.body.beDate,req.body.mark], function (err, result) {
+  conn.query(sql, [req.body.name, req.body.inName, req.body.tel, req.body.address,req.body.beDate,req.body.mark,req.body.revalue], function (err, result) {
     var data = req.body;
     console.log(result)
     return res.send({
@@ -227,7 +227,7 @@ router.post('/addOrderPark', (req, res) => {
   var sql = $sql.admin.addOrderPark;
   // var params = req.body;
   console.log(req);
-  conn.query(sql, [req.body.userid, req.body.persionNo, req.body.telephone, req.body.address,req.body.carAddress], function (err, result) {
+  conn.query(sql, [req.body.userid, req.body.persionNo, req.body.telephone, req.body.address,req.body.carAddress,req.body.state], function (err, result) {
     var data = req.body;
     console.log(result)
     return res.send({
@@ -307,8 +307,8 @@ router.post('/addPb', (req, res) => {
 });
 
 // 新增保安
-router.post('/addBa', (req, res) => {
-  var sql = $sql.admin.addBa;
+router.post('/addba', (req, res) => {
+  var sql = $sql.admin.addba;
   // var params = req.body;
   console.log(req);
   conn.query(sql, [req.body.name, req.body.persionNo, req.body.sex, req.body.begDate,req.body.post], function (err, result) {
@@ -356,4 +356,157 @@ router.post('/deleteHouse', (req, res) => {
 });
 
 
+// 删除管理员
+router.post('/deleteAdmin', (req, res) => {
+  var sql = $sql.admin.deleteAdmin;
+  // var params = req.body;
+  console.log(req);
+  conn.query(sql, [req.body.id], function (err, result) {
+    var data = result;
+    console.log(result)
+    return res.send({
+      status: 1,
+      msg: "删除成功",
+      data: data
+    })
+  })
+});
+
+// 删除保安
+router.post('/deleteBa', (req, res) => {
+  var sql = $sql.admin.deleteBa;
+  // var params = req.body;
+  console.log(req);
+  conn.query(sql, [req.body.id], function (err, result) {
+    var data = result;
+    console.log(result)
+    return res.send({
+      status: 1,
+      msg: "删除成功",
+      data: data
+    })
+  })
+});
+
+// 删除保安排班
+router.post('/deletePb', (req, res) => {
+  var sql = $sql.admin.deletePb;
+  // var params = req.body;
+  console.log(req);
+  conn.query(sql, [req.body.id], function (err, result) {
+    var data = result;
+    console.log(result)
+    return res.send({
+      status: 1,
+      msg: "删除成功",
+      data: data
+    })
+  })
+});
+// 删除物业人员
+router.post('/deleteRs', (req, res) => {
+  var sql = $sql.admin.deleteRs;
+  // var params = req.body;
+  console.log(req);
+  conn.query(sql, [req.body.id], function (err, result) {
+    var data = result;
+    console.log(result)
+    return res.send({
+      status: 1,
+      msg: "删除成功",
+      data: data
+    })
+  })
+});
+// 删除设备信息
+router.post('/deleteEqu', (req, res) => {
+  var sql = $sql.admin.deleteEqu;
+  // var params = req.body;
+  console.log(req);
+  conn.query(sql, [req.body.id], function (err, result) {
+    var data = result;
+    console.log(result)
+    return res.send({
+      status: 1,
+      msg: "删除成功",
+      data: data
+    })
+  })
+});
+//删除物业费信息
+router.post('/deletePay', (req, res) => {
+  var sql = $sql.admin.deletePay;
+  // var params = req.body;
+  console.log(req);
+  conn.query(sql, [req.body.id], function (err, result) {
+    var data = result;
+    console.log(result)
+    return res.send({
+      status: 1,
+      msg: "删除成功",
+      data: data
+    })
+  })
+});
+//删除报修事项信息
+router.post('/deleteRepair', (req, res) => {
+  var sql = $sql.admin.deleteRepair;
+  // var params = req.body;
+  console.log(req);
+  conn.query(sql, [req.body.id], function (err, result) {
+    var data = result;
+    console.log(result)
+    return res.send({
+      status: 1,
+      msg: "删除成功",
+      data: data
+    })
+  })
+});
+
+//删除车位明细
+router.post('/deleteCarnum', (req, res) => {
+  var sql = $sql.admin.deleteCarnum;
+  // var params = req.body;
+  console.log(req);
+  conn.query(sql, [req.body.id], function (err, result) {
+    var data = result;
+    console.log(result)
+    return res.send({
+      status: 1,
+      msg: "删除成功",
+      data: data
+    })
+  })
+});
+//删除小区车位
+router.post('/deleteCarorder', (req, res) => {
+  var sql = $sql.admin.deleteCarorder;
+  // var params = req.body;
+  console.log(req);
+  conn.query(sql, [req.body.id], function (err, result) {
+    var data = result;
+    console.log(result)
+    return res.send({
+      status: 1,
+      msg: "删除成功",
+      data: data
+    })
+  })
+});
+//删除留言、投诉
+router.post('/deleteNote', (req, res) => {
+  var sql = $sql.admin.deleteNote;
+  // var params = req.body;
+  console.log(req);
+  conn.query(sql, [req.body.id], function (err, result) {
+    var data = result;
+    console.log(result)
+    return res.send({
+      status: 1,
+      msg: "删除成功",
+      data: data
+    })
+  })
+});
 module.exports = router;

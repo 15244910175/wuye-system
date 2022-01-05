@@ -45,7 +45,7 @@
 				</el-table-column>
 				<el-table-column prop="tel" label="电话">
 				</el-table-column>
-				<el-table-column prop="beDate" label="保修日期">
+				<el-table-column prop="beDate" label="报修日期" width="250px">
 				</el-table-column>
 				<el-table-column prop="address" label="住户地址">
 				</el-table-column>
@@ -60,14 +60,14 @@
 							<a @click="dialogTableVisible = true">查看</a>
 						</el-button>
 						<el-button type="danger" size="small">
-							<a @click="dialogTableVisible = true">删除</a>
+							<a @click="deleteRepair(scope.row.id)">删除</a>
 						</el-button>
 					</template>
 				</el-table-column>
 			</el-table>
 			<div class="page">
 				<el-pagination @size-change="handleSizeChange" @current-change="handleCurrentChange"
-					:current-page="currentPage" :page-size="pagesize" layout=" prev, pager, next, sizes, jumper"
+					:current-page="currentPage" :page-sizes="[5,10,15,20]" :page-size="pagesize" layout=" prev, pager, next, sizes, jumper"
 					:total="typeList.length">
 				</el-pagination>
 			</div>
@@ -90,7 +90,7 @@
 				<el-form-item label="报修时间" prop="beDate">
 					<el-input v-model="infoList.beDate"></el-input>
 				</el-form-item>
-				<el-form-item label="保修情况说明" prop="mark">
+				<el-form-item label="报修情况说明" prop="mark">
 					<el-input v-model="infoList.mark"></el-input>
 				</el-form-item>
 
@@ -107,6 +107,7 @@
 
 <script>
 import axios from "axios";
+import request from "../../../utils/request.js"
 	export default {
 		data() {
 			return {
@@ -135,7 +136,7 @@ import axios from "axios";
 				},
 				currentPage: 1, //默认第一页
 				total: 0, //总条数
-				pagesize: 10, //默认第一页展示10条
+				pagesize: 5, //默认第一页展示10条
 				dialogTableVisible: false,
 				infoListRules: {
 					name: [{
@@ -201,8 +202,30 @@ import axios from "axios";
 						console.log(res);
 					});
 			},
+			// 删除报修事项信息
+			deleteRepair(id) {
+				request({
+				        url: "http://127.0.0.1:10520/api/admin/deleteRepair",
+				        method: "post",
+				        data: { id: id }
+				      }).then(res => {
+				        console.log(res);
+				        if (res.msg === "删除成功") {
+				          this.$message({
+				            message: "删除成功！",
+				            type: "success"
+				          });
+				          this.getRepairList();
+				        }else {
+							this.$message({
+								message:'删除失败！',
+								type:"danger"
+							})
+						}
+				      });
+			},
 			handleSizeChange(val) {
-				this.pageSize = val;
+				this.pagesize = val;
 			},
 			handleCurrentChange(val) {
 				this.currentPage = val;
@@ -240,7 +263,7 @@ import axios from "axios";
 	.el-button {
 		/* position: relative; */
 		/* text-align: center; */
-		margin-left: 50%;
+		/* margin-left: 50%; */
 	}
 
 	.el-input {

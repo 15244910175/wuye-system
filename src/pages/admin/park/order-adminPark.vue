@@ -42,6 +42,7 @@
 					telephone: '',
 					address: '',
 					carAddress: '',
+					state:"未审核"
 				},
 				addFormRules: {
 					userid: [{
@@ -96,6 +97,18 @@
 		},
 		methods: {
 			onSubmit() {
+				if (
+					this.addForm.userid == "" ||
+					this.addForm.persionNo == "" ||
+					this.addForm.telephone == "" ||
+					this.addForm.address == "" ||
+					this.addForm.carAddress == "" 
+				) {
+					this.$message({
+						message: "参数不能为空！",
+						type: "error",
+					});
+				} else {
 				request({
 					url: "http://127.0.0.1:10520/api/admin/addOrderPark",
 					method: "post",
@@ -110,6 +123,7 @@
 						this.init();
 					}
 				});
+				}
 			},
 			init() {
 				// this.dialog_state = false;

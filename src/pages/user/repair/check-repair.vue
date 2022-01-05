@@ -85,7 +85,7 @@
 
 				currentPage: 1, //默认第一页
 				total: 0, //总条数
-				pagesize: 10 //默认第一页展示10条
+				pagesize: 5 //默认第一页展示10条
 			}
 		},
 		created() {
@@ -129,10 +129,12 @@
 
 			},
 			handleSizeChange(val) {
-				this.pageSize = val;
+				console.log(`每页 ${val} 条`);
+				this.pagesize = val;
 			},
 			handleCurrentChange(val) {
 				this.currentPage = val;
+				console.log(`当前页: ${val}`);
 			},
 			toCreate() {
 				// this.$router.push("createArticleType");
@@ -151,10 +153,12 @@
 		/* width: 30%; */
 		float: left;
 	}
-
+/* .el-table {
+	width: 95%;
+} */
 	.page {
 		width: 30%;
 		margin: auto;
-		margin-top: 50px;
+		margin-top: 30px;
 	}
 </style>

@@ -24,9 +24,9 @@ var sqlMap = {
         queryUserEmailRole:'select username,email,role,password from user',
 		
 		// 添加报修事项
-		addRepair:'insert into equip(name,tel,address,beDate,mark,revalue) values(?,?,?,?,?,未修)',
+		addRepair:'insert into equip(name,tel,address,beDate,mark,revalue) values(?,?,?,?,?,?)',
 		// 添加留言、投诉
-		addNote:'insert into equip (title,mark,type) values(?,?,?)'
+		addNote:'insert into t_leaverword (title,mark,type,time,leaverName) values(?,?,?,?)'
 		
        
         
@@ -61,12 +61,13 @@ var sqlMap = {
 		// 新增住户信息
 		addData:'insert into resident(username,persionNo,sex,telephone,address,type) values (?,?,?,?,?,?)',
 		// 添加报修事项
-		addRepair:'insert into equip(name,inName,tel,address,beDate,mark) values(?,?,?,?,?,?)',
-		
-		// 新增预定车位
-		addOrderPark:'insert into carorder(userid,persionNo,telephone,address,carAddress) values(?,?,?,?,?)',
+		addRepair:'insert into equip(name,inName,tel,address,beDate,mark,revalue) values(?,?,?,?,?,?,?)',
+		// 添加管理员
+		addAdmin:'insert into admin(AdminName,LoginName,persionNo,sex,begDate,post) values(?,?,?,?,?,?)',
 		// 添加物业费
 		addPay:'insert into t_change(dNo,zName,type,cases,changeName,waterCase,eCase,gasCase,stopCase,mandCase,remark) values (?,?,?,?,?,?,?,?,?,?,?)',
+		// 新增预定车位
+		addOrderPark:'insert into carorder(userid,persionNo,telephone,address,carAddress,state) values(?,?,?,?,?,?)',
 		// 添加设备信息
 		addEqu:'insert into chanel(name,model,num,beDate,mark) values(?,?,?,?,?)',
 		// 添加物业公司员工信息
@@ -74,13 +75,33 @@ var sqlMap = {
 		// 添加保安排班
 		addPb:'insert into pb(name,startTime,endTime) values(?,?,?)',
 		// 添加保安信息
-		addBa:'insert into ba values(?,?,?,?,?)',
-		// 添加管理员
-		addAdmin:'insert into admin(AdminName,LoginName,persionNo,sex,begDate,post) valuse(?,?,?,?,?,?)',
-		// 删除住户信息
-		deleteHouse:'delete * from resident'
+		addba:'insert into ba(name,persionNo,sex,begDate,post) values(?,?,?,?,?)',
 		
-    }
+		
+		// 删除住户信息
+		deleteHouse:'delete from resident where id = ?',
+		// 删除管理员
+		deleteAdmin:'delete from admin where id = ?',
+		// 删除保安
+		deleteBa:'delete from ba where id = ?',
+		// 删除保安排班
+		deletePb:'delete from pb where id = ?',
+		// 删除物业人员信息
+		deleteRs:'delete from rs where id= ? ',
+		// 删除设备信息
+		deleteEqu:'delete from chanel where id= ? ',
+		// 删除物业费信息
+		deletePay:'delete from t_change where id= ? ',
+		// 删除报修事项信息
+		deleteRepair:'delete from equip where id= ? ',
+		// 删除车位明细
+		deleteCarnum:'delete from carnum where id= ? ',
+		// 删除小区车位
+		deleteCarorder:'delete from carorder where id= ? ',
+		// 删除留言、投诉
+		deleteNote:'delete from t_leaverword where id= ? ',
+		
+	}
 }
 
 module.exports = sqlMap;

@@ -3,7 +3,7 @@ import Cookies from 'js-cookie'
 const TokenKey = 'id_token'
 const name = "username"
 const json = 'tree'
-const id = "Id"
+const id = "id"
 
 export function getToken () {
   return Cookies.get(TokenKey)

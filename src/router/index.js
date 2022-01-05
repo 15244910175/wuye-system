@@ -51,6 +51,10 @@ const routes = [{
         path: '/order-park',
         component: resolve=>require(['../pages/user/park/order-park.vue'],resolve),
       },
+	  {
+		  path:'/addNote',
+		  component:resolve=>require(['../pages/user/note/addNote.vue'],resolve),
+	  },
       {
         path: '/inNote',
         component: resolve=>require(['../pages/user/note/inNote.vue'],resolve),
@@ -59,6 +63,7 @@ const routes = [{
         path: '/speak',
         component: resolve=>require(['../pages/user/note/speak.vue'],resolve),
       },
+	  
     ]
   },
   {

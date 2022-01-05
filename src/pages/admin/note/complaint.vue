@@ -49,14 +49,14 @@
 							<a @click="dialogTableVisible = true">查看信息</a>
 						</el-button>
 						<el-button type="danger" size="small">
-							<a @click="dialogTableVisible = true">删除</a>
+							<a @click="deleteNote(scope.row.id)">删除</a>
 						</el-button>
 					</template>
 				</el-table-column>
 			</el-table>
 			<div class="page">
 				<el-pagination @size-change="handleSizeChange" @current-change="handleCurrentChange"
-					:current-page="currentPage" :page-size="pagesize" layout=" prev, pager, next, sizes, jumper"
+					:current-page="currentPage" :page-sizes="[5,10,15,20]" :page-size="pagesize" layout=" prev, pager, next, sizes, jumper"
 					:total="typeList.length">
 				</el-pagination>
 			</div>
@@ -90,6 +90,7 @@
 <script>
 import axios from "axios";
 import moment from 'moment';
+import request from "../../../utils/request.js"
 	export default {
 		data() {
 			return {
@@ -114,7 +115,7 @@ import moment from 'moment';
 				},
 				currentPage: 1, //默认第一页
 				total: 0, //总条数
-				pagesize: 10, //默认第一页展示10条
+				pagesize: 5, //默认第一页展示10条
 				dialogTableVisible: false,
 				infoListRules: {
 					answerContent: [{
@@ -160,8 +161,30 @@ import moment from 'moment';
 			      console.log(res);
 			    });
 			},
+			// 删除投诉信息
+			deleteNote(id) {
+				request({
+				        url: "http://127.0.0.1:10520/api/admin/deleteNote",
+				        method: "post",
+				        data: { id: id }
+				      }).then(res => {
+				        console.log(res);
+				        if (res.msg === "删除成功") {
+				          this.$message({
+				            message: "删除成功！",
+				            type: "success"
+				          });
+				          this.getCptList();
+				        }else {
+							this.$message({
+								message:'删除失败！',
+								type:"danger"
+							})
+						}
+				      });
+			},
 			handleSizeChange(val) {
-				this.pageSize = val;
+				this.pagesize = val;
 			},
 			handleCurrentChange(val) {
 				this.currentPage = val;
@@ -199,7 +222,7 @@ import moment from 'moment';
 	.el-button {
 		/* position: relative; */
 		/* text-align: center; */
-		margin-left: 50%;
+		/* margin-left: 50%; */
 	}
 
 	.el-input {

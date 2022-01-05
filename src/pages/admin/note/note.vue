@@ -50,24 +50,24 @@
 							<a @click="dialogTableVisible = true">查看信息</a>
 						</el-button>
 						<el-button type="danger" size="small">
-							<a @click="dialogTableVisible = true">删除</a>
+							<a @click="deleteNote(scope.row.id)">删除</a>
 						</el-button>
 					</template>
 				</el-table-column>
 			</el-table>
 			<div class="page">
-				<el-pagination @size-change="handleSizeChange" @current-change="handleCurrentChange"
-					:current-page="currentPage" :page-size="pagesize" layout=" prev, pager, next, sizes, jumper"
-					:total="typeList.length">
-				</el-pagination>
+			<el-pagination @size-change="handleSizeChange" @current-change="handleCurrentChange"
+				:current-page="currentPage" :page-sizes="[5,10,15,20]" :page-size="pagesize" layout=" prev, pager, next, sizes, jumper"
+				:total="typeList.length" >
+			</el-pagination>
 			</div>
 		</div>
 
 		<el-dialog title="信息回复" :visible.sync="dialogTableVisible">
 			<el-form ref="infoList" :model="infoList" label-width="120px" :rules="infoListRules">
 				
-				<el-form-item label="标题" prop="name">
-					<el-input v-model="infoList.title"></el-input>
+				<el-form-item label="标题" prop="title" >
+					<el-input v-model="infoList.title" ></el-input>
 				</el-form-item>
 				<el-form-item label="留言者" prop="leaverName">
 					<el-input v-model="infoList.leaverName"></el-input>
@@ -91,6 +91,7 @@
 <script>
 	import moment from 'moment';
 import axios from "axios";
+import request from "../../../utils/request.js"
 	export default {
 		data() {
 			return {
@@ -115,7 +116,7 @@ import axios from "axios";
 				},
 				currentPage: 1, //默认第一页
 				total: 0, //总条数
-				pagesize: 10, //默认第一页展示10条
+				pagesize: 5, //默认第一页展示10条
 				dialogTableVisible: false,
 				infoListRules: {
 					answerContent: [{
@@ -161,8 +162,30 @@ import axios from "axios";
 			      console.log(res);
 			    });
 			},
+			// 删除留言信息
+			deleteNote(id) {
+				request({
+				        url: "http://127.0.0.1:10520/api/admin/deleteNote",
+				        method: "post",
+				        data: { id: id }
+				      }).then(res => {
+				        console.log(res);
+				        if (res.msg === "删除成功") {
+				          this.$message({
+				            message: "删除成功！",
+				            type: "success"
+				          });
+				          this.getNoteList();
+				        }else {
+							this.$message({
+								message:'删除失败！',
+								type:"danger"
+							})
+						}
+				      });
+			},
 			handleSizeChange(val) {
-				this.pageSize = val;
+				this.pagesize = val;
 			},
 			handleCurrentChange(val) {
 				this.currentPage = val;
@@ -200,7 +223,7 @@ import axios from "axios";
 	.el-button {
 		/* position: relative; */
 		/* text-align: center; */
-		margin-left: 50%;
+		/* margin-left: 50%; */
 	}
 
 	.el-input {

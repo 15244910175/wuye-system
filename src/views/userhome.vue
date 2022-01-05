@@ -101,7 +101,9 @@
 						</template>
 						<el-menu-item-group>
 							<el-menu-item index="speak" class="el-icon-menu">留言事项声明</el-menu-item>
+							<el-menu-item index="addNote" class="el-icon-menu"> 添加留言、投诉</el-menu-item>
 							<el-menu-item index="inNote" class="el-icon-menu">留言区</el-menu-item>
+							
 						</el-menu-item-group>
 					</el-submenu>
 
