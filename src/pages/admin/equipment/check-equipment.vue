@@ -27,7 +27,7 @@
          	<el-button size="mini" type="primary" class="el-icon-search">查询</el-button>
          </el-form-item>
          <el-form-item>
-         	<el-button size="mini" type="primary" class="el-icon-refresh">重置</el-button>
+         	<el-button size="mini" type="primary" class="el-icon-refresh" @click="resetForm">重置</el-button>
          </el-form-item>
         </el-form>
       </div>
@@ -45,10 +45,10 @@
         </el-table-column>
         <el-table-column label="具体操作" width="300">
           <template slot-scope="scope">
-            <el-button type="primary" size="small">
+            <el-button type="primary" size="small" icon="el-icon-edit">
               <a @click="dialogTableVisible = true">编辑</a>
             </el-button>
-            <el-button type="danger" size="small">
+            <el-button type="danger" size="small" icon="el-icon-delete">
               <a @click="deleteEqu(scope.row.id)">删除</a>
             </el-button>
           </template>
@@ -153,6 +153,10 @@
 					// console.log(self.typeList);
 					console.log(res);
 				})
+		},
+		resetForm(){
+			this.formInline={},
+			this.getEquipList();
 		},
 		
 		// 删除设备信息

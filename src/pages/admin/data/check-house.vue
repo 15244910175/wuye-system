@@ -27,11 +27,11 @@
 						<el-button size="mini" type="primary" class="el-icon-search">查询</el-button>
 					</el-form-item>
 					<el-form-item>
-						<el-button size="mini" type="primary" class="el-icon-refresh">重置</el-button>
+						<el-button size="mini" type="primary" class="el-icon-refresh" @click="resetForm">重置</el-button>
 					</el-form-item>
 				</el-form>
 			</div>
-			<el-table :data="typeList.slice((currentPage - 1) * pagesize, currentPage * pagesize)">
+			<el-table :data="typeList.slice((currentPage - 1) * pagesize, currentPage * pagesize)" >
 				<el-table-column label="序号" width="150">
 					<template slot-scope="scope">{{scope.$index+1}}</template>
 				</el-table-column>
@@ -47,12 +47,12 @@
 				</el-table-column>
 				<el-table-column prop="sex" label="住户性别">
 				</el-table-column>
-				<el-table-column label="具体操作" width="240px">
+				<el-table-column label="具体操作" >
 					<template slot-scope="scope">
-						<el-button type="primary" size="small">
+						<el-button type="primary" size="small" icon="el-icon-edit">
 							<a @click="dialogTableVisible = true">编辑</a>
 						</el-button>
-						<el-button type="danger" size="small">
+						<el-button type="danger" size="small" icon="el-icon-delete">
 							<a @click="deleteHouse(scope.row.id)">删除</a>
 						</el-button>
 					</template>
@@ -169,6 +169,10 @@
 						console.log(res);
 					})
 			},
+			resetForm(){
+				this.formInline={},
+				this.getUserList();
+			},
 			// 删除住户信息
 			deleteHouse(id) {
 				request({
@@ -218,6 +222,9 @@
 		margin-top: 50px;
 	}
 	.el-button{
-		text-align: center;
+		/* text-align: center; */
+	}
+	.el-table-column {
+		/* width: 150px; */
 	}
 </style>

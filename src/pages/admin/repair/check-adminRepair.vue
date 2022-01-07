@@ -31,7 +31,7 @@
 						<el-button size="mini" type="primary" class="el-icon-search">查询</el-button>
 					</el-form-item>
 					<el-form-item>
-						<el-button size="mini" type="primary" class="el-icon-refresh">重置</el-button>
+						<el-button size="mini" type="primary" class="el-icon-refresh" @click="resetForm">重置</el-button>
 					</el-form-item>
 				</el-form>
 			</div>
@@ -51,15 +51,15 @@
 				</el-table-column>
 				<el-table-column prop="revalue" label="是否已修">
 				</el-table-column>
-				<el-table-column label="具体操作" width="500">
+				<el-table-column label="具体操作" width="400">
 					<template slot-scope="scope">
 						<el-button type="primary" size="small">
 							<a @click="dialogTableVisible = true">标记已修</a>
 						</el-button>
-						<el-button type="primary" size="small">
+						<el-button type="primary" size="small" icon="el-icon-view">
 							<a @click="dialogTableVisible = true">查看</a>
 						</el-button>
-						<el-button type="danger" size="small">
+						<el-button type="danger" size="small" icon="el-icon-delete">
 							<a @click="deleteRepair(scope.row.id)">删除</a>
 						</el-button>
 					</template>
@@ -201,6 +201,10 @@ import request from "../../../utils/request.js"
 						// console.log(self.typeList);
 						console.log(res);
 					});
+			},
+			resetForm(){
+				this.formInline={},
+				this.getRepairList();
 			},
 			// 删除报修事项信息
 			deleteRepair(id) {

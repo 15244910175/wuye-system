@@ -34,7 +34,7 @@
 						<el-button size="mini" type="primary" class="el-icon-search">查询</el-button>
 					</el-form-item>
 					<el-form-item>
-						<el-button size="mini" type="primary" class="el-icon-refresh">重置</el-button>
+						<el-button size="mini" type="primary" class="el-icon-refresh" @click="resetForm">重置</el-button>
 					</el-form-item>
 				</el-form>
 			</div>
@@ -61,7 +61,7 @@
 						<el-button type="primary" size="small">
 							<a @click="dialogTableVisible = true">审核</a>
 						</el-button>
-						<el-button type="danger" size="small">
+						<el-button type="danger" size="small" icon="el-icon-delete">
 							<a @click="deleteCarorder(scope.row.id)">删除</a>
 						</el-button>
 					</template>
@@ -160,6 +160,10 @@ import request from "../../../utils/request.js"
 						// console.log(self.typeList);
 						console.log(res);
 					})
+			},
+			resetForm(){
+				this.formInline={},
+				this.getCarparkList();
 			},
 			// 删除小区车位
 			deleteCarorder(id) {
