@@ -117,7 +117,7 @@
 					request({
 						url: "http://127.0.0.1:10520/api/user/addRepair",
 						method: "post",
-				 	data: this.data
+						data: this.data
 					}).then(res => {
 						console.log(res);
 						if (res.msg === "新增成功") {
@@ -125,20 +125,20 @@
 								message: "恭喜你，新增成功",
 								type: "success"
 							});
-				 		this.init();
+							this.init();
 						}
 					});
-					}
-				},
-				init() {
-						// this.dialog_state = false;
-						this.data = {};
-					},
-					resetForm(data) {
-						this.$refs[data].resetFields();
-					}
+				}
+			},
+			init() {
+				// this.dialog_state = false;
+				this.data = {};
+			},
+			resetForm(data) {
+				this.$refs[data].resetFields();
 			}
 		}
+	}
 </script>
 <style>
 	.el-card {

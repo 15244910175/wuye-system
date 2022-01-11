@@ -50,7 +50,7 @@
 				<el-table-column label="具体操作" >
 					<template slot-scope="scope">
 						<el-button type="primary" size="small" icon="el-icon-edit">
-							<a @click="dialogTableVisible = true">编辑</a>
+							<a @click="handleEdit(scope.$index, scope.row)">编辑</a>
 						</el-button>
 						<el-button type="danger" size="small" icon="el-icon-delete">
 							<a @click="deleteHouse(scope.row.id)">删除</a>
@@ -88,7 +88,9 @@
 			<el-form-item label="住户地址" prop="address">
 			  <el-input v-model="infoList.address"></el-input>
 			</el-form-item>
-		    <el-button type="primary">保存</el-button>
+		    <el-button type="primary" style="margin-left: 40%;">保存</el-button>
+			<el-button @click="resetForm1('infoList')">重置</el-button>
+			<el-button @click="goBack">返回</el-button>
 		  </el-form>
 		</el-dialog>
 	</div>
@@ -153,6 +155,19 @@
 			this.getUserList()
 		},
 		methods: {
+			goBack() {
+			  // router.push("check-admin");
+			  this.dialogTableVisible=false;
+			},
+			resetForm1(infoList) {
+			        this.$refs[infoList].resetFields();
+			      },
+				  handleEdit(index, row) {
+				  				this.dialogTableVisible=true;
+				  			      console.log(index, row)
+				  			      //row是该行tableData对应的一行
+				  			      this.infoList = row
+				  			    },
 			// 查询住户信息
 			getUserList() {
 				var self = this;

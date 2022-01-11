@@ -24,7 +24,7 @@
           	<el-button size="mini" type="primary" class="el-icon-search">查询</el-button>
           </el-form-item>
           <el-form-item>
-          	<el-button size="mini" type="primary" class="el-icon-refresh">重置</el-button>
+          	<el-button size="mini" type="primary" class="el-icon-refresh" @click="resetForm">重置</el-button>
           </el-form-item>
         </el-form>
       </div>
@@ -41,10 +41,10 @@
         </el-table-column>
         <el-table-column prop="cases" label="缴费总额">
         </el-table-column>
-        <el-table-column label="具体操作" >
+        <el-table-column label="具体操作" width="200px" >
           <template slot-scope="scope">
             <el-button type="text" size="small">
-              <a @click="dialogTableVisible = true">查看详细信息</a>
+              <a @click="handleEdit(scope.$index, scope.row)">查看详细信息</a>
             </el-button>
           </template>
         </el-table-column>
@@ -57,8 +57,8 @@
       </div>
     </div>
 
-  <el-dialog title="费用事项" :visible.sync="dialogTableVisible">
-  <el-table :data="typeList">
+  <!-- <el-dialog title="费用事项" :visible.sync="dialogTableVisible">
+  <el-table :data="infoList">
     <el-table-column property="dNo" label="单据编号" width="150"></el-table-column>
     <el-table-column property="zName" label="住户姓名" width="200"></el-table-column>
     <el-table-column property="type" label="缴费方式"></el-table-column>
@@ -71,7 +71,78 @@
     <el-table-column property="mandCase" label="维修费用"></el-table-column>
     <el-table-column property="remark" label="备注"></el-table-column>
   </el-table>
-</el-dialog>
+</el-dialog> -->
+<el-dialog title="维修费用" :visible.sync="dialogTableVisible">
+			<el-form ref="infoList" :model="infoList"  label-width="120px">
+				<el-row>
+					<el-col :span="12">
+						<el-form-item label="单据编号" prop="dNo">
+							<el-input v-model="infoList.dNo" ></el-input>
+						</el-form-item>
+					</el-col>
+					<el-col :span="12">
+						<el-form-item label="住户姓名" prop="zName">
+							<el-input v-model="infoList.zName"></el-input>
+						</el-form-item>
+					</el-col>
+				</el-row>
+				<el-row>
+					<el-col :span="12">
+						<el-form-item label="缴费方式" prop="type">
+							<el-input v-model="infoList.type" ></el-input>
+						</el-form-item>
+					</el-col>
+					<el-col :span="12">
+						<el-form-item label="缴费总额" prop="cases">
+							<el-input v-model="infoList.cases" ></el-input>
+						</el-form-item>
+					</el-col>
+				</el-row>
+				<el-row>
+					<el-col :span="12">
+						<el-form-item label="收费人员" prop="changeName">
+							<el-input v-model="infoList.changeName"></el-input>
+						</el-form-item>
+					</el-col>
+					<el-col :span="12">
+						<el-form-item label="水费" prop="waterCase">
+							<el-input v-model="infoList.waterCase" ></el-input>
+						</el-form-item>
+					</el-col>
+				</el-row>
+				<el-row>
+					<el-col :span="12">
+						<el-form-item label="电费" prop="eCase">
+							<el-input v-model="infoList.eCase" ></el-input>
+						</el-form-item>
+					</el-col>
+					<el-col :span="12">
+						<el-form-item label="气费" prop="gasCase">
+							<el-input v-model="infoList.gascase" ></el-input>
+						</el-form-item>
+					</el-col>
+				</el-row>
+			
+				<el-row>
+					<el-col :span="12">
+						<el-form-item label="停车费" prop="stopCase">
+							<el-input v-model="infoList.stopCase" ></el-input>
+						</el-form-item>
+					</el-col>
+					<el-col :span="12">
+						<el-form-item label="维修费用" prop="mandCase">
+							<el-input v-model="infoList.mandCase" ></el-input>
+						</el-form-item>
+					</el-col>
+				</el-row>
+				<el-form-item label="备注" prop="remark">
+					<el-input v-model="infoList.remark" type="textarea" ></el-input>
+				</el-form-item>
+				<!-- <el-button type="primary" @click="dialogTableVisible = false">保存</el-button>
+				<el-button @click="resetForm1('infoList')">重置</el-button> -->
+				<el-button @click="goBack" style="margin-left: 45%;">返回</el-button>
+			</el-form>
+		</el-dialog>
   </div>
 </template>
 
@@ -100,6 +171,19 @@ import axios from 'axios';
           mandCase:'',
           remark:''
         }],
+		infoList:[{
+			dNo: '',
+			zName: '',
+			changedate: '',
+			cases: '',
+			type: '',
+			waterCase:'',
+			eCase:'',
+			gascase:'',
+			stopCase:'',
+			mandCase:'',
+			remark:''
+		}],
         dialogTableVisible: false,
         currentPage: 1, //默认第一页
         total: 0, //总条数
@@ -123,7 +207,16 @@ import axios from 'axios';
 		    },
 		
 		
-		
+		resetForm(){
+			this.formInline={},
+			this.getPayList();
+		},
+		handleEdit(index, row) {
+						this.dialogTableVisible=true;
+					      console.log(index, row)
+					      //row是该行tableData对应的一行
+					      this.infoList = row
+					    },
        getPayList() {
         var self = this;
         axios
@@ -144,7 +237,10 @@ import axios from 'axios';
           });
       },
 
-      
+      goBack() {
+      // router.push("check-admin");
+      this.dialogTableVisible=false;
+      },
       handleSizeChange(val) {
         this.pagesize = val;
       },
@@ -171,5 +267,15 @@ import axios from 'axios';
     width: 30%;
     margin: auto;
     margin-top: 50px;
+  }
+  .el-form-item {
+  	text-align-last: justify;
+  	text-align: justify;
+  	text-justify: distribute;
+  	text-justify: distribute-all-lines;
+  	/* border: 1px solid red; */
+  }
+  .el-input {
+  	width: 80%;
   }
 </style>

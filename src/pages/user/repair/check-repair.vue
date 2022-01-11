@@ -27,7 +27,7 @@
 						<el-button size="mini" type="primary" class="el-icon-search">查询</el-button>
 					</el-form-item>
 					<el-form-item>
-						<el-button size="mini" type="primary" class="el-icon-refresh">重置</el-button>
+						<el-button size="mini" type="primary" class="el-icon-refresh" @click="resetForm">重置</el-button>
 					</el-form-item>
 				</el-form>
 			</div>
@@ -103,6 +103,10 @@
 			        return moment(date).format("YYYY-MM-DD HH:mm:ss")
 			
 			    },
+			resetForm(){
+				this.formInline={},
+				this.getRepairList();
+			},
 			getRepairList() {
 				var self = this;
 				axios

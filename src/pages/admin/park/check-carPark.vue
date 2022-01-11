@@ -39,10 +39,10 @@
 				</el-form>
 			</div>
 			<el-table :data="typeList.slice((currentPage - 1) * pagesize, currentPage * pagesize)">
-				<el-table-column label="序号" width="150">
+				<el-table-column label="序号" width="100">
 					<template slot-scope="scope">{{scope.$index+1}}</template>
 				</el-table-column>
-				<el-table-column prop="userid" label="住户姓名">
+				<el-table-column prop="userid" label="住户姓名" width="100">
 				</el-table-column>
 				<el-table-column prop="persionNo" label="住户身份证">
 				</el-table-column>
@@ -50,16 +50,17 @@
 				</el-table-column>
 				<el-table-column prop="changedate" label="登记日期" :formatter="dateFormat">
 				</el-table-column>
-				<el-table-column prop="carAddress" label="停车车位号">
+				<el-table-column prop="carAddress" label="停车车位号" width="100">
 				</el-table-column>
 				<el-table-column prop="address" label="住户地址">
 				</el-table-column>
 				<el-table-column prop="state" label="状态">
 				</el-table-column>
-				<el-table-column label="具体操作" >
+				<el-table-column prop="pass" label="是否通过"></el-table-column>
+				<el-table-column label="具体操作"  style="width: 200px;">
 					<template slot-scope="scope">
 						<el-button type="primary" size="small">
-							<a @click="dialogTableVisible = true">审核</a>
+							<a @click="handleEdit(scope.$index, scope.row)">审核</a>
 						</el-button>
 						<el-button type="danger" size="small" icon="el-icon-delete">
 							<a @click="deleteCarorder(scope.row.id)">删除</a>
@@ -78,14 +79,16 @@
 		<el-dialog title="审核事项" :visible.sync="dialogTableVisible">
 			<el-form ref="infoList" :model="infoList" label-width="120px" :rules="infoListRules">
 				
-				<el-form-item label="是否通过" prop="state">
-				  <el-select v-model="infoList.state" placeholder="请选择性别" style="width:100%">
-				    <el-option label="通过" value="nan"></el-option>
-				    <el-option label="不通过" value="nv"></el-option>
+				<el-form-item label="是否通过" prop="pass">
+				  <el-select v-model="infoList.pass" placeholder="请选择通过与否" style="width:100%">
+				    <el-option label="通过" value="通过"></el-option>
+				    <el-option label="未通过" value="未通过"></el-option>
 				  </el-select>
 				</el-form-item>
 
-				<el-button type="primary" @click="dialogTableVisible = false">保存</el-button>
+				<el-button type="primary" @click="dialogTableVisible = false" style="margin-left: 40%;">保存</el-button>
+				<el-button @click="resetForm1('infoList')">重置</el-button>
+				<el-button @click="goBack">返回</el-button>
 			</el-form>
 		</el-dialog>
 	</div>
@@ -113,10 +116,11 @@ import request from "../../../utils/request.js"
 					changedate: '',
 					carAddress:'',
 					address: '',
-					state:''
+					state:'',
+					pass:''
 				}],
 				infoList: {
-					state:''
+					pass:''
 				},
 				currentPage: 1, //默认第一页
 				total: 0, //总条数
@@ -136,6 +140,19 @@ import request from "../../../utils/request.js"
 			this.getCarparkList();
 		},
 		methods: {
+			goBack() {
+			  // router.push("check-admin");
+			  this.dialogTableVisible=false;
+			},
+			resetForm1(infoList) {
+			        this.$refs[infoList].resetFields();
+			      },
+				  handleEdit(index, row) {
+				  				this.dialogTableVisible=true;
+				  			      console.log(index, row)
+				  			      //row是该行tableData对应的一行
+				  			      this.infoList = row
+				  			    },
 			// 时间格式化
 			dateFormat:function(row,column){
 			
@@ -165,6 +182,9 @@ import request from "../../../utils/request.js"
 				this.formInline={},
 				this.getCarparkList();
 			},
+			resetForm1(infoList) {
+			        this.$refs[infoList].resetFields();
+			      },
 			// 删除小区车位
 			deleteCarorder(id) {
 				request({

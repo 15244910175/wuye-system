@@ -44,21 +44,22 @@
 				</el-table-column>
 				<el-table-column prop="post" label="职务">
 				</el-table-column>
-				<el-table-column label="具体操作" >
+				<el-table-column label="具体操作">
 					<template slot-scope="scope">
-						<el-button type="primary" size="small" icon="el-icon-edit">
-							<a @click="dialogTableVisible = true" >编辑</a>
+						<el-button type="primary" size="small" icon="el-icon-edit"
+							@click.native.prevent="dialogTableVisible=true">
+							<a @click="handleEdit(scope.$index, scope.row)">编辑</a>
 						</el-button>
 						<el-button type="danger" size="small" icon="el-icon-delete">
-							<a @click="deleteAdmin(scope.row.id)" >删除</a>
+							<a @click="deleteAdmin(scope.row.id)">删除</a>
 						</el-button>
 					</template>
 				</el-table-column>
 			</el-table>
 			<div class="page">
 				<el-pagination @size-change="handleSizeChange" @current-change="handleCurrentChange"
-					:current-page="currentPage" :page-sizes="[5,10,15,20]" :page-size="pagesize" layout=" prev, pager, next, sizes, jumper"
-					:total="typeList.length">
+					:current-page="currentPage" :page-sizes="[5,10,15,20]" :page-size="pagesize"
+					layout=" prev, pager, next, sizes, jumper" :total="typeList.length">
 				</el-pagination>
 			</div>
 		</div>
@@ -84,13 +85,15 @@
 					</el-select>
 				</el-form-item>
 				<el-form-item label="工作开始日期" prop="begDate">
-					<el-date-picker v-model="infoList.begDate" type="date" placeholder="请选择工作日期" style="width:100%">
+					<el-date-picker v-model="infoList.begDate" type="date" placeholder="请选择工作日期" style="width: 100%;">
 					</el-date-picker>
 				</el-form-item>
 				<el-form-item label="职务" prop="post">
 					<el-input v-model="infoList.post"></el-input>
 				</el-form-item>
-				<el-button type="primary">保存</el-button>
+				<el-button type="primary" style="margin-left: 40%;">保存</el-button>
+				<el-button @click="resetForm1('infoList')">重置</el-button>
+				<el-button @click="goBack">返回</el-button>
 			</el-form>
 		</el-dialog>
 	</div>
@@ -113,7 +116,7 @@
 					persionNo: '',
 					begDate: '',
 					post: '',
-					id:''
+					id: ''
 				}],
 				infoList: {
 					AdminName: '',
@@ -206,6 +209,19 @@
 			this.getAdminList();
 		},
 		methods: {
+			goBack() {
+				// router.push("check-admin");
+				this.dialogTableVisible = false;
+			},
+			resetForm1(infoList) {
+				this.$refs[infoList].resetFields();
+			},
+			handleEdit(index, row) {
+				this.dialogTableVisible = true;
+				console.log(index, row)
+				//row是该行tableData对应的一行
+				this.infoList = row
+			},
 			getAdminList() {
 				var self = this;
 				//登陆成功之后get获取接口数据
@@ -214,7 +230,7 @@
 						//   params: {
 						//     pageNum: 5,
 						//     pageSize: 300
-		 			//   }
+						//   }
 					})
 					.then(function(res) {
 						if (res.data.status == 1) {
@@ -227,31 +243,33 @@
 						console.log(res);
 					});
 			},
-			 resetForm() {
-			 	this.formInline={},
-				this.getAdminList();
-			 },
-			 
+			resetForm() {
+				this.formInline = {},
+					this.getAdminList();
+			},
+
 			deleteAdmin(id) {
 				request({
-				        url: "http://127.0.0.1:10520/api/admin/deleteAdmin",
-				        method: "post",
-				        data: { id: id }
-				      }).then(res => {
-				        console.log(res);
-				        if (res.msg === "删除成功") {
-				          this.$message({
-				            message: "删除成功！",
-				            type: "success"
-				          });
-				          this.getAdminList();
-				        }else {
-							this.$message({
-								message:'删除失败！',
-								type:"danger"
-							})
-						}
-				      });
+				 url: "http://127.0.0.1:10520/api/admin/deleteAdmin",
+					method: "post",
+					data: {
+						id: id
+					}
+				}).then(res => {
+					console.log(res);
+					if (res.msg === "删除成功") {
+						this.$message({
+							message: "删除成功！",
+							type: "success"
+						});
+						this.getAdminList();
+					} else {
+						this.$message({
+							message: '删除失败！',
+							type: "danger"
+						})
+					}
+				});
 			},
 			handleSizeChange(val) {
 				this.pagesize = val;
@@ -294,7 +312,8 @@
 		/* text-align: center; */
 		/* margin-left: 0%; */
 	}
-	.el-table-column{
+
+	.el-table-column {
 		margin-left: 0px;
 	}
 </style>

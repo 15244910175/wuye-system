@@ -26,11 +26,11 @@
 					<el-form-item label="回复日期">
 						<el-date-picker type="date" size="mini" v-model="formInline.reDate"></el-date-picker>
 					</el-form-item>
-					<el-form-item>
+					<el-form-item style="margin-left: 55px;">
 						<el-button size="mini" type="primary" class="el-icon-search">查询</el-button>
 					</el-form-item>
 					<el-form-item>
-						<el-button size="mini" type="primary" class="el-icon-refresh">重置</el-button>
+						<el-button size="mini" type="primary" class="el-icon-refresh" @click="resetForm">重置</el-button>
 					</el-form-item>
 				</el-form>
 			</div>
@@ -107,6 +107,10 @@
 			        return moment(date).format("YYYY-MM-DD HH:mm:ss")
 			
 			    },
+			resetForm(){
+				this.formInline={},
+				this.getNoteList();
+			},
 			getNoteList() {
 			  var self = this;
 			  //登陆成功之后get获取接口数据
@@ -167,7 +171,7 @@
 	.el-button {
 		/* position: relative; */
 		/* text-align: center; */
-		margin-left: 50%;
+		/* margin-left: 100%; */
 	}
 	.el-input {
 		width: 80%;

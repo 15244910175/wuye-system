@@ -32,7 +32,7 @@
 				<el-table-column label="具体操作" width="300">
 					<template slot-scope="scope">
 						<el-button type="primary" size="small" icon="el-icon-edit">
-							<a @click="dialogTableVisible = true">编辑</a>
+							<a @click="handleEdit(scope.$index, scope.row)">编辑</a>
 						</el-button>
 						<el-button type="danger" size="small" icon="el-icon-delete">
 							<a @click="deleteCarnum(scope.row.id)">删除</a>
@@ -68,7 +68,9 @@
 					<el-input size="mini" v-model="infoList.num"></el-input>
 				</el-form-item>
 
-				<el-button type="primary" @click="dialogTableVisible = false" style="margin-left: 50%;">保存</el-button>
+				<el-button type="primary" @click="dialogTableVisible = false" style="margin-left: 40%;">保存</el-button>
+				<el-button @click="resetForm1('infoList')">重置</el-button>
+				<el-button @click="goBack">返回</el-button>
 			</el-form>
 		</el-dialog>
 	</div>
@@ -126,6 +128,19 @@
 			this.getNumList()
 		},
 		methods: {
+			goBack() {
+			  // router.push("check-admin");
+			  this.dialogTableVisible=false;
+			},
+			resetForm1(infoList) {
+			        this.$refs[infoList].resetFields();
+			      },
+				  handleEdit(index, row) {
+				  				this.dialogTableVisible=true;
+				  			      console.log(index, row)
+				  			      //row是该行tableData对应的一行
+				  			      this.infoList = row
+				  			    },
 			getNumList() {
 				var self = this;
 				axios.post("http://127.0.0.1:10520/api/admin/getNumList", {

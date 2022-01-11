@@ -44,7 +44,7 @@
 				<el-table-column label="具体操作" width="300">
 					<template slot-scope="scope">
 						<el-button type="primary" size="small" icon="el-icon-view">
-							<a @click="dialogTableVisible = true">查看</a>
+							<a @click="handleEdit(scope.$index, scope.row)">查看</a>
 						</el-button>
 						<el-button type="danger" size="small" icon="el-icon-edit">
 							<a @click="deletePay(scope.row.id)">删除</a>
@@ -60,12 +60,12 @@
 			</div>
 		</div>
 
-		<el-dialog title="设备信息" :visible.sync="dialogTableVisible">
+		<el-dialog title="维修费用" :visible.sync="dialogTableVisible">
 			<el-form ref="infoList" :model="infoList"  label-width="120px">
 				<el-row>
 					<el-col :span="12">
 						<el-form-item label="单据编号" prop="dNo">
-							<el-input v-model="infoList.dNo"></el-input>
+							<el-input v-model="infoList.dNo" ></el-input>
 						</el-form-item>
 					</el-col>
 					<el-col :span="12">
@@ -106,7 +106,7 @@
 					</el-col>
 					<el-col :span="12">
 						<el-form-item label="气费" prop="gasCase">
-							<el-input v-model="infoList.gasCase" ></el-input>
+							<el-input v-model="infoList.gascase" ></el-input>
 						</el-form-item>
 					</el-col>
 				</el-row>
@@ -126,7 +126,9 @@
 				<el-form-item label="备注" prop="remark">
 					<el-input v-model="infoList.remark" type="textarea" ></el-input>
 				</el-form-item>
-				<el-button type="primary" @click="dialogTableVisible = false">返回</el-button>
+				<el-button type="primary" @click="dialogTableVisible = false">保存</el-button>
+				<el-button @click="resetForm1('infoList')">重置</el-button>
+				<el-button @click="goBack">返回</el-button>
 			</el-form>
 		</el-dialog>
 	</div>
@@ -158,7 +160,7 @@
 					changeName: '',
 					waterCase: '',
 					eCase: '',
-					gasCase: '',
+					gascase: '',
 					stopCase: '',
 					mandCase: '',
 					remark: ''
@@ -206,6 +208,13 @@
 			this.getPayListL();
 		},
 		methods: {
+			handleEdit(index, row) {
+				this.dialogTableVisible=true;
+			      console.log(index, row)
+			      //row是该行tableData对应的一行
+			      this.infoList = row
+			    },
+
 			// 时间格式化
 			dateFormat:function(row,column){
 			
@@ -216,6 +225,14 @@
 			        return moment(date).format("YYYY-MM-DD HH:mm:ss")
 			
 			    },
+			goBack() {
+			// router.push("check-admin");
+			this.dialogTableVisible=false;
+			},
+			resetForm1(infoList) {
+			this.$refs[infoList].resetFields();
+			},
+			
 			getPayListL() {
 				var self = this;
 				axios.post("http://127.0.0.1:10520/api/admin/getPayListL", {

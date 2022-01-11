@@ -74,7 +74,7 @@ export default {
 		  	this.addForm.mark == ""
 		  ) {
 		  	this.$message({
-		  		message: "参数不能为空！",
+		  		message: "必填项不能为空！",
 		  		type: "error",
 		  	});
 		  } else {

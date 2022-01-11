@@ -34,7 +34,7 @@
 						<el-button size="mini" type="primary" class="el-icon-search">查询</el-button>
 					</el-form-item>
 					<el-form-item>
-						<el-button size="mini" type="primary" class="el-icon-refresh">重置</el-button>
+						<el-button size="mini" type="primary" class="el-icon-refresh" @click="resetForm">重置</el-button>
 					</el-form-item>
 				</el-form>
 			</div>
@@ -55,6 +55,8 @@
 				<el-table-column prop="address" label="住户地址">
 				</el-table-column>
 				<el-table-column prop="state" label="状态">
+				</el-table-column>
+				<el-table-column prop="pass" label="是否通过">
 				</el-table-column>
 			</el-table>
 			<div class="page">
@@ -88,7 +90,8 @@
 					changedate: '',
 					carAddress: '',
 					address: '',
-					state: ''
+					state: '',
+					pass:''
 				}],
 				currentPage: 1, //默认第一页
 				total: 0, //总条数
@@ -109,6 +112,10 @@
 			        return moment(date).format("YYYY-MM-DD HH:mm:ss")
 			
 			    },
+			resetForm(){
+				this.formInline={},
+				this.getOrdercar();
+			},
 			getOrdercar() {
 				var self = this;
 				//登陆成功之后get获取接口数据
