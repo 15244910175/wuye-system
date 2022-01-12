@@ -16,11 +16,17 @@
 					<el-form-item label="住户姓名">
 						<el-input size="mini" v-model="formInline.zName" placeholder="输入住户姓名"></el-input>
 					</el-form-item>
+					<el-form-item label="是否缴费">
+						<el-select v-model="formInline.state" placeholder="请选择是否缴费" style="width:100%">
+							<el-option label="已缴费" value="已缴费"></el-option>
+							<el-option label="未缴费" value="未缴费"></el-option>
+						</el-select>
+					</el-form-item>
 					<el-form-item label="缴纳日期">
 						<el-date-picker size="mini" v-model="formInline.changedate" type="date" placeholder="选择日期" style="width:100%">
 						</el-date-picker>
 					</el-form-item>
-
+					
 					<el-form-item>
 						<el-button size="mini" type="primary" class="el-icon-search">查询</el-button>
 					</el-form-item>
@@ -41,12 +47,17 @@
 				</el-table-column>
 				<el-table-column prop="cases" label="缴费总额">
 				</el-table-column>
+				<el-table-column prop="state" label="是否缴费">
+				</el-table-column>
 				<el-table-column label="具体操作" width="300">
 					<template slot-scope="scope">
 						<el-button type="primary" size="small" icon="el-icon-view">
-							<a @click="handleEdit(scope.$index, scope.row)">查看</a>
+							<a >标记已缴费</a>
 						</el-button>
-						<el-button type="danger" size="small" icon="el-icon-edit">
+						<el-button type="primary" size="small" icon="el-icon-edit">
+							<a @click="handleEdit(scope.$index, scope.row)">编辑</a>
+						</el-button>
+						<el-button type="danger" size="small" icon="el-icon-delete">
 							<a @click="deletePay(scope.row.id)">删除</a>
 						</el-button>
 					</template>
@@ -61,7 +72,7 @@
 		</div>
 
 		<el-dialog title="维修费用" :visible.sync="dialogTableVisible">
-			<el-form ref="infoList" :model="infoList"  label-width="120px">
+			<el-form ref="infoList" :model="infoList"  :rules="infoListRules" label-width="120px">
 				<el-row>
 					<el-col :span="12">
 						<el-form-item label="单据编号" prop="dNo">
@@ -126,7 +137,7 @@
 				<el-form-item label="备注" prop="remark">
 					<el-input v-model="infoList.remark" type="textarea" ></el-input>
 				</el-form-item>
-				<el-button type="primary" @click="dialogTableVisible = false">保存</el-button>
+				<el-button type="primary" @click="save">保存</el-button>
 				<el-button @click="resetForm1('infoList')">重置</el-button>
 				<el-button @click="goBack">返回</el-button>
 			</el-form>
@@ -144,13 +155,15 @@
 				formInline: {
 					dNo: '',
 					zName: '',
-					changedate: ''
+					changedate: '',
+					state:''
 				},
 				typeList: [{
 					name: '',
 					beDate: '',
 					model: '',
-					inName: ''
+					inName: '',
+					state:''
 				}],
 				infoList: {
 					dNo: '',
@@ -214,7 +227,22 @@
 			      //row是该行tableData对应的一行
 			      this.infoList = row
 			    },
-
+				save() {
+					request({
+						url: "http://127.0.0.1:10520/api/admin/updatePay",
+						method: "post",
+						data: this.infoList
+					}).then(res => {
+						console.log(res);
+						if (res.msg === "修改成功") {
+							this.$message({
+								message: "修改成功！",
+								type: "success"
+							});
+							this.dialogTableVisible = false;
+						}
+					});
+				},
 			// 时间格式化
 			dateFormat:function(row,column){
 			

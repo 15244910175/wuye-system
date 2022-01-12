@@ -45,7 +45,7 @@
 				</el-table-column>
 				<el-table-column prop="tel" label="电话">
 				</el-table-column>
-				<el-table-column prop="beDate" label="报修日期" width="250px">
+				<el-table-column prop="beDate" label="报修日期" width="250px" :formatter="dateFormat">
 				</el-table-column>
 				<el-table-column prop="address" label="住户地址">
 				</el-table-column>
@@ -54,7 +54,7 @@
 				<el-table-column label="具体操作" width="400">
 					<template slot-scope="scope">
 						<el-button type="primary" size="small">
-							<a >标记已修</a>
+							<a @click="revalue(scope.row.revalue)">标记已修</a>
 						</el-button>
 						<el-button type="primary" size="small" icon="el-icon-view">
 							<a @click="handleEdit(scope.$index, scope.row)">查看</a>
@@ -75,33 +75,30 @@
 
 		<el-dialog title="修改报修事项" :visible.sync="dialogTableVisible">
 			<el-form ref="infoList" :model="infoList" label-width="120px" :rules="infoListRules">
-				<el-form-item label="报修事项名称" prop="name">
-					<el-input v-model="infoList.name"></el-input>
+				<el-form-item label="报修事项名称" prop="name" >
+					<el-input v-model="infoList.name" disabled></el-input>
 				</el-form-item>
-				<el-form-item label="报修人" prop="inName">
-					<el-input v-model="infoList.inName"></el-input>
+				<el-form-item label="报修人" prop="inName" >
+					<el-input v-model="infoList.inName" disabled></el-input>
 				</el-form-item>
-				<el-form-item label="联系电话" prop="tel">
-					<el-input v-model="infoList.tel"></el-input>
+				<el-form-item label="联系电话" prop="tel" >
+					<el-input v-model="infoList.tel" disabled></el-input>
 				</el-form-item>
-				<el-form-item label="住户地址" prop="address">
-					<el-input v-model="infoList.address"></el-input>
+				<el-form-item label="住户地址" prop="address" >
+					<el-input v-model="infoList.address" disabled></el-input>
 				</el-form-item>
-				<el-form-item label="报修时间" prop="beDate">
-					<el-input v-model="infoList.beDate"></el-input>
+				<el-form-item label="报修时间" prop="beDate" >
+					<el-input v-model="infoList.beDate" disabled></el-input>
 				</el-form-item>
-				<el-form-item label="报修情况说明" prop="mark">
-					<el-input v-model="infoList.mark"></el-input>
+				<el-form-item label="报修情况说明" prop="mark" >
+					<el-input v-model="infoList.mark" disabled></el-input>
 				</el-form-item>
 
-				<el-form-item label="备注" prop="revalue">
+				<!-- <el-form-item label="备注" prop="revalue" disabled>
 					<el-input v-model="infoList.revalue"></el-input>
-				</el-form-item>
+				</el-form-item> -->
 
-
-				<el-button type="primary" @click="dialogTableVisible = false">保存</el-button>
-				<el-button @click="resetForm1('infoList')">重置</el-button>
-				<el-button @click="goBack">返回</el-button>
+				<el-button @click="goBack" style="margin-left: 45%;">返回</el-button>
 				
 			</el-form>
 		</el-dialog>
@@ -110,6 +107,7 @@
 
 <script>
 import axios from "axios";
+import moment from 'moment';
 import request from "../../../utils/request.js"
 	export default {
 		data() {
@@ -135,7 +133,7 @@ import request from "../../../utils/request.js"
 					tel: '',
 					beDate: '',
 					address: '',
-					revalue: ''
+					revalue: '已修'
 				},
 				currentPage: 1, //默认第一页
 				total: 0, //总条数
@@ -186,6 +184,32 @@ import request from "../../../utils/request.js"
 			this.getRepairList()
 		},
 		methods: {
+			// 时间格式化
+			dateFormat:function(row,column){
+			
+			        var date = row[column.property];
+			
+			        if(date == undefined){return ''};
+			
+			        return moment(date).format("YYYY-MM-DD hh:mm:ss")
+			
+			    },
+			revalue(revalue) {
+				request({
+					url: "http://127.0.0.1:10520/api/admin/updateRevalue",
+					method: "post",
+					data: this.typeList
+				}).then(res => {
+					console.log(res);
+					if (res.msg === "修改成功") {
+						this.$message({
+							message: "修改成功！",
+							type: "success"
+						});
+						this.dialogTableVisible = false;
+					}
+				});
+			},
 			goBack() {
 			// router.push("check-admin");
 			this.dialogTableVisible=false;

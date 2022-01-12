@@ -40,7 +40,7 @@
 				</el-table-column>
 				<el-table-column prop="persionNo" label="身份证">
 				</el-table-column>
-				<el-table-column prop="begDate" label="开始工作日期">
+				<el-table-column prop="begDate" label="开始工作日期" :formatter="dateFormat">
 				</el-table-column>
 				<el-table-column prop="post" label="员工职务">
 				</el-table-column>
@@ -85,14 +85,14 @@
 				</el-form-item>
 
 				<el-form-item label="工作开始日期" prop="begDate">
-					<el-date-picker v-model="infoList.begDate" type="datet" placeholder="请选择工作开始日期" style="width:100%">
+					<el-date-picker v-model="infoList.begDate" type="date" placeholder="请选择工作开始日期" style="width:100%">
 					</el-date-picker>
 				</el-form-item>
 				<el-form-item label="员工职务" prop="post">
 					<el-input v-model="infoList.post"></el-input>
 				</el-form-item>
 
-				<el-button type="primary" style="margin-left: 40%;">保存</el-button>
+				<el-button type="primary" style="margin-left: 40%;" @click="save">保存</el-button>
 				<el-button @click="resetForm1('infoList')">重置</el-button>
 				<el-button @click="goBack">返回</el-button>
 			</el-form>
@@ -102,6 +102,7 @@
 </template>
 <script>
 	import axios from "axios";
+	import moment from 'moment';
 	import request from "../../../utils/request.js"
 	export default {
 		data() {
@@ -209,6 +210,16 @@
 			this.getRenshiList()
 		},
 		methods: {
+			// 时间格式化
+			dateFormat:function(row,column){
+			
+			        var date = row[column.property];
+			
+			        if(date == undefined){return ''};
+			
+			        return moment(date).format("YYYY-MM-DD")
+			
+			    },
 			goBack() {
 			// router.push("check-admin");
 			this.dialogTableVisible=false;
@@ -222,6 +233,22 @@
 						      //row是该行tableData对应的一行
 						      this.infoList = row
 						    },
+							save() {
+								request({
+									url: "http://127.0.0.1:10520/api/admin/updateRs",
+									method: "post",
+									data: this.infoList
+								}).then(res => {
+									console.log(res);
+									if (res.msg === "修改成功") {
+										this.$message({
+											message: "修改成功！",
+											type: "success"
+										});
+										this.dialogTableVisible = false;
+									}
+								});
+							},
 			getRenshiList() {
 				var self = this;
 				axios.post("http://127.0.0.1:10520/api/admin/getRenshiList", {

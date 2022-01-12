@@ -337,7 +337,21 @@ router.post('/addAdmin', (req, res) => {
     })
   })
 });
-
+// 新增车位总数明细
+router.post('/addCarnum', (req, res) => {
+  var sql = $sql.admin.addCarnum;
+  // var params = req.body;
+  console.log(req);
+  conn.query(sql, [req.body.num, req.body.date], function (err, result) {
+    var data = req.body;
+    console.log(result)
+    return res.send({
+      status: 1,
+      msg: "新增成功",
+      data: data
+    })
+  })
+});
 
 // 删除住户信息
 router.post('/deleteHouse', (req, res) => {
@@ -505,6 +519,204 @@ router.post('/deleteNote', (req, res) => {
     return res.send({
       status: 1,
       msg: "删除成功",
+      data: data
+    })
+  })
+});
+
+// 修改住户信息
+router.post('/updateData', (req, res) => {
+  var sql = $sql.admin.updateData;
+  // var params = req.body;
+  console.log(req);
+  conn.query(sql, [req.body.username, req.body.telephone, req.body.persionNo, req.body.address,req.body.sex,req.body.id], function (err, result) {
+    var data = req.body;
+    console.log(result)
+    return res.send({
+      status: 1,
+      msg: "修改成功",
+      data: data
+    })
+  })
+});
+
+// 修改管理员信息
+router.post('/updateAdmin', (req, res) => {
+  var sql = $sql.admin.updateAdmin;
+  // var params = req.body;
+  console.log(req);
+  conn.query(sql, [req.body.AdminName, req.body.LoginName, req.body.LoginPwd, req.body.persionNo,req.body.sex,req.body.begDate,req.body.post,req.body.id], function (err, result) {
+    var data = req.body;
+    console.log(result)
+    return res.send({
+      status: 1,
+      msg: "修改成功",
+      data: data
+    })
+  })
+});
+
+// 修改保安信息
+router.post('/updateBa', (req, res) => {
+  var sql = $sql.admin.updateBa;
+  // var params = req.body;
+  console.log(req);
+  conn.query(sql, [req.body.name, req.body.persionNo,req.body.sex,req.body.begDate,req.body.post,req.body.id], function (err, result) {
+    var data = req.body;
+    console.log(result)
+    return res.send({
+      status: 1,
+      msg: "修改成功",
+      data: data
+    })
+  })
+});
+
+// 修改保安排版记录
+router.post('/updatePb', (req, res) => {
+  var sql = $sql.admin.updatePb;
+  // var params = req.body;
+  console.log(req);
+  conn.query(sql, [req.body.name, req.body.startTime,req.body.endTime,req.body.id], function (err, result) {
+    var data = req.body;
+    console.log(result)
+    return res.send({
+      status: 1,
+      msg: "修改成功",
+      data: data
+    })
+  })
+});
+// 修改物业人员信息
+router.post('/updateRs', (req, res) => {
+  var sql = $sql.admin.updateRs;
+  // var params = req.body;
+  console.log(req);
+  conn.query(sql, [req.body.AdminName, req.body.LoginName,req.body.LoginPwd,req.body.persionNo,req.body.sex,req.body.begDate,req.body.post,req.body.id], function (err, result) {
+    var data = req.body;
+    console.log(result)
+    return res.send({
+      status: 1,
+      msg: "修改成功",
+      data: data
+    })
+  })
+});
+// 管理员回复留言
+router.post('/updateNote', (req, res) => {
+  var sql = $sql.admin.updateNote;
+  // var params = req.body;
+  console.log(req);
+  conn.query(sql, [req.body.answerContent,req.body.id], function (err, result) {
+    var data = req.body;
+    console.log(result)
+    return res.send({
+      status: 1,
+      msg: "修改成功",
+      data: data
+    })
+  })
+});
+// 管理员回复投诉
+router.post('/updateCpt', (req, res) => {
+  var sql = $sql.admin.updateCpt;
+  // var params = req.body;
+  console.log(req);
+  conn.query(sql, [req.body.answerContent,req.body.id], function (err, result) {
+    var data = req.body;
+    console.log(result)
+    return res.send({
+      status: 1,
+      msg: "修改成功",
+      data: data
+    })
+  })
+});
+
+
+
+
+
+
+// 修改车位总数信息
+router.post('/updateCarnum', (req, res) => {
+  var sql = $sql.admin.updateCarnum;
+  // var params = req.body;
+  console.log(req);
+  conn.query(sql, [req.body.num,req.body.id], function (err, result) {
+    var data = req.body;
+    console.log(result)
+    return res.send({
+      status: 1,
+      msg: "修改成功",
+      data: data
+    })
+  })
+});
+// 修改物业费用信息
+router.post('/updatePay', (req, res) => {
+  var sql = $sql.admin.updatePay;
+  // var params = req.body;
+  console.log(req);
+  conn.query(sql, [req.body.dNo, req.body.type,req.body.changeName,req.body.zName,req.body.cases,req.body.waterCase,req.body.eCase,req.body.gasCase,req.body.stopCase,req.body.mandCase,req.body.remark,req.body.id], function (err, result) {
+    var data = req.body;
+    console.log(result)
+    return res.send({
+      status: 1,
+      msg: "修改成功",
+      data: data
+    })
+  })
+});
+
+// 修改设备信息
+router.post('/updateEqu', (req, res) => {
+  var sql = $sql.admin.updateEqu;
+  // var params = req.body;
+  console.log(req);
+  conn.query(sql, [req.body.name, req.body.mark,req.body.model,req.body.num,req.body.beDate,req.body.id], function (err, result) {
+    var data = req.body;
+    console.log(result)
+    return res.send({
+      status: 1,
+      msg: "修改成功",
+      data: data
+    })
+  })
+});
+// 标记已修
+router.post('/updateRevalue', (req, res) => {
+  var sql = $sql.admin.updateRevalue;
+  // var params = req.body;
+  console.log(req);
+  conn.query(sql, [req.body.revalue,req.body.id], function (err, result) {
+    var data = req.body;
+    console.log(result)
+    return res.send({
+      status: 1,
+      msg: "修改成功",
+      data: data
+    })
+  })
+});
+
+
+
+
+
+
+
+// 审核小区车位
+router.post('/updateCarorder', (req, res) => {
+  var sql = $sql.admin.updateCarorder;
+  // var params = req.body;
+  console.log(req);
+  conn.query(sql, [req.body.pass,req.body.state, req.body.id], function (err, result) {
+    var data = req.body;
+    console.log(result)
+    return res.send({
+      status: 1,
+      msg: "修改成功",
       data: data
     })
   })

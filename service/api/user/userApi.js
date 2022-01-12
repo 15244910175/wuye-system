@@ -10,10 +10,10 @@ conn.connect();
 
 // 登录接口
 router.post('/login', (req, res) => {
-	const resident = req.body;
-	const sel_sql = $sql.user.login + " where username = '" + resident.username + "'";
+	const params = req.body;
+	const sel_sql = $sql.user.login +  " where username = '" + params.username + "'" ;
 	// console.log(sel_email);
-	conn.query(sel_sql, resident.username, (error, results) => {
+	conn.query(sel_sql, params.username, (error, results) => {
 		if (error) {
 			throw error;
 		}
@@ -21,7 +21,7 @@ router.post('/login', (req, res) => {
 		if (results[0] === undefined) {
 			res.send("-1"); // -1 表示查询不到，用户不存在
 		} else {
-			if (results[0].username == resident.username && results[0].password == resident.password) {
+			if (results[0].username==params.username && results[0].password==params.password) {
 				res.send("0"); // 0 表示用户存在并且密码正确
 			} else {
 				res.send("1"); // 1 表示用户存在，但密码不正确
@@ -32,13 +32,14 @@ router.post('/login', (req, res) => {
 // 注册接口
 router.post('/reg', (req, res) => {
 	const params = req.body;
-	const sel_sql = $sql.user.select + " where username = '" + params.username + "'";
+	const sel_sql = $sql.user.login + " where username = '" + params.username + "'";
 	const add_sql = $sql.user.reg;
 	console.log(sel_sql);
 
 	conn.query(sel_sql, params.username, (error, results) => {
 		if (error) {
-			console.log(err);
+			// console.log(err);
+			throw error;
 		}
 		if (results.length != 0 && params.username == results[0].username) {
 			res.send("-1"); // -1 表示用户名已经存在

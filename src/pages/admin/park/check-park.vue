@@ -55,9 +55,13 @@
 						<el-input size="mini" v-model="infoList.num"></el-input>
 					</el-form-item>
 					<el-form-item label="年份" prop="date">
-						<el-input size="mini" v-model="infoList.date"></el-input>
+						 <el-date-picker
+						      v-model="infoList.date"
+						      type="year"
+						      placeholder="选择年" style="width: 80%;">
+						    </el-date-picker>
 					</el-form-item>
-					<el-button type="primary" size="medium" style="margin-left: 50%;	">保存</el-button>
+					<el-button type="primary" size="medium" style="margin-left: 50%;" @click="onSubmit">保存</el-button>
 				</el-form>
 			</el-card>
 		</div>
@@ -68,7 +72,7 @@
 					<el-input size="mini" v-model="infoList.num"></el-input>
 				</el-form-item>
 
-				<el-button type="primary" @click="dialogTableVisible = false" style="margin-left: 40%;">保存</el-button>
+				<el-button type="primary" @click="save" style="margin-left: 40%;">保存</el-button>
 				<el-button @click="resetForm1('infoList')">重置</el-button>
 				<el-button @click="goBack">返回</el-button>
 			</el-form>
@@ -116,8 +120,8 @@
 							trigger: 'blur'
 						},
 						{
-							// type: 'number',
-							message: '请输入正整数',
+							type: 'date',
+							message: '请选择年份',
 							trigger: 'blur'
 						}
 					]
@@ -128,19 +132,66 @@
 			this.getNumList()
 		},
 		methods: {
+			onSubmit() {
+				if (
+					this.infoList.num == "" ||
+					this.infoList.date == "" 
+				) {
+					this.$message({
+						message: "必填项不能为空！",
+						type: "error",
+					});
+				} else {
+				request({
+					url: "http://127.0.0.1:10520/api/admin/addCarnum",
+					method: "post",
+					data: this.infoList
+				}).then(res => {
+					console.log(res);
+					if (res.msg === "新增成功") {
+						this.$message({
+							message: "恭喜你，新增成功",
+							type: "success"
+						});
+						this.init();
+					}
+				});
+				}
+			},
+			init() {
+				// this.dialog_state = false;
+				this.infoList = {};
+				this.getNumList();
+			},
 			goBack() {
-			  // router.push("check-admin");
-			  this.dialogTableVisible=false;
+				// router.push("check-admin");
+				this.dialogTableVisible = false;
 			},
 			resetForm1(infoList) {
-			        this.$refs[infoList].resetFields();
-			      },
-				  handleEdit(index, row) {
-				  				this.dialogTableVisible=true;
-				  			      console.log(index, row)
-				  			      //row是该行tableData对应的一行
-				  			      this.infoList = row
-				  			    },
+				this.$refs[infoList].resetFields();
+			},
+			handleEdit(index, row) {
+				this.dialogTableVisible = true;
+				console.log(index, row)
+				//row是该行tableData对应的一行
+				this.infoList = row
+			},
+			save() {
+				request({
+					url: "http://127.0.0.1:10520/api/admin/updateCarnum",
+					method: "post",
+					data: this.infoList
+				}).then(res => {
+					console.log(res);
+					if (res.msg === "修改成功") {
+						this.$message({
+							message: "修改成功！",
+							type: "success"
+						});
+						this.dialogTableVisible = false;
+					}
+				});
+			},
 			getNumList() {
 				var self = this;
 				axios.post("http://127.0.0.1:10520/api/admin/getNumList", {
@@ -156,31 +207,33 @@
 						console.log(res);
 					})
 			},
-			resetForm(){
-				this.formInline={},
-				this.getNumList();
+			resetForm() {
+				this.formInline = {},
+					this.getNumList();
 			},
 			// 删除车位明细
 			deleteCarnum(id) {
 				request({
-				        url: "http://127.0.0.1:10520/api/admin/deleteCarnum",
-				        method: "post",
-				        data: { id: id }
-				      }).then(res => {
-				        console.log(res);
-				        if (res.msg === "删除成功") {
-				          this.$message({
-				            message: "删除成功！",
-				            type: "success"
-				          });
-				          this.getNumList();
-				        }else {
-							this.$message({
-								message:'删除失败！',
-								type:"danger"
-							})
-						}
-				      });
+					url: "http://127.0.0.1:10520/api/admin/deleteCarnum",
+					method: "post",
+					data: {
+						id: id
+					}
+				}).then(res => {
+					console.log(res);
+					if (res.msg === "删除成功") {
+						this.$message({
+							message: "删除成功！",
+							type: "success"
+						});
+						this.getNumList();
+					} else {
+						this.$message({
+							message: '删除失败！',
+							type: "danger"
+						})
+					}
+				});
 			},
 			handleSizeChange(val) {
 				this.pagesize = val;

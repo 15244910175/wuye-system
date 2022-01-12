@@ -20,7 +20,8 @@
 						<el-input size="mini" v-model="formInline.telephone" placeholder="输入联系电话"></el-input>
 					</el-form-item>
 					<el-form-item label="登记日期">
-						<el-date-picker size="mini" v-model="formInline.changedate" type="date" placeholder="选择日期" style="width:100%">
+						<el-date-picker size="mini" v-model="formInline.changedate" type="date" placeholder="选择日期"
+							style="width:100%">
 						</el-date-picker>
 					</el-form-item>
 					<el-form-item label="停车车位号">
@@ -56,8 +57,9 @@
 				</el-table-column>
 				<el-table-column prop="state" label="状态">
 				</el-table-column>
-				<el-table-column prop="pass" label="是否通过"></el-table-column>
-				<el-table-column label="具体操作"  style="width: 200px;">
+				<el-table-column prop="pass" label="是否通过">
+				</el-table-column>
+				<el-table-column label="具体操作" style="width: 200px;">
 					<template slot-scope="scope">
 						<el-button type="primary" size="small">
 							<a @click="handleEdit(scope.$index, scope.row)">审核</a>
@@ -70,23 +72,23 @@
 			</el-table>
 			<div class="page">
 				<el-pagination @size-change="handleSizeChange" @current-change="handleCurrentChange"
-					:current-page="currentPage" :page-sizes="[5,10,15,20]" :page-size="pagesize" layout=" prev, pager, next, sizes, jumper"
-					:total="typeList.length">
+					:current-page="currentPage" :page-sizes="[5,10,15,20]" :page-size="pagesize"
+					layout=" prev, pager, next, sizes, jumper" :total="typeList.length">
 				</el-pagination>
 			</div>
 		</div>
 
 		<el-dialog title="审核事项" :visible.sync="dialogTableVisible">
 			<el-form ref="infoList" :model="infoList" label-width="120px" :rules="infoListRules">
-				
+
 				<el-form-item label="是否通过" prop="pass">
-				  <el-select v-model="infoList.pass" placeholder="请选择通过与否" style="width:100%">
-				    <el-option label="通过" value="通过"></el-option>
-				    <el-option label="未通过" value="未通过"></el-option>
-				  </el-select>
+					<el-select v-model="infoList.pass" placeholder="请选择通过与否" style="width:100%">
+						<el-option label="通过" value="通过"></el-option>
+						<el-option label="未通过" value="未通过"></el-option>
+					</el-select>
 				</el-form-item>
 
-				<el-button type="primary" @click="dialogTableVisible = false" style="margin-left: 40%;">保存</el-button>
+				<el-button type="primary" @click="save" style="margin-left: 40%;">保存</el-button>
 				<el-button @click="resetForm1('infoList')">重置</el-button>
 				<el-button @click="goBack">返回</el-button>
 			</el-form>
@@ -96,8 +98,8 @@
 
 <script>
 	import moment from 'moment';
-import axios from "axios";
-import request from "../../../utils/request.js"
+	import axios from "axios";
+	import request from "../../../utils/request.js"
 	export default {
 		data() {
 			return {
@@ -106,7 +108,7 @@ import request from "../../../utils/request.js"
 					persionNo: '',
 					telephone: '',
 					changedate: '',
-					carAddress:'',
+					carAddress: '',
 					address: ''
 				},
 				typeList: [{
@@ -114,25 +116,26 @@ import request from "../../../utils/request.js"
 					persionNo: '',
 					telephone: '',
 					changedate: '',
-					carAddress:'',
+					carAddress: '',
 					address: '',
-					state:'',
-					pass:''
+					state: '',
+					pass: ''
 				}],
 				infoList: {
-					pass:''
+					pass: '',
+					state:"已审核"
 				},
 				currentPage: 1, //默认第一页
 				total: 0, //总条数
 				pagesize: 5, //默认第一页展示10条
 				dialogTableVisible: false,
 				infoListRules: {
-					state: [{
+					pass: [{
 						required: true,
-						message: '请选择状态',
+						message: '请选择是否通过',
 						trigger: 'blur'
 					}],
-					
+
 				}
 			}
 		},
@@ -141,18 +144,34 @@ import request from "../../../utils/request.js"
 		},
 		methods: {
 			goBack() {
-			  // router.push("check-admin");
-			  this.dialogTableVisible=false;
+				// router.push("check-admin");
+				this.dialogTableVisible = false;
 			},
 			resetForm1(infoList) {
-			        this.$refs[infoList].resetFields();
-			      },
-				  handleEdit(index, row) {
-				  				this.dialogTableVisible=true;
-				  			      console.log(index, row)
-				  			      //row是该行tableData对应的一行
-				  			      this.infoList = row
-				  			    },
+				this.$refs[infoList].resetFields();
+			},
+			handleEdit(index, row) {
+				this.dialogTableVisible = true;
+				console.log(index, row)
+				//row是该行tableData对应的一行
+				this.infoList = row
+			},
+			save() {
+				request({
+					url: "http://127.0.0.1:10520/api/admin/updateCarorder",
+					method: "post",
+					data: this.infoList
+				}).then(res => {
+					console.log(res);
+					if (res.msg === "修改成功") {
+						this.$message({
+							message: "修改成功！",
+							type: "success"
+						});
+						this.dialogTableVisible = false;
+					}
+				});
+			},
 			// 时间格式化
 			dateFormat:function(row,column){
 			
@@ -160,13 +179,13 @@ import request from "../../../utils/request.js"
 			
 			        if(date == undefined){return ''};
 			
-			        return moment(date).format("YYYY-MM-DD HH:mm:ss")
+			        return moment(date).format("YYYY-MM-DD hh:mm:ss")
 			
 			    },
 			getCarparkList() {
 				var self = this;
 				axios.post("http://127.0.0.1:10520/api/admin/getCarparkList", {
-			
+
 					})
 					.then(function(res) {
 						if (res.data.status == 1) {
@@ -178,34 +197,36 @@ import request from "../../../utils/request.js"
 						console.log(res);
 					})
 			},
-			resetForm(){
-				this.formInline={},
-				this.getCarparkList();
+			resetForm() {
+				this.formInline = {},
+					this.getCarparkList();
 			},
 			resetForm1(infoList) {
-			        this.$refs[infoList].resetFields();
-			      },
+				this.$refs[infoList].resetFields();
+			},
 			// 删除小区车位
 			deleteCarorder(id) {
 				request({
-				        url: "http://127.0.0.1:10520/api/admin/deleteCarorder",
-				        method: "post",
-				        data: { id: id }
-				      }).then(res => {
-				        console.log(res);
-				        if (res.msg === "删除成功") {
-				          this.$message({
-				            message: "删除成功！",
-				            type: "success"
-				          });
-				          this.getCarparkList();
-				        }else {
-							this.$message({
-								message:'删除失败！',
-								type:"danger"
-							})
-						}
-				      });
+					url: "http://127.0.0.1:10520/api/admin/deleteCarorder",
+					method: "post",
+					data: {
+						id: id
+					}
+				}).then(res => {
+					console.log(res);
+					if (res.msg === "删除成功") {
+						this.$message({
+							message: "删除成功！",
+							type: "success"
+						});
+				  this.getCarparkList();
+					} else {
+						this.$message({
+							message: '删除失败！',
+							type: "danger"
+						})
+					}
+				});
 			},
 			handleSizeChange(val) {
 				this.pagesize = val;

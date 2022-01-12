@@ -16,9 +16,9 @@
 					<el-form-item label="留言内容">
 						<el-input size="mini" v-model="formInline.mark"></el-input>
 					</el-form-item>
-					<el-form-item label="留言者">
+					<!-- <el-form-item label="留言者">
 						<el-input size="mini" v-model="formInline.leaverName"></el-input>
-					</el-form-item>
+					</el-form-item> -->
 					<el-form-item label="参与日期">
 						<el-date-picker size="mini" v-model="formInline.time" type="date" placeholder="选择日期">
 						</el-date-picker>
@@ -43,8 +43,8 @@
 				</el-table-column>
 				<el-table-column prop="mark" label="留言内容">
 				</el-table-column>
-				<el-table-column prop="leaverName" label="留言者">
-				</el-table-column>
+				<!-- <el-table-column prop="leaverName" label="留言者">
+				</el-table-column> -->
 				<el-table-column prop="time" label="参与时间" :formatter="dateFormat">
 				</el-table-column>
 				<el-table-column prop="answerContent" label="管理员回复">

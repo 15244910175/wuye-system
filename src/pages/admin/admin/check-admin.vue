@@ -40,7 +40,9 @@
 				</el-table-column>
 				<el-table-column prop="persionNo" label="身份证">
 				</el-table-column>
-				<el-table-column prop="begDate" label="工作开始日期">
+				<el-table-column prop="sex" label="性别">
+				</el-table-column>
+				<el-table-column prop="begDate" label="工作开始日期" :formatter="dateFormat">
 				</el-table-column>
 				<el-table-column prop="post" label="职务">
 				</el-table-column>
@@ -80,18 +82,18 @@
 				</el-form-item>
 				<el-form-item label="性别" prop="sex">
 					<el-select v-model="infoList.sex" placeholder="请选择性别" style="width:100%">
-						<el-option label="男" value="nan"></el-option>
-						<el-option label="女" value="nv"></el-option>
+						<el-option label="男" value="男"></el-option>
+						<el-option label="女" value="女"></el-option>
 					</el-select>
 				</el-form-item>
-				<el-form-item label="工作开始日期" prop="begDate">
+				<el-form-item label="工作开始日期" prop="begDate" >
 					<el-date-picker v-model="infoList.begDate" type="date" placeholder="请选择工作日期" style="width: 100%;">
 					</el-date-picker>
 				</el-form-item>
 				<el-form-item label="职务" prop="post">
 					<el-input v-model="infoList.post"></el-input>
 				</el-form-item>
-				<el-button type="primary" style="margin-left: 40%;">保存</el-button>
+				<el-button type="primary" style="margin-left: 40%;" @click="save">保存</el-button>
 				<el-button @click="resetForm1('infoList')">重置</el-button>
 				<el-button @click="goBack">返回</el-button>
 			</el-form>
@@ -101,6 +103,7 @@
 
 <script>
 	import axios from "axios";
+	import moment from 'moment';
 	import request from "../../../utils/request.js"
 	export default {
 		data() {
@@ -116,7 +119,8 @@
 					persionNo: '',
 					begDate: '',
 					post: '',
-					id: ''
+					id: '',
+					sex:''
 				}],
 				infoList: {
 					AdminName: '',
@@ -209,6 +213,16 @@
 			this.getAdminList();
 		},
 		methods: {
+			// 时间格式化
+			dateFormat:function(row,column){
+			
+			        var date = row[column.property];
+			
+			        if(date == undefined){return ''};
+			
+			        return moment(date).format("YYYY-MM-DD")
+			
+			    },
 			goBack() {
 				// router.push("check-admin");
 				this.dialogTableVisible = false;
@@ -221,6 +235,22 @@
 				console.log(index, row)
 				//row是该行tableData对应的一行
 				this.infoList = row
+			},
+			save() {
+				request({
+					url: "http://127.0.0.1:10520/api/admin/updateAdmin",
+					method: "post",
+					data: this.infoList
+				}).then(res => {
+					console.log(res);
+					if (res.msg === "修改成功") {
+						this.$message({
+							message: "修改成功！",
+							type: "success"
+						});
+						this.dialogTableVisible = false;
+					}
+				});
 			},
 			getAdminList() {
 				var self = this;

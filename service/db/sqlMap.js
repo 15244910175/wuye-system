@@ -76,7 +76,8 @@ var sqlMap = {
 		addPb:'insert into pb(name,startTime,endTime) values(?,?,?)',
 		// 添加保安信息
 		addba:'insert into ba(name,persionNo,sex,begDate,post) values(?,?,?,?,?)',
-		
+		// 新增车位总数明细
+		addCarnum:'insert into carnum(num,date) values (?,?)',
 		
 		// 删除住户信息
 		deleteHouse:'delete from resident where id = ?',
@@ -100,6 +101,34 @@ var sqlMap = {
 		deleteCarorder:'delete from carorder where id= ? ',
 		// 删除留言、投诉
 		deleteNote:'delete from t_leaverword where id= ? ',
+		
+		// 修改住户信息
+		updateData:'update resident set username=?,telephone=?,persionNo=?,address=?,sex=? where id=?',
+		// 修改管理员信息
+		updateAdmin:'update admin set AdminName=?,LoginName=?,LoginPwd=?,persionNo=?,sex=?,begDate=?,post=? where id=?',
+		// 修改保安信息
+		updateBa:'update ba set name=?,persionNo=?,sex=?,begDate=?,post=? where id=?',
+		// 修改保安排班记录
+		updatePb:'update pb set name=?,startTime=?,endTime=? where id=?',
+		// 修改物业人员信息
+		updateRs:'update rs set AdminName=?,LoginName=?,LoginPwd=?,persionNo=?,sex=?,begDate=?,post=? where id=?',
+		// 管理员回复留言
+		updateNote:'update t_leaverword set answerContent=? where id=?',
+		// 管理员回复投诉
+		updateCpt:'update t_leaverword set answerContent=? where id=?',
+		// 修改车位明细信息
+		updateCarnum:'update carnum set num=? where id=?',
+		// 修改设备信息
+		updateEqu:'update chanel set name=?,mark=?,model=?,num=?,beDate=? where id=?',
+		// 修改物业费信息
+		updatePay:'update t_change set dNo=?,type=?,changeName=?,zName=?,cases=?,waterCase=?,eCase=?,gasCase=?,stopCase=?,mandCase=?,remark=? where id=?',
+		
+		
+		// 标记已修
+		updateRevalue:'update equip set revalue="已修" where id=?',
+		
+		// 审核小区车位
+		updateCarorder:'update carorder set pass=?,state=? where id=?',
 		
 	}
 }

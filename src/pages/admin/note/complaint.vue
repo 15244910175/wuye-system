@@ -45,8 +45,8 @@
 				</el-table-column>
 				<el-table-column label="具体操作" width="400" style="text-align: center;">
 					<template slot-scope="scope">
-						<el-button type="primary" size="small" icon="el-icon-view">
-							<a @click="handleEdit(scope.$index, scope.row)" >查看信息</a>
+						<el-button type="primary" size="small" icon="el-icon-chat-line-square">
+							<a @click="handleEdit(scope.$index, scope.row)" >管理员回复</a>
 						</el-button>
 						<el-button type="danger" size="small" icon="el-icon-delete">
 							<a @click="deleteNote(scope.row.id)">删除</a>
@@ -66,22 +66,22 @@
 			<el-form ref="infoList" :model="infoList" label-width="120px" :rules="infoListRules">
 				
 				<el-form-item label="标题" prop="name">
-					<el-input v-model="infoList.title"></el-input>
+					<el-input v-model="infoList.title" disabled></el-input>
 				</el-form-item>
 				<el-form-item label="留言者" prop="leaverName">
-					<el-input v-model="infoList.leaverName"></el-input>
+					<el-input v-model="infoList.leaverName" disabled></el-input>
 				</el-form-item>
 				<el-form-item label="投诉/留言内容" prop="mark">
-					<el-input v-model="infoList.mark"></el-input>
+					<el-input v-model="infoList.mark" disabled></el-input>
 				</el-form-item>
 				<el-form-item label="投诉/留言时间" prop="time">
-					<el-input v-model="infoList.time"></el-input>
+					<el-input v-model="infoList.time" disabled></el-input>
 				</el-form-item>
 				<el-form-item label="管理员回复" prop="answerContent">
 					<el-input type="textarea" v-model="infoList.answerContent"></el-input>
 				</el-form-item>
 
-				<el-button type="primary" @click="dialogTableVisible = false" style="margin-left: 40%;">保存</el-button>
+				<el-button type="primary" @click="save()" style="margin-left: 40%;">保存</el-button>
 				<el-button @click="resetForm1('infoList')">重置</el-button>
 				<el-button @click="goBack">返回</el-button>
 			</el-form>
@@ -146,6 +146,22 @@ import request from "../../../utils/request.js"
 				  			      //row是该行tableData对应的一行
 				  			      this.infoList = row
 				  			    },
+								save() {
+									request({
+										url: "http://127.0.0.1:10520/api/admin/updateCpt",
+										method: "post",
+										data: this.infoList
+									}).then(res => {
+										console.log(res);
+										if (res.msg === "修改成功") {
+											this.$message({
+												message: "修改成功！",
+												type: "success"
+											});
+											this.dialogTableVisible = false;
+										}
+									});
+								},
 			// 时间格式化
 			dateFormat:function(row,column){
 			

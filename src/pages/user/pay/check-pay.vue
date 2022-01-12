@@ -41,6 +41,8 @@
         </el-table-column>
         <el-table-column prop="cases" label="缴费总额">
         </el-table-column>
+		<el-table-column prop="state" label="是否缴费">
+		</el-table-column>
         <el-table-column label="具体操作" width="200px" >
           <template slot-scope="scope">
             <el-button type="text" size="small">
@@ -169,7 +171,8 @@ import axios from 'axios';
           gascase:'',
           stopCase:'',
           mandCase:'',
-          remark:''
+          remark:'',
+		  state:''
         }],
 		infoList:[{
 			dNo: '',
