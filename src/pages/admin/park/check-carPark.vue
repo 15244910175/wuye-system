@@ -123,7 +123,7 @@
 				}],
 				infoList: {
 					pass: '',
-					state:"已审核"
+					state: "已审核"
 				},
 				currentPage: 1, //默认第一页
 				total: 0, //总条数
@@ -206,27 +206,35 @@
 			},
 			// 删除小区车位
 			deleteCarorder(id) {
-				request({
-					url: "http://127.0.0.1:10520/api/admin/deleteCarorder",
-					method: "post",
-					data: {
-						id: id
-					}
-				}).then(res => {
-					console.log(res);
-					if (res.msg === "删除成功") {
-						this.$message({
-							message: "删除成功！",
-							type: "success"
-						});
-				  this.getCarparkList();
-					} else {
-						this.$message({
-							message: '删除失败！',
-							type: "danger"
+				this.$confirm('删除后将无法恢复!, 是否继续?', '提示', {
+						confirmButtonText: '删除',
+						cancelButtonText: '取消',
+						type: 'warning',
+						center: true,
+						customClass: 'winClass',
+					})
+					.then(() => {
+						request({
+							url: "http://127.0.0.1:10520/api/admin/deleteCarorder",
+							method: "post",
+							data: {
+								id: id
+							}
+						}).then(res => {
+							console.log(res);
+							this.$message({
+								type: 'success',
+								message: '删除成功!',
+							})
+							this.getCarparkList();
 						})
-					}
-				});
+					})
+					.catch(() => {
+						this.$message({
+							type: 'info',
+							message: '删除失败',
+						})
+					});
 			},
 			handleSizeChange(val) {
 				this.pagesize = val;

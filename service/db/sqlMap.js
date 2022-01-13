@@ -65,7 +65,7 @@ var sqlMap = {
 		// 添加管理员
 		addAdmin:'insert into admin(AdminName,LoginName,persionNo,sex,begDate,post) values(?,?,?,?,?,?)',
 		// 添加物业费
-		addPay:'insert into t_change(dNo,zName,type,cases,changeName,waterCase,eCase,gasCase,stopCase,mandCase,remark) values (?,?,?,?,?,?,?,?,?,?,?)',
+		addPay:'insert into t_change(dNo,zName,type,cases,changeName,waterCase,eCase,gasCase,stopCase,mandCase,remark,changedate,state,payabledate) values (?,?,?,?,?,?,?,?,?,?,?,?,?,?)',
 		// 新增预定车位
 		addOrderPark:'insert into carorder(userid,persionNo,telephone,address,carAddress,state) values(?,?,?,?,?,?)',
 		// 添加设备信息
@@ -121,11 +121,11 @@ var sqlMap = {
 		// 修改设备信息
 		updateEqu:'update chanel set name=?,mark=?,model=?,num=?,beDate=? where id=?',
 		// 修改物业费信息
-		updatePay:'update t_change set dNo=?,type=?,changeName=?,zName=?,cases=?,waterCase=?,eCase=?,gasCase=?,stopCase=?,mandCase=?,remark=? where id=?',
-		
-		
+		updatePay:'update t_change set dNo=?,type=?,changeName=?,zName=?,cases=?,waterCase=?,eCase=?,gasCase=?,stopCase=?,mandCase=?,remark=?,payabledate=? where id=?',
 		// 标记已修
-		updateRevalue:'update equip set revalue="已修" where id=?',
+		updateRevalue:'update equip set revalue=? where id=?',
+		// 标记已缴费
+		updateAlrdypay:'update t_change set state=? where id=?',
 		
 		// 审核小区车位
 		updateCarorder:'update carorder set pass=?,state=? where id=?',

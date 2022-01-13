@@ -37,6 +37,8 @@
         </el-table-column>
         <el-table-column prop="zName" label="住户姓名">
         </el-table-column>
+		<el-table-column prop="payabledate" label="应缴纳日期" :formatter="dateFormat">
+		</el-table-column>
         <el-table-column prop="changedate" label="缴纳日期"  :formatter="dateFormat">
         </el-table-column>
         <el-table-column prop="cases" label="缴费总额">
@@ -59,68 +61,53 @@
       </div>
     </div>
 
-  <!-- <el-dialog title="费用事项" :visible.sync="dialogTableVisible">
-  <el-table :data="infoList">
-    <el-table-column property="dNo" label="单据编号" width="150"></el-table-column>
-    <el-table-column property="zName" label="住户姓名" width="200"></el-table-column>
-    <el-table-column property="type" label="缴费方式"></el-table-column>
-    <el-table-column property="cases" label="缴费总额"></el-table-column>
-    <el-table-column property="changeName" label="收费人员"></el-table-column>
-    <el-table-column property="waterCase" label="水费"></el-table-column>
-    <el-table-column property="eCase" label="电费"></el-table-column>
-    <el-table-column property="gascase" label="气费"></el-table-column>
-    <el-table-column property="stopCase" label="停车费"></el-table-column>
-    <el-table-column property="mandCase" label="维修费用"></el-table-column>
-    <el-table-column property="remark" label="备注"></el-table-column>
-  </el-table>
-</el-dialog> -->
-<el-dialog title="维修费用" :visible.sync="dialogTableVisible">
+<el-dialog title="物业费用" :visible.sync="dialogTableVisible">
 			<el-form ref="infoList" :model="infoList"  label-width="120px">
 				<el-row>
 					<el-col :span="12">
 						<el-form-item label="单据编号" prop="dNo">
-							<el-input v-model="infoList.dNo" ></el-input>
+							<el-input v-model="infoList.dNo" disabled></el-input>
 						</el-form-item>
 					</el-col>
 					<el-col :span="12">
 						<el-form-item label="住户姓名" prop="zName">
-							<el-input v-model="infoList.zName"></el-input>
+							<el-input v-model="infoList.zName" disabled></el-input>
 						</el-form-item>
 					</el-col>
 				</el-row>
 				<el-row>
 					<el-col :span="12">
 						<el-form-item label="缴费方式" prop="type">
-							<el-input v-model="infoList.type" ></el-input>
+							<el-input v-model="infoList.type" disabled></el-input>
 						</el-form-item>
 					</el-col>
 					<el-col :span="12">
 						<el-form-item label="缴费总额" prop="cases">
-							<el-input v-model="infoList.cases" ></el-input>
+							<el-input v-model="infoList.cases" disabled></el-input>
 						</el-form-item>
 					</el-col>
 				</el-row>
 				<el-row>
 					<el-col :span="12">
 						<el-form-item label="收费人员" prop="changeName">
-							<el-input v-model="infoList.changeName"></el-input>
+							<el-input v-model="infoList.changeName" disabled></el-input>
 						</el-form-item>
 					</el-col>
 					<el-col :span="12">
 						<el-form-item label="水费" prop="waterCase">
-							<el-input v-model="infoList.waterCase" ></el-input>
+							<el-input v-model="infoList.waterCase" disabled></el-input>
 						</el-form-item>
 					</el-col>
 				</el-row>
 				<el-row>
 					<el-col :span="12">
 						<el-form-item label="电费" prop="eCase">
-							<el-input v-model="infoList.eCase" ></el-input>
+							<el-input v-model="infoList.eCase" disabled></el-input>
 						</el-form-item>
 					</el-col>
 					<el-col :span="12">
 						<el-form-item label="气费" prop="gasCase">
-							<el-input v-model="infoList.gascase" ></el-input>
+							<el-input v-model="infoList.gascase" disabled></el-input>
 						</el-form-item>
 					</el-col>
 				</el-row>
@@ -128,17 +115,17 @@
 				<el-row>
 					<el-col :span="12">
 						<el-form-item label="停车费" prop="stopCase">
-							<el-input v-model="infoList.stopCase" ></el-input>
+							<el-input v-model="infoList.stopCase" disabled></el-input>
 						</el-form-item>
 					</el-col>
 					<el-col :span="12">
 						<el-form-item label="维修费用" prop="mandCase">
-							<el-input v-model="infoList.mandCase" ></el-input>
+							<el-input v-model="infoList.mandCase" disabled></el-input>
 						</el-form-item>
 					</el-col>
 				</el-row>
 				<el-form-item label="备注" prop="remark">
-					<el-input v-model="infoList.remark" type="textarea" ></el-input>
+					<el-input v-model="infoList.remark" type="textarea" disabled></el-input>
 				</el-form-item>
 				<!-- <el-button type="primary" @click="dialogTableVisible = false">保存</el-button>
 				<el-button @click="resetForm1('infoList')">重置</el-button> -->
@@ -172,7 +159,8 @@ import axios from 'axios';
           stopCase:'',
           mandCase:'',
           remark:'',
-		  state:''
+		  state:'',
+		  payabledate:''
         }],
 		infoList:[{
 			dNo: '',
@@ -205,7 +193,7 @@ import axios from 'axios';
 		
 		        if(date == undefined){return ''};
 		
-		        return moment(date).format("YYYY-MM-DD HH:mm:ss")
+		        return moment(date).format("YYYY-MM-DD")
 		
 		    },
 		
@@ -271,13 +259,12 @@ import axios from 'axios';
     margin: auto;
     margin-top: 50px;
   }
-  .el-form-item {
+  /* .el-form-item {
   	text-align-last: justify;
   	text-align: justify;
   	text-justify: distribute;
   	text-justify: distribute-all-lines;
-  	/* border: 1px solid red; */
-  }
+  } */
   .el-input {
   	width: 80%;
   }

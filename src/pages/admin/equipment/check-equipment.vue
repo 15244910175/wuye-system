@@ -159,15 +159,17 @@
 		},
 		methods: {
 			// 时间格式化
-			dateFormat:function(row,column){
-			
-			        var date = row[column.property];
-			
-			        if(date == undefined){return ''};
-			
-			        return moment(date).format("YYYY-MM-DD")
-			
-			    },
+			dateFormat: function(row, column) {
+
+				var date = row[column.property];
+
+				if (date == undefined) {
+					return ''
+				};
+
+				return moment(date).format("YYYY-MM-DD")
+
+			},
 			goBack() {
 				// router.push("check-admin");
 				this.dialogTableVisible = false;
@@ -219,27 +221,35 @@
 
 			// 删除设备信息
 			deleteEqu(id) {
-				request({
-					url: "http://127.0.0.1:10520/api/admin/deleteEqu",
-					method: "post",
-					data: {
-						id: id
-					}
-				}).then(res => {
-					console.log(res);
-					if (res.msg === "删除成功") {
-						this.$message({
-							message: "删除成功！",
-							type: "success"
-			  	});
-						this.getEquipList();
-					} else {
-						this.$message({
-							message: '删除失败！',
-							type: "danger"
+				this.$confirm('删除后将无法恢复!, 是否继续?', '提示', {
+						confirmButtonText: '删除',
+						cancelButtonText: '取消',
+						type: 'warning',
+						center: true,
+						customClass: 'winClass',
+					})
+					.then(() => {
+						request({
+							url: "http://127.0.0.1:10520/api/admin/deleteEqu",
+							method: "post",
+							data: {
+								id: id
+							}
+						}).then(res => {
+							console.log(res);
+							this.$message({
+								type: 'success',
+								message: '删除成功!',
+							})
+							this.getEquipList();
 						})
-					}
-				});
+					})
+					.catch(() => {
+						this.$message({
+							type: 'info',
+							message: '删除失败',
+						})
+					});
 			},
 			handleSizeChange(val) {
 				this.pagesize = val;
@@ -252,6 +262,9 @@
 	}
 </script>
 <style>
+	.winClass{
+		width: 500px;
+	}
 	.t_box {
 		height: 100%;
 		margin: 0 auto;

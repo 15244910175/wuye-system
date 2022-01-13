@@ -55,11 +55,8 @@
 						<el-input size="mini" v-model="infoList.num"></el-input>
 					</el-form-item>
 					<el-form-item label="年份" prop="date">
-						 <el-date-picker
-						      v-model="infoList.date"
-						      type="year"
-						      placeholder="选择年" style="width: 80%;">
-						    </el-date-picker>
+						<el-date-picker v-model="infoList.date" type="year" placeholder="选择年" style="width: 80%;">
+						</el-date-picker>
 					</el-form-item>
 					<el-button type="primary" size="medium" style="margin-left: 50%;" @click="onSubmit">保存</el-button>
 				</el-form>
@@ -135,27 +132,27 @@
 			onSubmit() {
 				if (
 					this.infoList.num == "" ||
-					this.infoList.date == "" 
+					this.infoList.date == ""
 				) {
 					this.$message({
 						message: "必填项不能为空！",
 						type: "error",
 					});
 				} else {
-				request({
-					url: "http://127.0.0.1:10520/api/admin/addCarnum",
-					method: "post",
-					data: this.infoList
-				}).then(res => {
-					console.log(res);
-					if (res.msg === "新增成功") {
-						this.$message({
-							message: "恭喜你，新增成功",
-							type: "success"
-						});
-						this.init();
-					}
-				});
+					request({
+						url: "http://127.0.0.1:10520/api/admin/addCarnum",
+						method: "post",
+						data: this.infoList
+					}).then(res => {
+						console.log(res);
+						if (res.msg === "新增成功") {
+							this.$message({
+								message: "恭喜你，新增成功",
+								type: "success"
+							});
+							this.init();
+						}
+					});
 				}
 			},
 			init() {
@@ -213,27 +210,35 @@
 			},
 			// 删除车位明细
 			deleteCarnum(id) {
-				request({
-					url: "http://127.0.0.1:10520/api/admin/deleteCarnum",
-					method: "post",
-					data: {
-						id: id
-					}
-				}).then(res => {
-					console.log(res);
-					if (res.msg === "删除成功") {
-						this.$message({
-							message: "删除成功！",
-							type: "success"
-						});
-						this.getNumList();
-					} else {
-						this.$message({
-							message: '删除失败！',
-							type: "danger"
+				this.$confirm('删除后将无法恢复!, 是否继续?', '提示', {
+						confirmButtonText: '删除',
+						cancelButtonText: '取消',
+						type: 'warning',
+						center: true,
+						customClass: 'winClass',
+					})
+					.then(() => {
+						request({
+							url: "http://127.0.0.1:10520/api/admin/deleteCarnum",
+							method: "post",
+							data: {
+								id: id
+							}
+						}).then(res => {
+							console.log(res);
+							this.$message({
+								type: 'success',
+								message: '删除成功!',
+							})
+							this.getNumList();
 						})
-					}
-				});
+					})
+					.catch(() => {
+						this.$message({
+							type: 'info',
+							message: '删除失败',
+						})
+					});
 			},
 			handleSizeChange(val) {
 				this.pagesize = val;

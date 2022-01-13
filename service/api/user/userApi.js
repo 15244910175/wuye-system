@@ -3,7 +3,8 @@ const express = require('express');
 const router = express.Router();
 const mysql = require('mysql');
 const $sql = require('../../db/sqlMap');
-
+// const multer = require('multer')
+const fs = require('fs')
 // 连接数据库
 var conn = mysql.createConnection(models.mysql);
 conn.connect();
@@ -11,7 +12,7 @@ conn.connect();
 // 登录接口
 router.post('/login', (req, res) => {
 	const params = req.body;
-	const sel_sql = $sql.user.login +  " where username = '" + params.username + "'" ;
+	const sel_sql = $sql.user.login + " where username = '" + params.username + "'";
 	// console.log(sel_email);
 	conn.query(sel_sql, params.username, (error, results) => {
 		if (error) {
@@ -21,7 +22,7 @@ router.post('/login', (req, res) => {
 		if (results[0] === undefined) {
 			res.send("-1"); // -1 表示查询不到，用户不存在
 		} else {
-			if (results[0].username==params.username && results[0].password==params.password) {
+			if (results[0].username == params.username && results[0].password == params.password) {
 				res.send("0"); // 0 表示用户存在并且密码正确
 			} else {
 				res.send("1"); // 1 表示用户存在，但密码不正确
@@ -105,36 +106,39 @@ router.post('/getNoteList', (req, res) => {
 
 // 新增报修事项
 router.post('/addRepair', (req, res) => {
-  var sql = $sql.user.addRepair;
-  // var params = req.body;
-  console.log(req);
-  conn.query(sql, [req.body.name, req.body.tel, req.body.address, req.body.beDate,req.body.mark,req.body.revalue], function (err, result) {
-    var data = req.body;
-    console.log(result)
-    return res.send({
-      status: 1,
-      msg: "新增成功",
-      data: data
-    })
-  })
+	var sql = $sql.user.addRepair;
+	// var params = req.body;
+	console.log(req);
+	conn.query(sql, [req.body.name, req.body.tel, req.body.address, req.body.beDate, req.body.mark, req.body
+		.revalue
+	], function(err, result) {
+		var data = req.body;
+		console.log(result)
+		return res.send({
+			status: 1,
+			msg: "新增成功",
+			data: data
+		})
+	})
 });
 
 
 
 // 新增留言、投诉
 router.post('/addNote', (req, res) => {
-  var sql = $sql.user.addNote;
-  // var params = req.body;
-  console.log(req);
-  conn.query(sql, [req.body.title, req.body.mark, req.body.type,req.body.time,req.body.leaverName], function (err, result) {
-    var data = req.body;
-    console.log(result)
-    return res.send({
-      status: 1,
-      msg: "新增成功",
-      data: data
-    })
-  })
+	var sql = $sql.user.addNote;
+	// var params = req.body;
+	console.log(req);
+	conn.query(sql, [req.body.title, req.body.mark, req.body.type, req.body.time, req.body.leaverName],
+		function(err, result) {
+			var data = req.body;
+			console.log(result)
+			return res.send({
+				status: 1,
+				msg: "新增成功",
+				data: data
+			})
+		})
 });
 
 // 修改用户名
@@ -224,19 +228,47 @@ router.post('/getPayList', (req, res) => {
 // 添加报修事项
 // 新增文章类型
 router.post('/addRepair', (req, res) => {
-  var sql = $sql.user.addRepair;
-  // var params = req.body;
-  console.log(req);
-  conn.query(sql, [req.body.name, req.body.tel, req.body.address, req.body.beDate,req.body.mark], function (err, result) {
-    var data = req.body;
-    console.log(result)
-    return res.send({
-      status: 1,
-      msg: "新增成功",
-      data: data
-    })
-  })
+	var sql = $sql.user.addRepair;
+	// var params = req.body;
+	console.log(req);
+	conn.query(sql, [req.body.name, req.body.tel, req.body.address, req.body.beDate, req.body.mark], function(
+		err, result) {
+		var data = req.body;
+		console.log(result)
+		return res.send({
+			status: 1,
+			msg: "新增成功",
+			data: data
+		})
+	})
 });
+
+// 图片上传
+//图片上传
+// router.post(
+// 	"/imgload",
+// 	multer({
+// 		//设置文件存储路径
+// 		dest: "public/images",
+// 	}).array("file", 1),
+// 	function(req, res, next) {
+// 		let files = req.files;
+// 		let file = files[0];
+// 		let fileInfo = {};
+// 		let path = "public/images/" + Date.now().toString() + "_" + file.originalname;
+// 		fs.renameSync("./public/images/" + file.filename, path);
+// 		//获取文件基本信息
+// 		fileInfo.type = file.mimetype;
+// 		fileInfo.name = file.originalname;
+// 		fileInfo.size = file.size;
+// 		fileInfo.path = path;
+// 		res.send({
+// 			code: 200,
+// 			msg: "OK",
+// 			data: fileInfo,
+// 		});
+// 	}
+// )
 
 
 module.exports = router;

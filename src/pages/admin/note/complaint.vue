@@ -21,14 +21,17 @@
 						<el-input size="mini" v-model="formInline.leaverName" placeholder="输入留言者"></el-input>
 					</el-form-item>
 					<el-form-item label="参与时间">
-						<el-date-picker size="mini" v-model="formInline.time" type="datetime" placeholder="选择时间" style="width:100%">
+						<el-date-picker size="mini" v-model="formInline.time" type="datetime" placeholder="选择时间"
+							style="width:100%">
 						</el-date-picker>
 					</el-form-item>
 					<el-form-item>
 						<el-button size="mini" type="primary" class="el-icon-search">查询</el-button>
-						
+
 					</el-form-item>
-					<el-form-item><el-button size="mini" type="primary" class="el-icon-refresh" @click="resetForm">重置</el-button></el-form-item>
+					<el-form-item>
+						<el-button size="mini" type="primary" class="el-icon-refresh" @click="resetForm">重置</el-button>
+					</el-form-item>
 				</el-form>
 			</div>
 			<el-table :data="typeList.slice((currentPage - 1) * pagesize, currentPage * pagesize)">
@@ -46,7 +49,7 @@
 				<el-table-column label="具体操作" width="400" style="text-align: center;">
 					<template slot-scope="scope">
 						<el-button type="primary" size="small" icon="el-icon-chat-line-square">
-							<a @click="handleEdit(scope.$index, scope.row)" >管理员回复</a>
+							<a @click="handleEdit(scope.$index, scope.row)">管理员回复</a>
 						</el-button>
 						<el-button type="danger" size="small" icon="el-icon-delete">
 							<a @click="deleteNote(scope.row.id)">删除</a>
@@ -56,15 +59,15 @@
 			</el-table>
 			<div class="page">
 				<el-pagination @size-change="handleSizeChange" @current-change="handleCurrentChange"
-					:current-page="currentPage" :page-sizes="[5,10,15,20]" :page-size="pagesize" layout=" prev, pager, next, sizes, jumper"
-					:total="typeList.length">
+					:current-page="currentPage" :page-sizes="[5,10,15,20]" :page-size="pagesize"
+					layout=" prev, pager, next, sizes, jumper" :total="typeList.length">
 				</el-pagination>
 			</div>
 		</div>
 
 		<el-dialog title="信息回复" :visible.sync="dialogTableVisible">
 			<el-form ref="infoList" :model="infoList" label-width="120px" :rules="infoListRules">
-				
+
 				<el-form-item label="标题" prop="name">
 					<el-input v-model="infoList.title" disabled></el-input>
 				</el-form-item>
@@ -90,9 +93,9 @@
 </template>
 
 <script>
-import axios from "axios";
-import moment from 'moment';
-import request from "../../../utils/request.js"
+	import axios from "axios";
+	import moment from 'moment';
+	import request from "../../../utils/request.js"
 	export default {
 		data() {
 			return {
@@ -113,7 +116,7 @@ import request from "../../../utils/request.js"
 					mark: '',
 					leaverName: '',
 					time: '',
-					answerContent:''
+					answerContent: ''
 				},
 				currentPage: 1, //默认第一页
 				total: 0, //总条数
@@ -125,7 +128,7 @@ import request from "../../../utils/request.js"
 						message: '请输入回复内容',
 						trigger: 'blur'
 					}],
-					
+
 				}
 			}
 		},
@@ -134,89 +137,102 @@ import request from "../../../utils/request.js"
 		},
 		methods: {
 			goBack() {
-			  // router.push("check-admin");
-			  this.dialogTableVisible=false;
+				// router.push("check-admin");
+				this.dialogTableVisible = false;
 			},
 			resetForm1(infoList) {
-			        this.$refs[infoList].resetFields();
-			      },
-				  handleEdit(index, row) {
-				  				this.dialogTableVisible=true;
-				  			      console.log(index, row)
-				  			      //row是该行tableData对应的一行
-				  			      this.infoList = row
-				  			    },
-								save() {
-									request({
-										url: "http://127.0.0.1:10520/api/admin/updateCpt",
-										method: "post",
-										data: this.infoList
-									}).then(res => {
-										console.log(res);
-										if (res.msg === "修改成功") {
-											this.$message({
-												message: "修改成功！",
-												type: "success"
-											});
-											this.dialogTableVisible = false;
-										}
-									});
-								},
-			// 时间格式化
-			dateFormat:function(row,column){
-			
-			        var date = row[column.property];
-			
-			        if(date == undefined){return ''};
-			
-			        return moment(date).format("YYYY-MM-DD HH:mm:ss")
-			
-			    },
-			getCptList() {
-			  var self = this;
-			  //登陆成功之后get获取接口数据
-			  axios
-			    .post("http://127.0.0.1:10520/api/admin/getCptList", {
-			      //   params: {
-			      //     pageNum: 5,
-			      //     pageSize: 300
-			      //   }
-			    })
-			    .then(function (res) {
-			      if (res.data.status == 1) {
-			        console.log("获取数据");
-			        self.$message.success("数据已获取到！");
-			      }
-			      self.typeList = res.data.list;
-			      // console.log(self.typeList);
-			      console.log(res);
-			    });
+				this.$refs[infoList].resetFields();
 			},
-			resetForm(){
-				this.formInline={},
-				this.getCptList();
+			handleEdit(index, row) {
+				this.dialogTableVisible = true;
+				console.log(index, row)
+				//row是该行tableData对应的一行
+				this.infoList = row
+			},
+			save() {
+				request({
+					url: "http://127.0.0.1:10520/api/admin/updateCpt",
+					method: "post",
+					data: this.infoList
+				}).then(res => {
+					console.log(res);
+					if (res.msg === "修改成功") {
+						this.$message({
+							message: "修改成功！",
+							type: "success"
+						});
+						this.dialogTableVisible = false;
+					}
+				});
+			},
+			// 时间格式化
+			dateFormat: function(row, column) {
+
+				var date = row[column.property];
+
+				if (date == undefined) {
+					return ''
+			};
+	
+				return moment(date).format("YYYY-MM-DD HH:mm:ss")
+
+			},
+			getCptList() {
+				var self = this;
+				//登陆成功之后get获取接口数据
+				axios
+					.post("http://127.0.0.1:10520/api/admin/getCptList", {
+						//   params: {
+						//     pageNum: 5,
+						//     pageSize: 300
+						//   }
+					})
+			 	.then(function(res) {
+						if (res.data.status == 1) {
+							console.log("获取数据");
+							self.$message.success("数据已获取到！");
+						}
+						self.typeList = res.data.list;
+						// console.log(self.typeList);
+						console.log(res);
+					});
+			},
+			resetForm() {
+				this.formInline = {},
+					this.getCptList();
 			},
 			// 删除投诉信息
 			deleteNote(id) {
-				request({
-				        url: "http://127.0.0.1:10520/api/admin/deleteNote",
-				        method: "post",
-				        data: { id: id }
-				      }).then(res => {
-				        console.log(res);
-				        if (res.msg === "删除成功") {
-				          this.$message({
-				            message: "删除成功！",
-				            type: "success"
-				          });
-				          this.getCptList();
-				        }else {
+				this.$confirm('删除后将无法恢复!, 是否继续?', '提示', {
+						confirmButtonText: '删除',
+						cancelButtonText: '取消',
+						type: 'warning',
+						center: true,
+						customClass: 'winClass',
+					})
+					.then(() => {
+						request({
+							url: "http://127.0.0.1:10520/api/admin/deleteNote",
+							method: "post",
+							data: {
+								id: id
+							}
+						}).then(res => {
+							console.log(res);
 							this.$message({
-								message:'删除失败！',
-								type:"danger"
+								type: 'success',
+								message: '删除成功!',
 							})
-						}
-				      });
+							this.getCptList();
+						})
+					})
+					.catch(() => {
+						this.$message({
+							type: 'info',
+							message: '删除失败',
+						})
+					});
+
 			},
 			handleSizeChange(val) {
 				this.pagesize = val;

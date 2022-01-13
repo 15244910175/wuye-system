@@ -25,7 +25,10 @@
 				<el-row>
 					<el-col :span="12">
 						<el-form-item label="缴费方式" prop="type">
-							<el-input v-model="addForm.type" placeholder="请输入缴费方式"></el-input>
+							<el-select v-model="addForm.type" placeholder="请选择缴费方式" style="width:100%">
+								<el-option label="线上缴费" value="线上缴费"></el-option>
+								<el-option label="线下缴费" value="线下缴费"></el-option>
+							</el-select>
 						</el-form-item>
 					</el-col>
 					<el-col :span="12">
@@ -71,10 +74,21 @@
 						</el-form-item>
 					</el-col>
 				</el-row>
-				<el-form-item label="备注" prop="remark">
-					<el-input v-model="addForm.remark" type="textarea" placeholder="请输入备注"></el-input>
-				</el-form-item>
-				<el-button type="primary" @click="onSubmit">保存</el-button>
+				<el-row>
+					<el-col :span="12">
+						<el-form-item label="应缴纳日期" prop="payabledate">
+							<el-date-picker v-model="addForm.payabledate" placeholder="请选择应缴纳日期" type="date"></el-date-picker>
+						</el-form-item>
+					</el-col>
+					<el-col :span="12">
+						<el-form-item label="备注" prop="remark">
+							<el-input v-model="addForm.remark" type="textarea" placeholder="请输入备注" style="width: 80%;"></el-input>
+						</el-form-item>
+					</el-col>
+					
+				</el-row>
+				
+				<el-button type="primary" @click="onSubmit()">保存</el-button>
 				<el-button @click="resetForm('addForm')">重置</el-button>
 			</el-form>
 		</el-card>
@@ -82,6 +96,10 @@
 </template>
 <script>
 	import request from "../../../utils/request.js"
+	// import moment from 'moment';
+	import {
+		formatDate
+	} from "../../../utils/format.js";
 	export default {
 		data() {
 			return {
@@ -96,88 +114,164 @@
 					gasCase: '',
 					stopCase: '',
 					mandCase: '',
-					remark: ''
+					changedate: new Date(),
+					remark: '',
+					state: '未缴费',
+					payabledate: ''
+
 				},
 				addFormRules: {
-					dNo: [
-						{required: true,message: '请输入单据编号',rigger: 'blur'},
-						{min: 2,max: 20,message: '长度在 2 到 20 个字符',trigger: 'blur'}
+					dNo: [{
+							required: true,
+							message: '请输入单据编号',
+							rigger: 'blur'
+						},
+						{
+							min: 2,
+							max: 20,
+							message: '长度在 2 到 20 个字符',
+							trigger: 'blur'
+						}
 					],
-					zName: [
-						{required: true,message: '请输入住户姓名',rigger: 'blur'},
-						{min: 2,max: 20,message: '长度在 2 到 20 个字符',trigger: 'blur'}
+					zName: [{
+							required: true,
+							message: '请输入住户姓名',
+							rigger: 'blur'
+						},
+						{
+							min: 2,
+							max: 20,
+							message: '长度在 2 到 20 个字符',
+							trigger: 'blur'
+						}
 					],
-					type: [
-						{required: true,message: '请输入缴费方式',rigger: 'blur'},
+					type: [{
+						required: true,
+						message: '请选择缴费方式',
+						rigger: 'blur'
+					}, ],
+					cases: [{
+							required: true,
+							message: '请输入缴费总额',
+							rigger: 'blur'
+						},
+						{
+							type: 'number',
+							message: '总额输入正整数',
+							trigger: 'blur'
+						}
 					],
-					cases: [
-						{required: true,message: '请输入缴费总额',rigger: 'blur'},
-						{type: 'number',message: '总额输入正整数',trigger: 'blur'}
+					changeName: [{
+						required: true,
+						message: '请输入收费人员',
+						rigger: 'blur'
+					}, ],
+					waterCase: [{
+							required: true,
+							message: '请输入水费',
+							rigger: 'blur'
+						},
+						{
+							type: 'number',
+							message: '水费输入正整数',
+							trigger: 'blur'
+						}
 					],
-					changeName: [
-						{required: true,message: '请输入收费人员',rigger: 'blur'},
+					eCase: [{
+							required: true,
+							message: '请输入电费',
+							rigger: 'blur'
+						},
+						{
+							type: 'number',
+							message: '电费输入正整数',
+							trigger: 'blur'
+						}
 					],
-					waterCase: [
-						{required: true,message: '请输入水费',rigger: 'blur'},
-						{type: 'number',message: '水费输入正整数',trigger: 'blur'}
+					gasCase: [{
+							required: true,
+							message: '请输入气费',
+							rigger: 'blur'
+						},
+						{
+							type: `number`,
+							message: '气费输入正整数',
+							trigger: 'blur'
+						}
 					],
-					eCase: [
-						{required: true,message: '请输入电费',rigger: 'blur'},
-						{type: 'number',message: '电费输入正整数',trigger: 'blur'}
+					stopCase: [{
+							required: true,
+							message: '请输入停车费',
+							rigger: 'blur'
+						},
+						{
+							type: 'number',
+							message: '停车费输入正整数',
+							trigger: 'blur'
+						}
 					],
-					gasCase: [
-						{required: true,message: '请输入气费',rigger: 'blur'},
-						{type: `number`,message: '气费输入正整数',trigger: 'blur'}
+					mandCase: [{
+							required: true,
+							message: '请输入维修费用',
+							rigger: 'blur'
+						},
+						{
+							type: 'number',
+							message: '维修费用输入正整数',
+							trigger: 'blur'
+						}
 					],
-					stopCase: [
-						{required: true,message: '请输入停车费',rigger: 'blur'},
-						{type: 'number',message: '停车费输入正整数',trigger: 'blur'}
-					],
-					mandCase: [
-						{required: true,message: '请输入维修费用',rigger: 'blur'},
-						{type: 'number',message: '维修费用输入正整数',trigger: 'blur'}
-					],
-					remark: [
-						{required: true,message: '请输入备注信息',rigger: 'blur'},
-					],
-					
+					remark: [{
+						required: true,
+						message: '请输入备注信息',
+						rigger: 'blur'
+					}, ],
+					payabledate: [{
+						required: true,
+						message: '请选择应缴费日期',
+						rigger: 'blur'
+					}, ],
+
 				}
 			}
 		},
-		methods:{
+		
+		methods: {
 			onSubmit() {
 				if (
+					// changedate = this.changedate,
 					this.addForm.dNo == "" ||
 					this.addForm.zName == "" ||
 					this.addForm.type == "" ||
 					this.addForm.cases == "" ||
 					this.addForm.changeName == "" ||
-					this.addForm.waterCase =="" ||
-					this.addForm.eCase =="" ||
+					this.addForm.waterCase == "" ||
+					this.addForm.eCase == "" ||
 					this.addForm.gasCase == "" ||
-					this.addForm.stopCase == "" || 
+					this.addForm.stopCase == "" ||
 					this.addForm.mandCase == "" ||
-					this.addForm.remark == ""
+					this.addForm.remark == "" ||
+					this.addForm.payabledate == ""
 				) {
 					this.$message({
 						message: "必填项不能为空！",
 						type: "error",
 					});
 				} else {
-				request({
-					url: "http://127.0.0.1:10520/api/admin/addPay",
-					method: "post",
-					data: this.addForm
-				}).then(res => {
-					console.log(res);
-					if (res.msg === "新增成功") {
-						this.$message({
-							message: "恭喜你，新增成功",
-							type: "success"
-						});
-						this.init();
-					}
-				});
+					request({
+						url: "http://127.0.0.1:10520/api/admin/addPay",
+						method: "post",
+						data: this.addForm
+					}).then(res => {
+						console.log(res);
+						if (res.msg === "新增成功") {
+							this.$message({
+								message: "恭喜你，新增成功",
+								type: "success"
+							});
+							this.init();
+						}
+					});
 				}
 			},
 			init() {
@@ -185,8 +279,8 @@
 				this.addForm = {};
 			},
 			resetForm(addForm) {
-			        this.$refs[addForm].resetFields();
-			      }
+				this.$refs[addForm].resetFields();
+			}
 		}
 	}
 </script>

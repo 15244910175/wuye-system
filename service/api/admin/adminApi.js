@@ -245,7 +245,7 @@ router.post('/addPay', (req, res) => {
   var sql = $sql.admin.addPay;
   // var params = req.body;
   console.log(req);
-  conn.query(sql, [req.body.dNo, req.body.zName, req.body.type, req.body.cases,req.body.changeName,req.body.waterCase,req.body.eCase,req.body.gasCase,req.body.remark,req.body.stopCase,req.body.mandCase], function (err, result) {
+  conn.query(sql, [req.body.dNo, req.body.zName, req.body.type, req.body.cases,req.body.changeName,req.body.waterCase,req.body.eCase,req.body.gasCase,req.body.stopCase,req.body.mandCase,req.body.remark,req.body.state,req.body.payabledate], function (err, result) {
     var data = req.body;
     console.log(result)
     return res.send({
@@ -658,7 +658,7 @@ router.post('/updatePay', (req, res) => {
   var sql = $sql.admin.updatePay;
   // var params = req.body;
   console.log(req);
-  conn.query(sql, [req.body.dNo, req.body.type,req.body.changeName,req.body.zName,req.body.cases,req.body.waterCase,req.body.eCase,req.body.gasCase,req.body.stopCase,req.body.mandCase,req.body.remark,req.body.id], function (err, result) {
+  conn.query(sql, [req.body.dNo, req.body.type,req.body.changeName,req.body.zName,req.body.cases,req.body.waterCase,req.body.eCase,req.body.gasCase,req.body.stopCase,req.body.mandCase,req.body.remark,req.body.payabledate,req.body.id], function (err, result) {
     var data = req.body;
     console.log(result)
     return res.send({
@@ -699,7 +699,21 @@ router.post('/updateRevalue', (req, res) => {
     })
   })
 });
-
+// 标记已缴费
+router.post('/updateAlrdypay', (req, res) => {
+  var sql = $sql.admin.updateAlrdypay;
+  // var params = req.body;
+  console.log(req);
+  conn.query(sql, [req.body.state,req.body.id], function (err, result) {
+    var data = req.body;
+    console.log(result)
+    return res.send({
+      status: 1,
+      msg: "修改成功",
+      data: data
+    })
+  })
+});
 
 
 

@@ -29,6 +29,7 @@
 					<el-form-item label="保修情况说明" prop="mark">
 						<el-input v-model="addForm.mark" type="textarea" placeholder="请输入备注" style="width:80%"></el-input>
 					</el-form-item>
+					
 					<el-button type="primary" @click="onSubmit">保存</el-button>
 					<el-button @click="resetForm('addForm')">重置</el-button>
 			</el-form>
@@ -47,7 +48,8 @@
 					address: '',
 					beDate: '',
 					mark: '',
-					revalue: '未修'
+					revalue: '未修',
+					img:''
 				},
 				addFormRules: {
 					name: [{

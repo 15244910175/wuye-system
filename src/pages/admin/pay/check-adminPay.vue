@@ -23,10 +23,11 @@
 						</el-select>
 					</el-form-item>
 					<el-form-item label="缴纳日期">
-						<el-date-picker size="mini" v-model="formInline.changedate" type="date" placeholder="选择日期" style="width:100%">
+						<el-date-picker size="mini" v-model="formInline.changedate" type="date" placeholder="选择日期"
+							style="width:100%">
 						</el-date-picker>
 					</el-form-item>
-					
+
 					<el-form-item>
 						<el-button size="mini" type="primary" class="el-icon-search">查询</el-button>
 					</el-form-item>
@@ -43,6 +44,8 @@
 				</el-table-column>
 				<el-table-column prop="zName" label="住户姓名">
 				</el-table-column>
+				<el-table-column prop="payabledate" label="应缴纳日期" :formatter="dateFormat">
+				</el-table-column>
 				<el-table-column prop="changedate" label="缴纳日期" :formatter="dateFormat">
 				</el-table-column>
 				<el-table-column prop="cases" label="缴费总额">
@@ -52,7 +55,7 @@
 				<el-table-column label="具体操作" width="300">
 					<template slot-scope="scope">
 						<el-button type="primary" size="small" icon="el-icon-view">
-							<a >标记已缴费</a>
+							<a @click="handleEdit1(scope.$index, scope.row)">标记已缴费</a>
 						</el-button>
 						<el-button type="primary" size="small" icon="el-icon-edit">
 							<a @click="handleEdit(scope.$index, scope.row)">编辑</a>
@@ -65,18 +68,18 @@
 			</el-table>
 			<div class="page">
 				<el-pagination @size-change="handleSizeChange" @current-change="handleCurrentChange"
-					:current-page="currentPage" :page-sizes="[5,10,15,20]" :page-size="pagesize" layout=" prev, pager, next, sizes, jumper"
-					:total="typeList.length">
+					:current-page="currentPage" :page-sizes="[5,10,15,20]" :page-size="pagesize"
+					layout=" prev, pager, next, sizes, jumper" :total="typeList.length">
 				</el-pagination>
 			</div>
 		</div>
 
 		<el-dialog title="维修费用" :visible.sync="dialogTableVisible">
-			<el-form ref="infoList" :model="infoList"  :rules="infoListRules" label-width="120px">
+			<el-form ref="infoList" :model="infoList" :rules="infoListRules" label-width="120px">
 				<el-row>
 					<el-col :span="12">
 						<el-form-item label="单据编号" prop="dNo">
-							<el-input v-model="infoList.dNo" ></el-input>
+							<el-input v-model="infoList.dNo"></el-input>
 						</el-form-item>
 					</el-col>
 					<el-col :span="12">
@@ -88,12 +91,12 @@
 				<el-row>
 					<el-col :span="12">
 						<el-form-item label="缴费方式" prop="type">
-							<el-input v-model="infoList.type" ></el-input>
+							<el-input v-model="infoList.type"></el-input>
 						</el-form-item>
 					</el-col>
 					<el-col :span="12">
 						<el-form-item label="缴费总额" prop="cases">
-							<el-input v-model="infoList.cases" ></el-input>
+							<el-input v-model="infoList.cases"></el-input>
 						</el-form-item>
 					</el-col>
 				</el-row>
@@ -105,39 +108,57 @@
 					</el-col>
 					<el-col :span="12">
 						<el-form-item label="水费" prop="waterCase">
-							<el-input v-model="infoList.waterCase" ></el-input>
+							<el-input v-model="infoList.waterCase"></el-input>
 						</el-form-item>
 					</el-col>
 				</el-row>
 				<el-row>
 					<el-col :span="12">
 						<el-form-item label="电费" prop="eCase">
-							<el-input v-model="infoList.eCase" ></el-input>
+							<el-input v-model="infoList.eCase"></el-input>
 						</el-form-item>
 					</el-col>
 					<el-col :span="12">
 						<el-form-item label="气费" prop="gasCase">
-							<el-input v-model="infoList.gascase" ></el-input>
+							<el-input v-model="infoList.gascase"></el-input>
 						</el-form-item>
 					</el-col>
 				</el-row>
-			
+
 				<el-row>
 					<el-col :span="12">
 						<el-form-item label="停车费" prop="stopCase">
-							<el-input v-model="infoList.stopCase" ></el-input>
+							<el-input v-model="infoList.stopCase"></el-input>
 						</el-form-item>
 					</el-col>
 					<el-col :span="12">
 						<el-form-item label="维修费用" prop="mandCase">
-							<el-input v-model="infoList.mandCase" ></el-input>
+							<el-input v-model="infoList.mandCase"></el-input>
 						</el-form-item>
 					</el-col>
 				</el-row>
+				<el-form-item label="应缴纳日期" prop="payabledate">
+					<el-date-picker v-model="infoList.payabledate" type="date"></el-date-picker>
+				</el-form-item>
 				<el-form-item label="备注" prop="remark">
-					<el-input v-model="infoList.remark" type="textarea" ></el-input>
+					<el-input v-model="infoList.remark" type="textarea"></el-input>
 				</el-form-item>
 				<el-button type="primary" @click="save">保存</el-button>
+				<el-button @click="resetForm1('infoList')">重置</el-button>
+				<el-button @click="goBack">返回</el-button>
+			</el-form>
+		</el-dialog>
+		<el-dialog title="缴费情况" :visible.sync="dialogTableVisible1">
+			<el-form ref="infoList" :model="infoList" label-width="120px" :rules="infoListRules">
+
+				<el-form-item label="是否缴费" prop="state">
+					<el-select v-model="infoList.state" placeholder="请选择已修与否" style="width:100%">
+						<el-option label="已缴费" value="已缴费"></el-option>
+						<el-option label="未缴费" value="未缴费"></el-option>
+					</el-select>
+				</el-form-item>
+
+				<el-button type="primary" @click="save1" style="margin-left: 40%;">保存</el-button>
 				<el-button @click="resetForm1('infoList')">重置</el-button>
 				<el-button @click="goBack">返回</el-button>
 			</el-form>
@@ -156,14 +177,15 @@
 					dNo: '',
 					zName: '',
 					changedate: '',
-					state:''
+					state: ''
 				},
 				typeList: [{
 					name: '',
 					beDate: '',
 					model: '',
 					inName: '',
-					state:''
+					state: '',
+					payabledate:''
 				}],
 				infoList: {
 					dNo: '',
@@ -176,12 +198,15 @@
 					gascase: '',
 					stopCase: '',
 					mandCase: '',
-					remark: ''
+					remark: '',
+					changedate:new Date(),
+					payabledate:''
 				},
 				currentPage: 1, //默认第一页
 				total: 0, //总条数
 				pagesize: 5, //默认第一页展示10条
 				dialogTableVisible: false,
+				dialogTableVisible1: false,
 				infoListRules: {
 					name: [{
 						required: true,
@@ -217,54 +242,79 @@
 				}
 			}
 		},
-		created(){
+		
+		created() {
 			this.getPayListL();
 		},
 		methods: {
+			handleEdit1(index, row) {
+				this.dialogTableVisible1 = true;
+				console.log(index, row)
+				//row是该行tableData对应的一行
+				this.infoList = row
+			},
+			save1() {
+				request({
+					url: "http://127.0.0.1:10520/api/admin/updateAlrdypay",
+					method: "post",
+					data: this.infoList,
+				}).then(res => {
+					console.log(res);
+					if (res.msg === "修改成功") {
+						this.$message({
+							message: "修改成功！",
+							type: "success"
+						});
+						this.dialogTableVisible1 = false;
+					}
+				});
+			},
 			handleEdit(index, row) {
-				this.dialogTableVisible=true;
-			      console.log(index, row)
-			      //row是该行tableData对应的一行
-			      this.infoList = row
-			    },
-				save() {
-					request({
-						url: "http://127.0.0.1:10520/api/admin/updatePay",
-						method: "post",
-						data: this.infoList
-					}).then(res => {
-						console.log(res);
-						if (res.msg === "修改成功") {
-							this.$message({
-								message: "修改成功！",
-								type: "success"
-							});
-							this.dialogTableVisible = false;
-						}
-					});
-				},
+				this.dialogTableVisible = true;
+				console.log(index, row)
+				//row是该行tableData对应的一行
+				this.infoList = row
+			},
+			save() {
+				request({
+					url: "http://127.0.0.1:10520/api/admin/updatePay",
+					method: "post",
+					data: this.infoList
+				}).then(res => {
+					console.log(res);
+					if (res.msg === "修改成功") {
+						this.$message({
+							message: "修改成功！",
+							type: "success"
+						});
+						this.dialogTableVisible = false;
+					}
+				});
+			},
 			// 时间格式化
-			dateFormat:function(row,column){
-			
-			        var date = row[column.property];
-			
-			        if(date == undefined){return ''};
-			
-			        return moment(date).format("YYYY-MM-DD HH:mm:ss")
-			
-			    },
+			dateFormat: function(row, column) {
+
+				var date = row[column.property];
+
+				if (date == undefined) {
+					return ''
+				};
+
+				return moment(date).format("YYYY-MM-DD")
+
+			},
 			goBack() {
-			// router.push("check-admin");
-			this.dialogTableVisible=false;
+				// router.push("check-admin");
+				this.dialogTableVisible = false;
 			},
 			resetForm1(infoList) {
-			this.$refs[infoList].resetFields();
+				this.$refs[infoList].resetFields();
 			},
-			
+
 			getPayListL() {
 				var self = this;
 				axios.post("http://127.0.0.1:10520/api/admin/getPayListL", {
-			
+
 					})
 					.then(function(res) {
 						if (res.data.status == 1) {
@@ -276,31 +326,41 @@
 						console.log(res);
 					})
 			},
-			resetForm(){
-				this.formInline={},
-				this.getPayListL();
+			resetForm() {
+				this.formInline = {},
+					this.getPayListL();
 			},
 			// 删除物业费信息
 			deletePay(id) {
-				request({
-				        url: "http://127.0.0.1:10520/api/admin/deletePay",
-				        method: "post",
-				        data: { id: id }
-				      }).then(res => {
-				        console.log(res);
-				        if (res.msg === "删除成功") {
-				          this.$message({
-				            message: "删除成功！",
-				            type: "success"
-				          });
-				          this.getPayListL();
-				        }else {
+				this.$confirm('删除后将无法恢复!, 是否继续?', '提示', {
+						confirmButtonText: '删除',
+						cancelButtonText: '取消',
+						type: 'warning',
+						center: true,
+						customClass: 'winClass',
+					})
+					.then(() => {
+						request({
+							url: "http://127.0.0.1:10520/api/admin/deletePay",
+							method: "post",
+							data: {
+								id: id
+							}
+						}).then(res => {
+							console.log(res);
 							this.$message({
-								message:'删除失败！',
-								type:"danger"
+								type: 'success',
+								message: '删除成功!',
 							})
-						}
-				      });
+							this.getPayListL();
+						})
+					})
+					.catch(() => {
+						this.$message({
+							type: 'info',
+							message: '删除失败',
+						})
+					});
 			},
 			handleSizeChange(val) {
 				this.pagesize = val;
@@ -343,6 +403,7 @@
 		/* text-align: center; */
 		/* margin-left: 50%; */
 	}
+
 	.el-input {
 		width: 80%;
 	}

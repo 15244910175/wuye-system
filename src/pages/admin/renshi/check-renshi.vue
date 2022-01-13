@@ -18,7 +18,8 @@
 						<el-input size="mini" v-model="formInline.persionNo" placeholder="输入身份证"></el-input>
 					</el-form-item>
 					<el-form-item label="工作开始日期">
-						<el-date-picker size="mini" v-model="formInline.begDate" type="date" placeholder="选择日期" style="width:100%">
+						<el-date-picker size="mini" v-model="formInline.begDate" type="date" placeholder="选择日期"
+							style="width:100%">
 						</el-date-picker>
 					</el-form-item>
 					<el-form-item label="员工职务">
@@ -33,7 +34,7 @@
 				</el-form>
 			</div>
 			<el-table :data="typeList.slice((currentPage - 1) * pagesize, currentPage * pagesize)">
-				<el-table-column label="序号" >
+				<el-table-column label="序号">
 					<template slot-scope="scope">{{scope.$index+1}}</template>
 				</el-table-column>
 				<el-table-column prop="AdminName" label="员工姓名">
@@ -44,7 +45,7 @@
 				</el-table-column>
 				<el-table-column prop="post" label="员工职务">
 				</el-table-column>
-				<el-table-column label="具体操作" width="300" >
+				<el-table-column label="具体操作" width="300">
 					<template slot-scope="scope">
 						<el-button type="primary" size="small" icon="el-icon-edit">
 							<a @click="handleEdit(scope.$index, scope.row)">编辑</a>
@@ -57,8 +58,8 @@
 			</el-table>
 			<div class="page">
 				<el-pagination @size-change="handleSizeChange" @current-change="handleCurrentChange"
-					:current-page="currentPage" :page-sizes="[5,10,15,20]" :page-size="pagesize" layout=" prev, pager, next, sizes, jumper"
-					:total="typeList.length">
+					:current-page="currentPage" :page-sizes="[5,10,15,20]" :page-size="pagesize"
+					layout=" prev, pager, next, sizes, jumper" :total="typeList.length">
 				</el-pagination>
 			</div>
 		</div>
@@ -211,44 +212,46 @@
 		},
 		methods: {
 			// 时间格式化
-			dateFormat:function(row,column){
-			
-			        var date = row[column.property];
-			
-			        if(date == undefined){return ''};
-			
-			        return moment(date).format("YYYY-MM-DD")
-			
-			    },
+			dateFormat: function(row, column) {
+
+				var date = row[column.property];
+
+				if (date == undefined) {
+					return ''
+				};
+
+				return moment(date).format("YYYY-MM-DD")
+
+			},
 			goBack() {
-			// router.push("check-admin");
-			this.dialogTableVisible=false;
+				// router.push("check-admin");
+				this.dialogTableVisible = false;
 			},
 			resetForm1(infoList) {
-			this.$refs[infoList].resetFields();
+				this.$refs[infoList].resetFields();
 			},
 			handleEdit(index, row) {
-							this.dialogTableVisible=true;
-						      console.log(index, row)
-						      //row是该行tableData对应的一行
-						      this.infoList = row
-						    },
-							save() {
-								request({
-									url: "http://127.0.0.1:10520/api/admin/updateRs",
-									method: "post",
-									data: this.infoList
-								}).then(res => {
-									console.log(res);
-									if (res.msg === "修改成功") {
-										this.$message({
-											message: "修改成功！",
-											type: "success"
-										});
-										this.dialogTableVisible = false;
-									}
-								});
-							},
+				this.dialogTableVisible = true;
+				console.log(index, row)
+				//row是该行tableData对应的一行
+				this.infoList = row
+			},
+			save() {
+				request({
+					url: "http://127.0.0.1:10520/api/admin/updateRs",
+					method: "post",
+					data: this.infoList
+				}).then(res => {
+					console.log(res);
+					if (res.msg === "修改成功") {
+						this.$message({
+							message: "修改成功！",
+							type: "success"
+						});
+						this.dialogTableVisible = false;
+					}
+				});
+			},
 			getRenshiList() {
 				var self = this;
 				axios.post("http://127.0.0.1:10520/api/admin/getRenshiList", {
@@ -264,31 +267,41 @@
 						console.log(res);
 					})
 			},
-			resetForm(){
-				this.formInline={},
-				this.getRenshiList();
+			resetForm() {
+				this.formInline = {},
+					this.getRenshiList();
 			},
 			// 删除无业人员信息
 			deleteRs(id) {
-				request({
-				        url: "http://127.0.0.1:10520/api/admin/deleteRs",
-				        method: "post",
-				        data: { id: id }
-				      }).then(res => {
-				        console.log(res);
-				        if (res.msg === "删除成功") {
-				          this.$message({
-				            message: "删除成功！",
-				            type: "success"
-				          });
-				          this.getRenshiList();
-				        }else {
+				this.$confirm('删除后将无法恢复!, 是否继续?', '提示', {
+						confirmButtonText: '删除',
+						cancelButtonText: '取消',
+						type: 'warning',
+						center: true,
+						customClass: 'winClass',
+					})
+					.then(() => {
+						request({
+							url: "http://127.0.0.1:10520/api/admin/deleteRs",
+							method: "post",
+							data: {
+								id: id
+							}
+						}).then(res => {
+							console.log(res);
 							this.$message({
-								message:'删除失败！',
-								type:"danger"
+								type: 'success',
+								message: '删除成功!',
 							})
-						}
-				      });
+							this.getRenshiList();
+						})
+					})
+					.catch(() => {
+						this.$message({
+							type: 'info',
+							message: '删除失败',
+						})
+					});
 			},
 			handleSizeChange(val) {
 				this.pagesize = val;

@@ -86,7 +86,7 @@
 						<el-option label="女" value="女"></el-option>
 					</el-select>
 				</el-form-item>
-				<el-form-item label="工作开始日期" prop="begDate" >
+				<el-form-item label="工作开始日期" prop="begDate">
 					<el-date-picker v-model="infoList.begDate" type="date" placeholder="请选择工作日期" style="width: 100%;">
 					</el-date-picker>
 				</el-form-item>
@@ -120,7 +120,7 @@
 					begDate: '',
 					post: '',
 					id: '',
-					sex:''
+					sex: ''
 				}],
 				infoList: {
 					AdminName: '',
@@ -279,27 +279,36 @@
 			},
 
 			deleteAdmin(id) {
-				request({
-				 url: "http://127.0.0.1:10520/api/admin/deleteAdmin",
-					method: "post",
-					data: {
-						id: id
-					}
-				}).then(res => {
-					console.log(res);
-					if (res.msg === "删除成功") {
-						this.$message({
-							message: "删除成功！",
-							type: "success"
-						});
-						this.getAdminList();
-					} else {
-						this.$message({
-							message: '删除失败！',
-							type: "danger"
+				this.$confirm('删除后将无法恢复!, 是否继续?', '提示', {
+						confirmButtonText: '删除',
+						cancelButtonText: '取消',
+						type: 'warning',
+						center: true,
+						customClass: 'winClass',
+					})
+					.then(() => {
+						request({
+							url: "http://127.0.0.1:10520/api/admin/deleteAdmin",
+							method: "post",
+							data: {
+								id: id
+							}
+						}).then(res => {
+							console.log(res);
+							this.$message({
+								type: 'success',
+								message: '删除成功!',
+							})
+							this.getAdminList();
 						})
-					}
-				});
+					})
+					.catch(() => {
+						this.$message({
+							type: 'info',
+							message: '删除失败',
+						})
+					});
+
 			},
 			handleSizeChange(val) {
 				this.pagesize = val;
@@ -312,6 +321,9 @@
 	}
 </script>
 <style>
+	.winClass {
+		width: 500px;
+	}
 	.t_box {
 		height: 100%;
 		margin: 0 auto;

@@ -140,7 +140,7 @@
 				this.dialogTableVisible = false;
 			},
 			resetForm1(infoList) {
-			 this.$refs[infoList].resetFields();
+				this.$refs[infoList].resetFields();
 			},
 			handleEdit(index, row) {
 				this.dialogTableVisible = true;
@@ -188,10 +188,10 @@
 					})
 					.then(function(res) {
 						if (res.data.status == 1) {
-			  		console.log("获取数据");
+							console.log("获取数据");
 							self.$message.success("数据已获取到！");
 						}
-			 		self.typeList = res.data.list;
+						self.typeList = res.data.list;
 						// console.log(self.typeList);
 						console.log(res);
 					});
@@ -202,27 +202,36 @@
 			},
 			// 删除留言信息
 			deleteNote(id) {
-				request({
-					url: "http://127.0.0.1:10520/api/admin/deleteNote",
-					method: "post",
-					data: {
-						id: id
-					}
-				}).then(res => {
-					console.log(res);
-					if (res.msg === "删除成功") {
-						this.$message({
-							message: "删除成功！",
-							type: "success"
-						});
-						this.getNoteList();
-					} else {
-						this.$message({
-							message: '删除失败！',
-							type: "danger"
+				this.$confirm('删除后将无法恢复!, 是否继续?', '提示', {
+						confirmButtonText: '删除',
+						cancelButtonText: '取消',
+						type: 'warning',
+						center: true,
+						customClass: 'winClass',
+					})
+					.then(() => {
+						request({
+							url: "http://127.0.0.1:10520/api/admin/deleteNote",
+							method: "post",
+							data: {
+								id: id
+							}
+						}).then(res => {
+							console.log(res);
+							this.$message({
+								type: 'success',
+								message: '删除成功!',
+							})
+							this.getNoteList();
 						})
-					}
-				});
+					})
+					.catch(() => {
+						this.$message({
+							type: 'info',
+							message: '删除失败',
+						})
+					});
+
 			},
 			handleSizeChange(val) {
 				this.pagesize = val;

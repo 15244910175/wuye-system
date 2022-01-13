@@ -41,7 +41,7 @@
 				</el-table-column>
 				<el-table-column prop="tel" label="电话">
 				</el-table-column>
-				<el-table-column prop="beDate" label="报修日期" :formatter="dateFormat">
+				<el-table-column prop="beDate" label="报修时间" :formatter="dateFormat">
 				</el-table-column>
 				<el-table-column prop="address" label="住户地址">
 				</el-table-column>

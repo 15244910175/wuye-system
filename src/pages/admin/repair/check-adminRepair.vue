@@ -20,7 +20,8 @@
 						<el-input size="mini" v-model="formInline.tel" placeholder="输入电话"></el-input>
 					</el-form-item>
 					<el-form-item label="报修日期">
-						<el-date-picker size="mini" v-model="formInline.beDate" type="date" placeholder="选择日期" style="width:100%">
+						<el-date-picker size="mini" v-model="formInline.beDate" type="date" placeholder="选择日期"
+							style="width:100%">
 						</el-date-picker>
 					</el-form-item>
 					<el-form-item label="住户地址">
@@ -54,7 +55,7 @@
 				<el-table-column label="具体操作" width="400">
 					<template slot-scope="scope">
 						<el-button type="primary" size="small">
-							<a @click="revalue(scope.row.revalue)">标记已修</a>
+							<a @click="handleEdit1(scope.$index, scope.row)">标记已修</a>
 						</el-button>
 						<el-button type="primary" size="small" icon="el-icon-view">
 							<a @click="handleEdit(scope.$index, scope.row)">查看</a>
@@ -67,30 +68,30 @@
 			</el-table>
 			<div class="page">
 				<el-pagination @size-change="handleSizeChange" @current-change="handleCurrentChange"
-					:current-page="currentPage" :page-sizes="[5,10,15,20]" :page-size="pagesize" layout=" prev, pager, next, sizes, jumper"
-					:total="typeList.length">
+					:current-page="currentPage" :page-sizes="[5,10,15,20]" :page-size="pagesize"
+					layout=" prev, pager, next, sizes, jumper" :total="typeList.length">
 				</el-pagination>
 			</div>
 		</div>
 
 		<el-dialog title="修改报修事项" :visible.sync="dialogTableVisible">
 			<el-form ref="infoList" :model="infoList" label-width="120px" :rules="infoListRules">
-				<el-form-item label="报修事项名称" prop="name" >
+				<el-form-item label="报修事项名称" prop="name">
 					<el-input v-model="infoList.name" disabled></el-input>
 				</el-form-item>
-				<el-form-item label="报修人" prop="inName" >
+				<el-form-item label="报修人" prop="inName">
 					<el-input v-model="infoList.inName" disabled></el-input>
 				</el-form-item>
-				<el-form-item label="联系电话" prop="tel" >
+				<el-form-item label="联系电话" prop="tel">
 					<el-input v-model="infoList.tel" disabled></el-input>
 				</el-form-item>
-				<el-form-item label="住户地址" prop="address" >
+				<el-form-item label="住户地址" prop="address">
 					<el-input v-model="infoList.address" disabled></el-input>
 				</el-form-item>
-				<el-form-item label="报修时间" prop="beDate" >
+				<el-form-item label="报修时间" prop="beDate">
 					<el-input v-model="infoList.beDate" disabled></el-input>
 				</el-form-item>
-				<el-form-item label="报修情况说明" prop="mark" >
+				<el-form-item label="报修情况说明" prop="mark">
 					<el-input v-model="infoList.mark" disabled></el-input>
 				</el-form-item>
 
@@ -99,16 +100,32 @@
 				</el-form-item> -->
 
 				<el-button @click="goBack" style="margin-left: 45%;">返回</el-button>
-				
+
+			</el-form>
+		</el-dialog>
+
+		<el-dialog title="审核事项" :visible.sync="dialogTableVisible1">
+			<el-form ref="infoList" :model="infoList" label-width="120px" :rules="infoListRules">
+
+				<el-form-item label="是否已修" prop="revalue">
+					<el-select v-model="infoList.revalue" placeholder="请选择已修与否" style="width:100%">
+						<el-option label="已修" value="已修"></el-option>
+						<el-option label="未修" value="未修"></el-option>
+					</el-select>
+				</el-form-item>
+
+				<el-button type="primary" @click="save" style="margin-left: 40%;">保存</el-button>
+				<el-button @click="resetForm1('infoList')">重置</el-button>
+				<el-button @click="goBack">返回</el-button>
 			</el-form>
 		</el-dialog>
 	</div>
 </template>
 
 <script>
-import axios from "axios";
-import moment from 'moment';
-import request from "../../../utils/request.js"
+	import axios from "axios";
+	import moment from 'moment';
+	import request from "../../../utils/request.js"
 	export default {
 		data() {
 			return {
@@ -133,12 +150,13 @@ import request from "../../../utils/request.js"
 					tel: '',
 					beDate: '',
 					address: '',
-					revalue: '已修'
+					// revalue: '已修'
 				},
 				currentPage: 1, //默认第一页
 				total: 0, //总条数
 				pagesize: 5, //默认第一页展示10条
 				dialogTableVisible: false,
+				dialogTableVisible1: false,
 				infoListRules: {
 					name: [{
 						required: true,
@@ -157,7 +175,7 @@ import request from "../../../utils/request.js"
 						},
 						{
 							type: 'number',
-							max:11,
+							max: 11,
 							message: '数电话号码必须为数字',
 							trigger: 'blur'
 						}
@@ -185,20 +203,28 @@ import request from "../../../utils/request.js"
 		},
 		methods: {
 			// 时间格式化
-			dateFormat:function(row,column){
-			
-			        var date = row[column.property];
-			
-			        if(date == undefined){return ''};
-			
-			        return moment(date).format("YYYY-MM-DD hh:mm:ss")
-			
-			    },
-			revalue(revalue) {
+			dateFormat: function(row, column) {
+
+				var date = row[column.property];
+
+				if (date == undefined) {
+					return ''
+				};
+
+				return moment(date).format("YYYY-MM-DD hh:mm:ss")
+
+			},
+			handleEdit1(index, row) {
+				this.dialogTableVisible1 = true;
+				console.log(index, row)
+				//row是该行tableData对应的一行
+				this.infoList = row
+			},
+			save() {
 				request({
 					url: "http://127.0.0.1:10520/api/admin/updateRevalue",
 					method: "post",
-					data: this.typeList
+					data: this.infoList,
 				}).then(res => {
 					console.log(res);
 					if (res.msg === "修改成功") {
@@ -206,23 +232,23 @@ import request from "../../../utils/request.js"
 							message: "修改成功！",
 							type: "success"
 						});
-						this.dialogTableVisible = false;
+						this.dialogTableVisible1 = false;
 					}
 				});
 			},
 			goBack() {
-			// router.push("check-admin");
-			this.dialogTableVisible=false;
+				// router.push("check-admin");
+				this.dialogTableVisible = false;
 			},
 			resetForm1(infoList) {
-			this.$refs[infoList].resetFields();
+				this.$refs[infoList].resetFields();
 			},
 			handleEdit(index, row) {
-							this.dialogTableVisible=true;
-						      console.log(index, row)
-						      //row是该行tableData对应的一行
-						      this.infoList = row
-						    },
+				this.dialogTableVisible = true;
+				console.log(index, row)
+				//row是该行tableData对应的一行
+				this.infoList = row
+			},
 			getRepairList() {
 				var self = this;
 				axios
@@ -242,31 +268,41 @@ import request from "../../../utils/request.js"
 						console.log(res);
 					});
 			},
-			resetForm(){
-				this.formInline={},
-				this.getRepairList();
+			resetForm() {
+				this.formInline = {},
+					this.getRepairList();
 			},
 			// 删除报修事项信息
 			deleteRepair(id) {
-				request({
-				        url: "http://127.0.0.1:10520/api/admin/deleteRepair",
-				        method: "post",
-				        data: { id: id }
-				      }).then(res => {
-				        console.log(res);
-				        if (res.msg === "删除成功") {
-				          this.$message({
-				            message: "删除成功！",
-				            type: "success"
-				          });
-				          this.getRepairList();
-				        }else {
+				this.$confirm('删除后将无法恢复!, 是否继续?', '提示', {
+						confirmButtonText: '删除',
+						cancelButtonText: '取消',
+						type: 'warning',
+						center: true,
+						customClass: 'winClass',
+					})
+					.then(() => {
+						request({
+							url: "http://127.0.0.1:10520/api/admin/deleteRepair",
+							method: "post",
+							data: {
+								id: id
+							}
+						}).then(res => {
+							console.log(res);
 							this.$message({
-								message:'删除失败！',
-								type:"danger"
+								type: 'success',
+								message: '删除成功!',
 							})
-						}
-				      });
+							this.getRepairList();
+						})
+					})
+					.catch(() => {
+						this.$message({
+							type: 'info',
+							message: '删除失败',
+						})
+					});
 			},
 			handleSizeChange(val) {
 				this.pagesize = val;

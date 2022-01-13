@@ -245,30 +245,38 @@
 				this.formInline = {},
 					this.getBaList();
 			},
-			
+
 			// 删除保安信息
 			deleteBa(id) {
-				request({
-					url: "http://127.0.0.1:10520/api/admin/deleteBa",
-					method: "post",
-					data: {
-						id: id
-					}
-				}).then(res => {
-					console.log(res);
-					if (res.msg === "删除成功") {
-						this.$message({
-							message: "删除成功！",
-							type: "success"
-						});
-						this.getBaList();
-					} else {
-						this.$message({
-							message: '删除失败！',
-							type: "danger"
+				this.$confirm('删除后将无法恢复!, 是否继续?', '提示', {
+						confirmButtonText: '删除',
+						cancelButtonText: '取消',
+						type: 'warning',
+						center: true,
+						customClass: 'winClass',
+					})
+					.then(() => {
+						request({
+							url: "http://127.0.0.1:10520/api/admin/deleteBa",
+							method: "post",
+							data: {
+								id: id
+							}
+						}).then(res => {
+							console.log(res);
+							this.$message({
+								type: 'success',
+								message: '删除成功!',
+							})
+							this.getBaList();
 						})
-					}
-				});
+					})
+					.catch(() => {
+						this.$message({
+							type: 'info',
+							message: '删除失败',
+						})
+					});
 			},
 			handleSizeChange(val) {
 				this.pagesize = val;
@@ -281,6 +289,10 @@
 	}
 </script>
 <style>
+	.winClass {
+		width: 500px;
+	}
+
 	.t_box {
 		height: 100%;
 		margin: 0 auto;
