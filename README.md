@@ -1,23 +1,14 @@
-# login-register-vue-node
+# wuye-stsyem
 
 ## 实现功能
 
-实现登录和注册两个功能，实现全栈，数据记录在数据库，前后端分离
+实现业主和管理员两个权限的功能，实现全栈，数据记录在数据库，前后端分离
 
 ------
 
 ## 项目部署
 
 ### 数据库
-
-数据库表中类型都是为 varchar，建了简单表， user表结构如下：
-
-| username | password | email        | role   |
-| -------- | -------- | ------------ | ------ |
-| user     | user     | user@qq.com  | 业主   |
-| admin    | admin    | admin@qq.com | 管理员 |
-
-
 
 ### 项目初始化
 ```
@@ -52,5 +43,7 @@ npm run serve
 - node.js
 - express
 - mysql
-
+## 使用到的软件
+  - vscode/hbuilder x
+  - navicat
 --------

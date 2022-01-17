@@ -14,14 +14,9 @@
 					<el-form-item label="住户姓名">
 						<el-input size="mini" v-model="formInline.username" placeholder="输入住户姓名"></el-input>
 					</el-form-item>
-					<el-form-item label="住户电话">
-						<el-input size="mini" v-model="formInline.telephone" placeholder="输入住户电话"></el-input>
-					</el-form-item>
-					<el-form-item label="住户身份证">
-						<el-input size="mini" v-model="formInline.persionNo" placeholder="输入住户身份证"></el-input>
-					</el-form-item>
-					<el-form-item label="住户地址">
-						<el-input size="mini" v-model="formInline.address" placeholder="输入住户地址"></el-input>
+					
+					<el-form-item label="入住时间">
+						<el-date-picker type="date" size="mini" v-model="formInline.date" placeholder="选择入住时间"></el-date-picker>
 					</el-form-item>
 					<el-form-item>
 						<el-button size="mini" type="primary" class="el-icon-search">查询</el-button>
@@ -29,23 +24,28 @@
 					<el-form-item>
 						<el-button size="mini" type="primary" class="el-icon-refresh" @click="resetForm">重置</el-button>
 					</el-form-item>
+					<el-form-item>
+						<el-button size="mini" type="primary" class="el-icon-plus" @click="dialogTableVisible1=true">新增</el-button>
+					</el-form-item>
 				</el-form>
 			</div>
 			<el-table :data="typeList.slice((currentPage - 1) * pagesize, currentPage * pagesize)">
-				<el-table-column label="序号" width="150">
+				<el-table-column label="住户编号" width="150">
 					<template slot-scope="scope">{{scope.$index+1}}</template>
 				</el-table-column>
 				<!-- <el-table-column prop="id" label="住户id">
 				</el-table-column> -->
+				<el-table-column prop="rNo" label="房号">
+				</el-table-column>
 				<el-table-column prop="username" label="住户姓名">
 				</el-table-column>
 				<el-table-column prop="telephone" label="住户电话">
 				</el-table-column>
 				<el-table-column prop="persionNo" label="住户身份证">
 				</el-table-column>
-				<el-table-column prop="address" label="住户地址">
-				</el-table-column>
 				<el-table-column prop="sex" label="住户性别">
+				</el-table-column>
+				<el-table-column prop="date" label="住户入住时间" :formatter="dateFormat">
 				</el-table-column>
 				<el-table-column label="具体操作">
 					<template slot-scope="scope">
@@ -67,29 +67,58 @@
 		</div>
 		<el-dialog title="住户信息" :visible.sync="dialogTableVisible">
 			<el-form ref="infoList" :model="infoList" :rules="infoListRules" label-width="120px">
+				<el-form-item label="房号" prop="rNo">
+					<el-input v-model="infoList.rNo"></el-input>
+				</el-form-item>
 				<el-form-item label="住户姓名" prop="username">
 					<el-input v-model="infoList.username"></el-input>
-				</el-form-item>
-				<el-form-item label="住户密码" prop="password">
-					<el-input v-model="infoList.password"></el-input>
 				</el-form-item>
 				<el-form-item label="住户身份证" prop="persionNo">
 					<el-input v-model="infoList.persionNo"></el-input>
 				</el-form-item>
 				<el-form-item label="住户性别" prop="sex">
 					<el-select v-model="infoList.sex" placeholder="请选择性别" style="width:100%">
-						<el-option label="男" value="nan"></el-option>
-						<el-option label="女" value="nv"></el-option>
+						<el-option label="男" value="男"></el-option>
+						<el-option label="女" value="女"></el-option>
 					</el-select>
 				</el-form-item>
 				<el-form-item label="住户电话" prop="telephone">
 					<el-input v-model="infoList.telephone"></el-input>
 				</el-form-item>
-				<el-form-item label="住户地址" prop="address">
-					<el-input v-model="infoList.address"></el-input>
+				<el-form-item label="住户入住时间" prop="date">
+					<el-date-picker v-model="infoList.date" type="date"></el-date-picker>
 				</el-form-item>
-				<el-button type="primary" style="margin-left: 40%;" @click="save">保存</el-button>
+				<el-button type="primary" style="margin-left: 40%;" @click="edit">保存</el-button>
 				<el-button @click="resetForm1('infoList')">重置</el-button>
+				<el-button @click="goBack">返回</el-button>
+			</el-form>
+		</el-dialog>
+		
+		<el-dialog title="住户信息" :visible.sync="dialogTableVisible1">
+			<el-form ref="addForm" :model="addForm" :rules="addFormRules" label-width="120px">
+				<el-form-item label="房号" prop="rNo">
+					<el-input v-model="addForm.rNo"></el-input>
+				</el-form-item>
+				<el-form-item label="住户姓名" prop="username">
+					<el-input v-model="addForm.username"></el-input>
+				</el-form-item>
+				<el-form-item label="住户身份证" prop="persionNo">
+					<el-input v-model="addForm.persionNo"></el-input>
+				</el-form-item>
+				<el-form-item label="住户性别" prop="sex">
+					<el-select v-model="addForm.sex" placeholder="请选择性别" style="width:100%">
+						<el-option label="男" value="男"></el-option>
+						<el-option label="女" value="女"></el-option>
+					</el-select>
+				</el-form-item>
+				<el-form-item label="住户电话" prop="telephone">
+					<el-input v-model="addForm.telephone"></el-input>
+				</el-form-item>
+				<el-form-item label="住户入住时间" prop="date">
+					<el-date-picker v-model="addForm.date" type="date"></el-date-picker>
+				</el-form-item>
+				<el-button type="primary" style="margin-left: 40%;" @click="add">保存</el-button>
+				<el-button @click="resetForm1('addForm')">重置</el-button>
 				<el-button @click="goBack">返回</el-button>
 			</el-form>
 		</el-dialog>
@@ -97,31 +126,39 @@
 </template>
 <script>
 	import axios from "axios";
+	import moment from 'moment';
 	import request from "../../../utils/request.js"
 	export default {
 		data() {
 			return {
 				formInline: {
 					username: '',
-					telephone: '',
-					persionNo: '',
-					address: '',
+					date:''
 				},
 				typeList: [{
 					username: '',
 					telephone: '',
 					persionNo: '',
-					address: '',
+					rNo: '',
 					sex: '',
+					date:'',
 					id: ''
 				}, ],
 				infoList: {
 					username: '',
-					password: '',
+					rNo:'',
 					persionNo: '',
 					sex: '',
 					telephone: '',
-					address: ''
+					date: ''
+				},
+				addForm: {
+					username: '',
+					rNo:'',
+					persionNo: '',
+					sex: '',
+					telephone: '',
+					date: ''
 				},
 				infoListRules: {
 					username: [{
@@ -129,12 +166,12 @@
 						message: '请输入住户名称',
 						trigger: 'blur'
 					}],
-					password: [{
+					rNo: [{
 						required: true,
-						message: '请输入密码',
+						message: '请输入房号',
 						trigger: 'blur'
 					}, ],
-					persionNO: [{
+					persionNo: [{
 							required: true,
 							message: '请输入身份证',
 							trigger: 'blur'
@@ -162,13 +199,59 @@
 							trigger: 'blur'
 						}
 					],
-					address: [{
+					date: [{
 						required: true,
-						message: '请输入住户地址',
+						message: '请选择时间',
+						trigger: 'blur'
+					}, ],
+				},
+				addFormRules: {
+					username: [{
+						required: true,
+						message: '请输入住户名称',
+						trigger: 'blur'
+					}],
+					rNo: [{
+						required: true,
+						message: '请输入房号',
+						trigger: 'blur'
+					}, ],
+					persionNo: [{
+							required: true,
+							message: '请输入身份证',
+							trigger: 'blur'
+						},
+						{
+							min: 18,
+							max: 18,
+							message: '请输入18位字符',
+							trigger: 'blur'
+						}
+					],
+					sex: [{
+						required: true,
+						message: '请选择性别',
+						trigger: 'blur'
+					}, ],
+					telephone: [{
+							required: true,
+							message: '请输入电话号码',
+							trigger: 'blur'
+						},
+						{
+							type: 'number',
+							message: '数量必须为数字',
+							trigger: 'blur'
+						}
+					],
+					date: [{
+						required: true,
+						message: '请选择时间',
 						trigger: 'blur'
 					}, ],
 				},
 				dialogTableVisible: false,
+				dialogTableVisible1:false,
 				currentPage: 1, //默认第一页
 				total: 0, //总条数
 				pagesize: 5 //默认第一页展示10条
@@ -178,6 +261,18 @@
 			this.getUserList()
 		},
 		methods: {
+			// 时间格式化
+			dateFormat: function(row, column) {
+			
+				var date = row[column.property];
+			
+				if (date == undefined) {
+					return ''
+				};
+			
+				return moment(date).format("YYYY-MM-DD")
+			
+			},
 			goBack() {
 				// router.push("check-admin");
 				this.dialogTableVisible = false;
@@ -185,13 +280,16 @@
 			resetForm1(infoList) {
 				this.$refs[infoList].resetFields();
 			},
+			resetForm1(addForm) {
+				this.$refs[addForm].resetFields();
+			},
 			handleEdit(index, row) {
 				this.dialogTableVisible = true;
 				console.log(index, row)
 				//row是该行tableData对应的一行
 				this.infoList = row
 			},
-			save() {
+			edit() {
 				request({
 					url: "http://127.0.0.1:10520/api/admin/updateData",
 					method: "post",
@@ -226,6 +324,43 @@
 			resetForm() {
 				this.formInline = {},
 					this.getUserList();
+			},
+			// 新增住户信息
+			add() {
+				if (
+					this.addForm.username == "" ||
+					this.addForm.rNo == "" ||
+					this.addForm.sex == "" ||
+					this.addForm.telephone == "" ||
+					this.addForm.persionNo == "" ||
+					this.addForm.date == ""
+				) {
+					this.$message({
+						message: "必填项不能为空！",
+						type: "error",
+					});
+				} else {
+				request({
+					url: "http://127.0.0.1:10520/api/admin/addData",
+					method: "post",
+					data: this.addForm
+				}).then(res => {
+					console.log(res);
+					if (res.msg === "新增成功") {
+						this.$message({
+							message: "恭喜你，新增成功",
+							type: "success"
+						});
+						this.init();
+					}
+				});
+				}
+			},
+			init() {
+				// this.dialog_state = false;
+				this.addForm = {};
+				this.dialogTableVisible1=false;
+				this.getUserList();
 			},
 			// 删除住户信息
 			deleteHouse(id) {

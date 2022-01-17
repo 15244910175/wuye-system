@@ -57,9 +57,17 @@ var sqlMap = {
 		getRenshiList:'select * from rs',
         // 查看住户信息
         getUserList:'select * from resident',
+		// 产权变更管理
+		getHchangeList:'select * from h_change',
+		// 租赁资料
+		getleaseholdList:'select * from leasehold',
+		// 查看快递公司信息
+		getPassMagList:'select * from pass_Mag',
+		// 查看代收快递信息
+		getColpassList:'select * from col_pass',
 		
 		// 新增住户信息
-		addData:'insert into resident(username,persionNo,sex,telephone,address,type) values (?,?,?,?,?,?)',
+		addData:'insert into resident(rNo,username,persionNo,sex,telephone,date) values (?,?,?,?,?,?)',
 		// 添加报修事项
 		addRepair:'insert into equip(name,inName,tel,address,beDate,mark,revalue) values(?,?,?,?,?,?,?)',
 		// 添加管理员
@@ -78,6 +86,14 @@ var sqlMap = {
 		addba:'insert into ba(name,persionNo,sex,begDate,post) values(?,?,?,?,?)',
 		// 新增车位总数明细
 		addCarnum:'insert into carnum(num,date) values (?,?)',
+		
+		
+		// 新增租赁信息
+		addLeasehold:'insert into leasehold(name,rNo,persionNo,reTime,dateDue) values (?,?,?,?,?)',
+		// 新增产权变更信息
+		addHchange:'insert into h_change(rNo,oldOwner,nowOwner,changedate) values (?,?,?,?)',
+		
+		
 		
 		// 删除住户信息
 		deleteHouse:'delete from resident where id = ?',
@@ -101,9 +117,13 @@ var sqlMap = {
 		deleteCarorder:'delete from carorder where id= ? ',
 		// 删除留言、投诉
 		deleteNote:'delete from t_leaverword where id= ? ',
+		// 删除租赁信息
+		deleteLeasehold:'delete from leasehold where id=?',
+		// 删除产权变更信息
+		deleteHchange:'delete from h_change where id=?',
 		
 		// 修改住户信息
-		updateData:'update resident set username=?,telephone=?,persionNo=?,address=?,sex=? where id=?',
+		updateData:'update resident set rNo=?,username=?,persionNo=?,sex=?,telephone=?,date=? where id=?',
 		// 修改管理员信息
 		updateAdmin:'update admin set AdminName=?,LoginName=?,LoginPwd=?,persionNo=?,sex=?,begDate=?,post=? where id=?',
 		// 修改保安信息
@@ -129,7 +149,10 @@ var sqlMap = {
 		
 		// 审核小区车位
 		updateCarorder:'update carorder set pass=?,state=? where id=?',
-		
+		// 编辑租赁信息
+		updateLeasehold:'update leasehold set name=?,rNo=?,persionNo=?,reTime=?,dateDue=? where id=?',
+		// 编辑产权变更管理
+		updateHchange:'update h_change set rNo=?,oldOwner=?,nowOwner=?,changedate=? where id=?',
 	}
 }
 

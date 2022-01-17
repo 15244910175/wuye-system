@@ -4,7 +4,7 @@
     <el-header>
       <div>
         <!-- <img src="../assets/shop-logo.jpg" alt=""> -->
-        <span>电商管理后台管理系统</span>
+        <span>小区物业管理系统</span>
       </div>
      
      <div class="header-right">
@@ -61,9 +61,10 @@
               <span>住户资料管理</span>
             </template>
             <el-menu-item-group>
-              <el-menu-item index="add-house" class="el-icon-menu">添加住户信息</el-menu-item>
-              <el-menu-item index="check-house" class="el-icon-menu">查看住户资料信息</el-menu-item>
-            </el-menu-item-group>
+				<el-menu-item index="check-house" class="el-icon-menu">查看住户资料信息</el-menu-item>
+              <el-menu-item index="h-change" class="el-icon-menu">产权变更管理</el-menu-item>
+			  <el-menu-item index="leasehold" class="el-icon-menu">租赁资料管理</el-menu-item>
+			</el-menu-item-group>
           </el-submenu>
 
           <el-submenu index="2">
@@ -139,7 +140,17 @@
               <el-menu-item index="check-carPark" class="el-icon-menu">小区车位查看</el-menu-item>
             </el-menu-item-group>
           </el-submenu>
-          <el-submenu index="9">
+		  <el-submenu index="9">
+		    <template slot="title">
+		      <i class="el-icon-truck"></i>
+		      <span>小区快递管理</span>
+		    </template>
+		    <el-menu-item-group>
+		      <el-menu-item index="pass-mag" class="el-icon-menu">快递公司管理</el-menu-item>
+		      <el-menu-item index="col-pass" class="el-icon-menu">代收快递信息管理</el-menu-item>
+		    </el-menu-item-group>
+		  </el-submenu>
+          <el-submenu index="10">
             <template slot="title">
               <i class="el-icon-s-tools"></i>
               <span>留言管理</span>

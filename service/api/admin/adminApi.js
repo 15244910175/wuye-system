@@ -188,15 +188,74 @@ router.post('/getUserList', (req, res) => {
 		})
 	})
 });
+// 产权变更管理
+router.post('/getHchangeList', (req, res) => {
+	var sql = $sql.admin.getHchangeList;
+	var params = req.body;
+	console.log(params);
+	conn.query(sql, [], function(err, result) {
+		var data = JSON.parse(JSON.stringify(result))
 
+		return res.send({
+			status: 1,
+			msg: "查询成功",
+			list: data
+		})
+	})
+});
 
+// 租赁资料
+router.post('/getleaseholdList', (req, res) => {
+	var sql = $sql.admin.getleaseholdList;
+	var params = req.body;
+	console.log(params);
+	conn.query(sql, [], function(err, result) {
+		var data = JSON.parse(JSON.stringify(result))
+
+		return res.send({
+			status: 1,
+			msg: "查询成功",
+			list: data
+		})
+	})
+});
+// 查看快递公司信息
+router.post('/getPassMagList', (req, res) => {
+	var sql = $sql.admin.getPassMagList;
+	var params = req.body;
+	console.log(params);
+	conn.query(sql, [], function(err, result) {
+		var data = JSON.parse(JSON.stringify(result))
+
+		return res.send({
+			status: 1,
+			msg: "查询成功",
+			list: data
+		})
+	})
+});
+// 查看代收快递信息
+router.post('/getColpassList', (req, res) => {
+	var sql = $sql.admin.getColpassList;
+	var params = req.body;
+	console.log(params);
+	conn.query(sql, [], function(err, result) {
+		var data = JSON.parse(JSON.stringify(result))
+
+		return res.send({
+			status: 1,
+			msg: "查询成功",
+			list: data
+		})
+	})
+});
 
 // 新增住户信息
 router.post('/addData', (req, res) => {
   var sql = $sql.admin.addData;
   // var params = req.body;
   console.log(req);
-  conn.query(sql, [req.body.username, req.body.persionNo, req.body.sex, req.body.telephone,req.body.address,req.body.type], function (err, result) {
+  conn.query(sql, [req.body.rNo,req.body.username, req.body.persionNo, req.body.sex, req.body.telephone,req.body.date], function (err, result) {
     var data = req.body;
     console.log(result)
     return res.send({
@@ -238,8 +297,6 @@ router.post('/addOrderPark', (req, res) => {
   })
 });
 
-
-
 // 添加物业费用
 router.post('/addPay', (req, res) => {
   var sql = $sql.admin.addPay;
@@ -271,8 +328,6 @@ router.post('/addEqu', (req, res) => {
     })
   })
 });
-
-
 // 新增物业公司员工信息
 router.post('/addRs', (req, res) => {
   var sql = $sql.admin.addRs;
@@ -288,8 +343,6 @@ router.post('/addRs', (req, res) => {
     })
   })
 });
-
-
 // 新增保安排班
 router.post('/addPb', (req, res) => {
   var sql = $sql.admin.addPb;
@@ -305,7 +358,6 @@ router.post('/addPb', (req, res) => {
     })
   })
 });
-
 // 新增保安
 router.post('/addba', (req, res) => {
   var sql = $sql.admin.addba;
@@ -352,6 +404,40 @@ router.post('/addCarnum', (req, res) => {
     })
   })
 });
+
+
+// 新增租赁信息
+router.post('/addLeasehold', (req, res) => {
+  var sql = $sql.admin.addLeasehold;
+  // var params = req.body;
+  console.log(req);
+  conn.query(sql, [req.body.name,req.body.rNo,req.body.persionNo,req.body.reTime,req.body.dateDue], function (err, result) {
+    var data = req.body;
+    console.log(result)
+    return res.send({
+      status: 1,
+      msg: "新增成功",
+      data: data
+    })
+  })
+});
+
+// 新增产权变更信息
+router.post('/addHchange', (req, res) => {
+  var sql = $sql.admin.addHchange;
+  // var params = req.body;
+  console.log(req);
+  conn.query(sql, [req.body.rNo,req.body.oldOwner,req.body.nowOwner,req.body.changedate], function (err, result) {
+    var data = req.body;
+    console.log(result)
+    return res.send({
+      status: 1,
+      msg: "新增成功",
+      data: data
+    })
+  })
+});
+
 
 // 删除住户信息
 router.post('/deleteHouse', (req, res) => {
@@ -523,13 +609,43 @@ router.post('/deleteNote', (req, res) => {
     })
   })
 });
+// 删除租赁信息
+router.post('/deleteLeasehold', (req, res) => {
+  var sql = $sql.admin.deleteLeasehold;
+  // var params = req.body;
+  console.log(req);
+  conn.query(sql, [req.body.id], function (err, result) {
+    var data = result;
+    console.log(result)
+    return res.send({
+      status: 1,
+      msg: "删除成功",
+      data: data
+    })
+  })
+});
+// 删除产权变更信息
+router.post('/deleteHchange', (req, res) => {
+  var sql = $sql.admin.deleteHchange;
+  // var params = req.body;
+  console.log(req);
+  conn.query(sql, [req.body.id], function (err, result) {
+    var data = result;
+    console.log(result)
+    return res.send({
+      status: 1,
+      msg: "删除成功",
+      data: data
+    })
+  })
+});
 
 // 修改住户信息
 router.post('/updateData', (req, res) => {
   var sql = $sql.admin.updateData;
   // var params = req.body;
   console.log(req);
-  conn.query(sql, [req.body.username, req.body.telephone, req.body.persionNo, req.body.address,req.body.sex,req.body.id], function (err, result) {
+  conn.query(sql, [req.body.rNo,req.body.username, req.body.persionNo, req.body.sex,req.body.telephone,req.body.date,req.body.id], function (err, result) {
     var data = req.body;
     console.log(result)
     return res.send({
@@ -632,12 +748,6 @@ router.post('/updateCpt', (req, res) => {
     })
   })
 });
-
-
-
-
-
-
 // 修改车位总数信息
 router.post('/updateCarnum', (req, res) => {
   var sql = $sql.admin.updateCarnum;
@@ -715,17 +825,42 @@ router.post('/updateAlrdypay', (req, res) => {
   })
 });
 
-
-
-
-
-
 // 审核小区车位
 router.post('/updateCarorder', (req, res) => {
   var sql = $sql.admin.updateCarorder;
   // var params = req.body;
   console.log(req);
   conn.query(sql, [req.body.pass,req.body.state, req.body.id], function (err, result) {
+    var data = req.body;
+    console.log(result)
+    return res.send({
+      status: 1,
+      msg: "修改成功",
+      data: data
+    })
+  })
+});
+// 编辑租赁信息
+router.post('/updateLeasehold', (req, res) => {
+  var sql = $sql.admin.updateLeasehold;
+  // var params = req.body;
+  console.log(req);
+  conn.query(sql, [req.body.name,req.body.rNo,req.body.persionNo,req.body.reTime,req.body.dateDue,req.body.id], function (err, result) {
+    var data = req.body;
+    console.log(result)
+    return res.send({
+      status: 1,
+      msg: "修改成功",
+      data: data
+    })
+  })
+});
+// 编辑产权变更管理
+router.post('/updateHchange', (req, res) => {
+  var sql = $sql.admin.updateHchange;
+  // var params = req.body;
+  console.log(req);
+  conn.query(sql, [req.body.rNo,req.body.oldOwner,req.body.nowOwner,req.body.changedate,req.body.id], function (err, result) {
     var data = req.body;
     console.log(result)
     return res.send({

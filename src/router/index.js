@@ -101,13 +101,17 @@ const routes = [{
       component: resolve=>require(['../pages/admin/baoan/check-baoan.vue'],resolve),
      },
      {
-      path: '/add-house',
-      component: resolve=>require(['../pages/admin/data/add-house.vue'],resolve),
+      path: '/h-change',
+      component: resolve=>require(['../pages/admin/data/h-change.vue'],resolve),
      },
      {
       path: '/check-house',
       component: resolve=>require(['../pages/admin/data/check-house.vue'],resolve),
      },
+	 {
+		 path:'/leasehold',
+		 component:resolve=>require(['../pages/admin/data/leasehold.vue'],resolve)
+	 },
      {
       path: '/add-equipment',
       component: resolve=>require(['../pages/admin/equipment/add-equipment.vue'],resolve),
@@ -160,6 +164,14 @@ const routes = [{
       path: '/check-adminRepair',
       component: resolve=>require(['../pages/admin/repair/check-adminRepair.vue'],resolve),
      },
+	 {
+	  path: '/pass-mag',
+	  component: resolve=>require(['../pages/admin/pass/pass-mag.vue'],resolve),
+	 },
+	 {
+	  path: '/col-pass',
+	  component: resolve=>require(['../pages/admin/pass/col-pass.vue'],resolve),
+	 },
     //  {
     //    path:'/useradmin',
     //    component:resolve=>require(['../views/useradmin.vue'],resolve)
