@@ -95,6 +95,16 @@
 						</el-menu-item-group>
 					</el-submenu>
 					<el-submenu index="5">
+					  <template slot="title">
+					    <i class="el-icon-truck"></i>
+					    <span>快递管理</span>
+					  </template>
+					  <el-menu-item-group>
+					    <el-menu-item index="passmag" class="el-icon-menu">快递公司管理</el-menu-item>
+					    <el-menu-item index="colpass" class="el-icon-menu">代收快递信息管理</el-menu-item>
+					  </el-menu-item-group>
+					</el-submenu>
+					<el-submenu index="6">
 						<template slot="title">
 							<i class="iconfont icon-liuyan1"></i>
 							<span>留言管理</span>

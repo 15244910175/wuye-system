@@ -280,7 +280,6 @@ router.post('/addRepair', (req, res) => {
     })
   })
 });
-
 // 新增预定车位
 router.post('/addOrderPark', (req, res) => {
   var sql = $sql.admin.addOrderPark;
@@ -437,6 +436,39 @@ router.post('/addHchange', (req, res) => {
     })
   })
 });
+// 新增代收快递信息
+router.post('/addColPass', (req, res) => {
+  var sql = $sql.admin.addColPass;
+  // var params = req.body;
+  console.log(req);
+  conn.query(sql, [req.body.name,req.body.username,req.body.tel,req.body.address,req.body.date,req.body.isreceive], function (err, result) {
+    var data = req.body;
+    console.log(result)
+    return res.send({
+      status: 1,
+      msg: "新增成功",
+      data: data
+    })
+  })
+});
+
+
+// 新增快递公司管理
+router.post('/addPassMag', (req, res) => {
+  var sql = $sql.admin.addPassMag;
+  // var params = req.body;
+  console.log(req);
+  conn.query(sql, [req.body.name,req.body.username,req.body.tel,req.body.address], function (err, result) {
+    var data = req.body;
+    console.log(result)
+    return res.send({
+      status: 1,
+      msg: "新增成功",
+      data: data
+    })
+  })
+});
+
 
 
 // 删除住户信息
@@ -639,6 +671,38 @@ router.post('/deleteHchange', (req, res) => {
     })
   })
 });
+
+// 删除快递公司管理信息
+router.post('/deletePassMag', (req, res) => {
+  var sql = $sql.admin.deletePassMag;
+  // var params = req.body;
+  console.log(req);
+  conn.query(sql, [req.body.id], function (err, result) {
+    var data = result;
+    console.log(result)
+    return res.send({
+      status: 1,
+      msg: "删除成功",
+      data: data
+    })
+  })
+});
+// 删除代收快递信息
+router.post('/deleteColPass', (req, res) => {
+  var sql = $sql.admin.deleteColPass;
+  // var params = req.body;
+  console.log(req);
+  conn.query(sql, [req.body.id], function (err, result) {
+    var data = result;
+    console.log(result)
+    return res.send({
+      status: 1,
+      msg: "删除成功",
+      data: data
+    })
+  })
+});
+
 
 // 修改住户信息
 router.post('/updateData', (req, res) => {
@@ -861,6 +925,37 @@ router.post('/updateHchange', (req, res) => {
   // var params = req.body;
   console.log(req);
   conn.query(sql, [req.body.rNo,req.body.oldOwner,req.body.nowOwner,req.body.changedate,req.body.id], function (err, result) {
+    var data = req.body;
+    console.log(result)
+    return res.send({
+      status: 1,
+      msg: "修改成功",
+      data: data
+    })
+  })
+});
+
+// 编辑快递公司管理信息
+router.post('/updatePassMag', (req, res) => {
+  var sql = $sql.admin.updatePassMag;
+  // var params = req.body;
+  console.log(req);
+  conn.query(sql, [req.body.name,req.body.username,req.body.tel,req.body.address,req.body.id], function (err, result) {
+    var data = req.body;
+    console.log(result)
+    return res.send({
+      status: 1,
+      msg: "修改成功",
+      data: data
+    })
+  })
+});
+// 编辑代收快递信息
+router.post('/updateColPass', (req, res) => {
+  var sql = $sql.admin.updateColPass;
+  // var params = req.body;
+  console.log(req);
+  conn.query(sql, [req.body.isreceive,req.body.id], function (err, result) {
     var data = req.body;
     console.log(result)
     return res.send({

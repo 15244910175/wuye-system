@@ -52,9 +52,18 @@ const routes = [{
         component: resolve=>require(['../pages/user/park/order-park.vue'],resolve),
       },
 	  {
+	    path: '/passmag',
+	    component: resolve=>require(['../pages/user/pass/passmag.vue'],resolve),
+	  },
+	  {
+	    path: '/colpass',
+	    component: resolve=>require(['../pages/user/pass/colpass.vue'],resolve),
+	  },
+	  {
 		  path:'/addNote',
 		  component:resolve=>require(['../pages/user/note/addNote.vue'],resolve),
 	  },
+	  
       {
         path: '/inNote',
         component: resolve=>require(['../pages/user/note/inNote.vue'],resolve),

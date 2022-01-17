@@ -86,13 +86,16 @@ var sqlMap = {
 		addba:'insert into ba(name,persionNo,sex,begDate,post) values(?,?,?,?,?)',
 		// 新增车位总数明细
 		addCarnum:'insert into carnum(num,date) values (?,?)',
-		
-		
 		// 新增租赁信息
 		addLeasehold:'insert into leasehold(name,rNo,persionNo,reTime,dateDue) values (?,?,?,?,?)',
 		// 新增产权变更信息
 		addHchange:'insert into h_change(rNo,oldOwner,nowOwner,changedate) values (?,?,?,?)',
+		// 新增代收快递信息·
+		addColPass:'insert into col_pass(name,username,tel,address,date,isreceive) values (?,?,?,?,?,?)',
 		
+		
+		// 新增快递公司管理信息
+		addPassMag:'insert into pass_mag(name,username,tel,address) values (?,?,?,?)',
 		
 		
 		// 删除住户信息
@@ -121,6 +124,10 @@ var sqlMap = {
 		deleteLeasehold:'delete from leasehold where id=?',
 		// 删除产权变更信息
 		deleteHchange:'delete from h_change where id=?',
+		// 删除快递公司信息
+		deletePassMag:'delete from pass_mag where id=?',
+		// 删除代收快递信息
+		deleteColPass:'delete from col_pass where id=?',
 		
 		// 修改住户信息
 		updateData:'update resident set rNo=?,username=?,persionNo=?,sex=?,telephone=?,date=? where id=?',
@@ -146,13 +153,16 @@ var sqlMap = {
 		updateRevalue:'update equip set revalue=? where id=?',
 		// 标记已缴费
 		updateAlrdypay:'update t_change set state=? where id=?',
-		
 		// 审核小区车位
 		updateCarorder:'update carorder set pass=?,state=? where id=?',
 		// 编辑租赁信息
 		updateLeasehold:'update leasehold set name=?,rNo=?,persionNo=?,reTime=?,dateDue=? where id=?',
 		// 编辑产权变更管理
 		updateHchange:'update h_change set rNo=?,oldOwner=?,nowOwner=?,changedate=? where id=?',
+		// 编辑快递公司信息
+		updatePassMag:'update pass_mag set name=?,username=?,tel=?,address=? where id=?',
+		// 编辑代收快递信息领取与否
+		updateColPass:'update col_pass set isreceive=? where id=?',
 	}
 }
 

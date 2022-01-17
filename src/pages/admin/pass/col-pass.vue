@@ -14,6 +14,12 @@
 					<el-form-item label="收货人">
 						<el-input size="mini" v-model="formInline.name" placeholder="请输入收货人"></el-input>
 					</el-form-item>
+					<el-form-item label="是否领取">
+						<el-select v-model="formInline.isreceive" placeholder="请选择领取与否" style="width:100%">
+							<el-option label="已领取" value="已领取"></el-option>
+							<el-option label="未领取" value="未领取"></el-option>
+						</el-select>
+					</el-form-item>
 					<el-form-item>
 						<el-button size="mini" type="primary" class="el-icon-search">查询</el-button>
 					</el-form-item>
@@ -38,7 +44,11 @@
 				</el-table-column>
 				<el-table-column prop="address" label="收货地址">
 				</el-table-column>
-				<el-table-column prop="date" label="代收货日期">
+				<el-table-column prop="date" label="代收货日期" :formatter="dateFormat">
+				</el-table-column>
+				<el-table-column prop="alreadyDate" label="收货日期" :formatter="dateFormat">
+				</el-table-column>
+				<el-table-column prop="isreceive" label="是否领取">
 				</el-table-column>
 				<el-table-column label="具体操作">
 					<template slot-scope="scope">
@@ -58,20 +68,166 @@
 				</el-pagination>
 			</div>
 		</div>
+		
+		<el-dialog title="代收快递信息" :visible.sync="dialogTableVisible">
+			<el-form ref="addForm" :model="addForm" :rules="addFormRules" label-width="120px">
+				<el-form-item label="快递公司名称" prop="name">
+					<el-input v-model="addForm.name"></el-input>
+				</el-form-item>
+				<el-form-item label="收货人" prop="username">
+					<el-input v-model="addForm.username"></el-input>
+				</el-form-item>
+				<el-form-item label="联系电话" prop="tel">
+					<el-input v-model="addForm.tel"></el-input>
+				</el-form-item>
+				<el-form-item label="收货地址" prop="address">
+					<el-input v-model="addForm.address"></el-input>
+				</el-form-item>
+				<el-form-item label="代收货日期" prop="date">
+					<el-date-picker v-model="addForm.date" type="date"></el-date-picker>
+				</el-form-item>
+				<el-form-item label="是否领取" prop="isreceive">
+					<el-select v-model="addForm.isreceive" placeholder="请选择领取与否" style="width:100%">
+							<el-option label="已领取" value="已领取"></el-option>
+							<el-option label="未领取" value="未领取"></el-option>
+						</el-select>
+				</el-form-item>
+				<el-button type="primary" style="margin-left: 40%;" @click="add">保存</el-button>
+				<el-button @click="resetForm1('addForm')">重置</el-button>
+				<el-button @click="goBack">返回</el-button>
+			</el-form>
+		</el-dialog>
+		
+		<el-dialog title="代收快递信息" :visible.sync="dialogTableVisible1">
+			<el-form ref="infoList" :model="infoList" :rules="infoListRules" label-width="120px">
+				<el-form-item label="快递公司名称" prop="name">
+					<el-input v-model="infoList.name" disabled></el-input>
+				</el-form-item>
+				<el-form-item label="收货人" prop="username">
+					<el-input v-model="infoList.username" disabled></el-input>
+				</el-form-item>
+				<el-form-item label="联系电话" prop="tel">
+					<el-input v-model="infoList.tel" disabled></el-input>
+				</el-form-item>
+				<el-form-item label="收货地址" prop="address">
+					<el-input v-model="infoList.address" disabled></el-input>
+				</el-form-item>
+				<el-form-item label="代收货日期" prop="date">
+					<el-date-picker v-model="infoList.date" type="date" disabled></el-date-picker>
+				</el-form-item>
+				
+				<el-form-item label="是否领取" prop="isreceive">
+					<el-select v-model="infoList.isreceive" placeholder="请选择领取与否" style="width:100%">
+							<el-option label="已领取" value="已领取"></el-option>
+							<el-option label="未领取" value="未领取"></el-option>
+						</el-select>
+				</el-form-item>
+				<el-form-item label="收货日期" prop="alreadyDate">
+					<el-date-picker v-model="infoList.alreadyDate" type="date"></el-date-picker>
+				</el-form-item>
+				<el-button type="primary" style="margin-left: 40%;" @click="edit">保存</el-button>
+				<el-button @click="resetForm1('infoList')">重置</el-button>
+				<el-button @click="goBack">返回</el-button>
+			</el-form>
+		</el-dialog>
 	</div>
 </template>
 
 <script>
 	import request from "../../../utils/request.js"
 	import axios from "axios";
+	import moment from 'moment';
 	export default {
 		data() {
 			return {
 				formInline: {
 					username: '',
+					isreceive:''
+				},
+				addForm:{
+					name:'',
+					username:'',
+					tel:'',
+					address:'',
+					date:'',
+					isreceive:'未领取'
+				},
+				infoList:{
+					name:'',
+					username:'',
+					tel:'',
+					address:'',
+					date:'',
+					isreceive:'',
+					alreadyDate:''
 				},
 				typeList: [],
+				addFormRules: {
+					name: [{
+						required: true,
+						message: '请输入快递名称',
+						trigger: 'blur'
+					}, ],
+					username: [{
+						required: true,
+						message: '请输入收货人',
+						trigger: 'blur'
+					}, ],
+					tel: [{
+						required: true,
+						message: '请输入联系电话',
+						trigger: 'blur'
+					}, ],
+					address: [{
+						required: true,
+						message: '请输入收货地址',
+						trigger: 'blur'
+					}, ],
+					date: [{
+						required: true,
+						message: '请选择代收时间',
+						trigger: 'blur'
+					}, ],
+					isreceive: [{
+						required: true,
+						message: '请选择领取与否',
+						trigger: 'blur'
+					}, ],
+				},
+				infoListRules: {
+					name: [{
+						required: true,
+						message: '请输入快递名称',
+						trigger: 'blur'
+					}, ],
+					username: [{
+						required: true,
+						message: '请输入收货人',
+						trigger: 'blur'
+					}, ],
+					tel: [{
+						required: true,
+						message: '请输入联系电话',
+						trigger: 'blur'
+					}, ],
+					address: [{
+						required: true,
+						message: '请输入收货地址',
+						trigger: 'blur'
+					}, ],
+					date: [{
+						required: true,
+						message: '请选择代收时间',
+						trigger: 'blur'
+					}, ],
+					isreceive: [{
+						required: true,
+						message: '请选择领取与否',
+						trigger: 'blur'
+					}, ],
+				},
 				dialogTableVisible: false,
+				dialogTableVisible1:false,
 				currentPage: 1, //默认第一页
 				total: 0, //总条数
 				pagesize: 5 //默认第一页展示10条
@@ -81,6 +237,17 @@
 			this.getColpassList()
 		},
 		methods: {
+			dateFormat: function(row, column) {
+			
+				var date = row[column.property];
+			
+				if (date == undefined) {
+					return ''
+				};
+			
+				return moment(date).format("YYYY-MM-DD")
+			
+			},
 			resetForm() {
 				this.formInline = {}
 				this.getColpassList();
@@ -99,6 +266,109 @@
 						// console.log(self.typeList);
 						console.log(res);
 					})
+			},
+			// 新增代收快递信息
+			add() {
+				if (
+					this.addForm.name == "" ||
+					this.addForm.username == "" ||
+					this.addForm.tel == "" ||
+					this.addForm.address == "" || 
+					this.addForm.date == "" ||
+					this.addForm.isreceive == ""
+				) {
+					this.$message({
+						message: "必填项不能为空！",
+						type: "error",
+					});
+				} else {
+					request({
+						url: "http://127.0.0.1:10520/api/admin/addColPass",
+						method: "post",
+						data: this.addForm
+					}).then(res => {
+						console.log(res);
+						if (res.msg === "新增成功") {
+							this.$message({
+								message: "恭喜你，新增成功",
+								type: "success"
+							});
+							this.init();
+						}
+					});
+				}
+			},
+			init() {
+				// this.dialog_state = false;
+				this.addForm = {};
+				this.dialogTableVisible = false;
+				this.getColpassList();
+			},
+			goBack() {
+				// router.push("check-admin");
+				this.dialogTableVisible = false;
+				this.dialogTableVisible1=false;
+			},
+			resetForm1(addForm) {
+				this.$refs[addForm].resetFields();
+			},
+			handleEdit(index, row) {
+				this.dialogTableVisible1 = true;
+				console.log(index, row)
+				//row是该行tableData对应的一行
+				this.infoList = row
+			},
+			edit() {
+				request({
+					url: "http://127.0.0.1:10520/api/admin/updateColPass",
+					method: "post",
+					data: this.infoList
+				}).then(res => {
+					console.log(res);
+					if (res.msg === "修改成功") {
+						this.$message({
+							message: "修改成功！",
+							type: "success"
+						});
+						this.dialogTableVisible1 = false;
+					}
+				});
+			},
+			// 删除产权变更信息
+			deleteHouse(id) {
+				this.$confirm('删除后将无法恢复!, 是否继续?', '提示', {
+						confirmButtonText: '删除',
+						cancelButtonText: '取消',
+						type: 'warning',
+						center: true,
+						customClass: 'winClass',
+					})
+					.then(() => {
+						request({
+							url: "http://127.0.0.1:10520/api/admin/deleteColPass",
+							method: "post",
+							data: {
+								id: id
+							}
+						}).then(res => {
+							console.log(res);
+							this.$message({
+								type: 'success',
+								message: '删除成功!',
+							})
+							this.getColpassList();
+						})
+					})
+					.catch(() => {
+						this.$message({
+							type: 'info',
+							message: '删除失败',
+						})
+					});
+			},
+			
+			resetForm1(infoList) {
+				this.$refs[addForm].resetFields();
 			},
 			handleSizeChange(val) {
 				this.pagesize = val;
