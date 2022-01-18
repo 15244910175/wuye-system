@@ -249,6 +249,22 @@ router.post('/getColpassList', (req, res) => {
 		})
 	})
 });
+// 查看公告列表
+router.post('/getNoticeList', (req, res) => {
+	var sql = $sql.admin.getNoticeList;
+	var params = req.body;
+	console.log(params);
+	conn.query(sql, [], function(err, result) {
+		var data = JSON.parse(JSON.stringify(result))
+
+		return res.send({
+			status: 1,
+			msg: "查询成功",
+			list: data
+		})
+	})
+});
+
 
 // 新增住户信息
 router.post('/addData', (req, res) => {
@@ -468,7 +484,21 @@ router.post('/addPassMag', (req, res) => {
     })
   })
 });
-
+// 新增公告信息
+router.post('/addNotice', (req, res) => {
+  var sql = $sql.admin.addNotice;
+  // var params = req.body;
+  console.log(req);
+  conn.query(sql, [req.body.title,req.body.content,req.body.time,req.body.name], function (err, result) {
+    var data = req.body;
+    console.log(result)
+    return res.send({
+      status: 1,
+      msg: "新增成功",
+      data: data
+    })
+  })
+});
 
 
 // 删除住户信息
@@ -702,7 +732,21 @@ router.post('/deleteColPass', (req, res) => {
     })
   })
 });
-
+// 删除公告
+router.post('/deleteNotice', (req, res) => {
+  var sql = $sql.admin.deleteNotice;
+  // var params = req.body;
+  console.log(req);
+  conn.query(sql, [req.body.id], function (err, result) {
+    var data = result;
+    console.log(result)
+    return res.send({
+      status: 1,
+      msg: "删除成功",
+      data: data
+    })
+  })
+});
 
 // 修改住户信息
 router.post('/updateData', (req, res) => {
@@ -955,7 +999,22 @@ router.post('/updateColPass', (req, res) => {
   var sql = $sql.admin.updateColPass;
   // var params = req.body;
   console.log(req);
-  conn.query(sql, [req.body.isreceive,req.body.id], function (err, result) {
+  conn.query(sql, [req.body.isreceive,req.body.alreadyDate,req.body.id], function (err, result) {
+    var data = req.body;
+    console.log(result)
+    return res.send({
+      status: 1,
+      msg: "修改成功",
+      data: data
+    })
+  })
+});
+// 编辑公告内容
+router.post('/updateNotice', (req, res) => {
+  var sql = $sql.admin.updateNotice;
+  // var params = req.body;
+  console.log(req);
+  conn.query(sql, [req.body.title,req.body.content,req.body.time,req.body.id], function (err, result) {
     var data = req.body;
     console.log(result)
     return res.send({

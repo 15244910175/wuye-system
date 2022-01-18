@@ -181,10 +181,10 @@ const routes = [{
 	  path: '/col-pass',
 	  component: resolve=>require(['../pages/admin/pass/col-pass.vue'],resolve),
 	 },
-    //  {
-    //    path:'/useradmin',
-    //    component:resolve=>require(['../views/useradmin.vue'],resolve)
-    //  }
+     {
+       path:'/noticeMag',
+       component:resolve=>require(['../pages/admin/notice/noticeMag.vue'],resolve)
+     }
   ]
   },
 ]

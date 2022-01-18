@@ -77,20 +77,31 @@
 						trigger: 'blur'
 					}, ],
 				},
-				time: ''
 			}
 		},
 		methods: {
 			onSubmit() {
-				this.time = formatDate(new Date());
+				this.addForm.time = formatDate(new Date());
 				// this.title=this.title;
 				// this.typeId = this.uuid();
 				const params = {
 					title: this.addForm.title,
 					mark: this.addForm.mark,
 					type: this.addForm.type,
-					time: this.time
+					time: this.addForm.time
 				};
+				if (
+					this.addForm.title == "" ||
+					this.addForm.type == "" ||
+					// this.addForm.time == "" ||
+					// this.addForm.beDate == "" ||
+					this.addForm.mark == ""
+				) {
+					this.$message({
+						message: "参数不能为空！",
+						type: "error",
+					});
+				} else {
 				request({
 					url: "http://127.0.0.1:10520/api/user/addNote",
 					method: "post",
@@ -105,34 +116,11 @@
 						this.init();
 					}
 				});
+			}
 			},
 			init() {
 				// this.dialog_state = false;
 				this.addForm = {};
-			},
-			//显示当前时间（年月日时分秒）
-			timeFormate(timeStamp) {
-				let year = new Date(timeStamp).getFullYear();
-				let month = new Date(timeStamp).getMonth() + 1 < 10 ? "0" + (new Date(timeStamp).getMonth() + 1) :
-					new Date(timeStamp).getMonth() + 1;
-				let date = new Date(timeStamp).getDate() < 10 ? "0" + new Date(timeStamp).getDate() : new Date(timeStamp)
-					.getDate();
-				let hh = new Date(timeStamp).getHours() < 10 ? "0" + new Date(timeStamp).getHours() : new Date(timeStamp)
-					.getHours();
-				let mm = new Date(timeStamp).getMinutes() < 10 ? "0" + new Date(timeStamp).getMinutes() : new Date(
-					timeStamp).getMinutes();
-				let ss = new Date(timeStamp).getSeconds() < 10 ? "0" + new Date(timeStamp).getSeconds() : new Date(
-					timeStamp).getSeconds();
-				this.nowTime = year + "年" + month + "月" + date + "日" + " " + hh + ":" + mm + ':' + ss;
-			},
-			nowTimes() {
-				this.timeFormate(new Date());
-				setInterval(this.nowTimes, 1000);
-				this.clear()
-			},
-			clear() {
-				clearInterval(this.nowTimes)
-				this.nowTimes = null;
 			},
 			resetForm(addForm) {
 				this.$refs[addForm].resetFields();

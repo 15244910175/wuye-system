@@ -21,10 +21,10 @@
 				<el-form-item label="住户地址" prop="address">
 					<el-input v-model="data.address" placeholder="请输入住户地址"></el-input>
 				</el-form-item>
-				<el-form-item label="报修日期" prop="beDate">
+				<!-- <el-form-item label="报修日期" prop="beDate">
 					<el-date-picker v-model="data.beDate" type="datetime" placeholder="选择日期时间" style="width:100%">
 					</el-date-picker>
-				</el-form-item>
+				</el-form-item> -->
 				<el-form-item label="报修情况说明" prop="mark">
 					<el-input type="textarea" v-model="data.mark" placeholder="请输入报修情况说明"></el-input>
 				</el-form-item>
@@ -153,11 +153,21 @@
 
 
 			onSubmit() {
+				this.data.beDate = formatDate(new Date());
+				// this.title=this.title;
+				// this.typeId = this.uuid();
+				const params = {
+					name: this.data.name,
+					tel: this.data.tel,
+					address: this.data.address,
+					mark:this.data.mark,
+					beDate: this.data.beDate,
+				};
 				if (
 					this.data.name == "" ||
 					this.data.tel == "" ||
 					this.data.address == "" ||
-					this.data.beDate == "" ||
+					// this.data.beDate == "" ||
 					this.data.mark == ""
 				) {
 					this.$message({

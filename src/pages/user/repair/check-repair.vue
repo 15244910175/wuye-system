@@ -37,8 +37,8 @@
 				</el-table-column>
 				<el-table-column prop="name" label="报修事项名称">
 				</el-table-column>
-				<el-table-column prop="inName" label="报修人">
-				</el-table-column>
+				<!-- <el-table-column prop="inName" label="报修人">
+				</el-table-column> -->
 				<el-table-column prop="tel" label="电话">
 				</el-table-column>
 				<el-table-column prop="beDate" label="报修时间" :formatter="dateFormat">

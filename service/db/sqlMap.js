@@ -26,7 +26,7 @@ var sqlMap = {
 		// 添加报修事项
 		addRepair:'insert into equip(name,tel,address,beDate,mark,revalue) values(?,?,?,?,?,?)',
 		// 添加留言、投诉
-		addNote:'insert into t_leaverword (title,mark,type,time,leaverName) values(?,?,?,?)'
+		addNote:'insert into t_leaverword (title,mark,type,time,leaverName) values(?,?,?,?,?)'
 		
        
         
@@ -65,6 +65,8 @@ var sqlMap = {
 		getPassMagList:'select * from pass_Mag',
 		// 查看代收快递信息
 		getColpassList:'select * from col_pass',
+		// 查看公告列表
+		getNoticeList:'select * from notice',
 		
 		// 新增住户信息
 		addData:'insert into resident(rNo,username,persionNo,sex,telephone,date) values (?,?,?,?,?,?)',
@@ -73,7 +75,7 @@ var sqlMap = {
 		// 添加管理员
 		addAdmin:'insert into admin(AdminName,LoginName,persionNo,sex,begDate,post) values(?,?,?,?,?,?)',
 		// 添加物业费
-		addPay:'insert into t_change(dNo,zName,type,cases,changeName,waterCase,eCase,gasCase,stopCase,mandCase,remark,changedate,state,payabledate) values (?,?,?,?,?,?,?,?,?,?,?,?,?,?)',
+		addPay:'insert into t_change(dNo,zName,type,cases,changeName,waterCase,eCase,gasCase,stopCase,mandCase,remark,state,payabledate) values (?,?,?,?,?,?,?,?,?,?,?,?,?)',
 		// 新增预定车位
 		addOrderPark:'insert into carorder(userid,persionNo,telephone,address,carAddress,state) values(?,?,?,?,?,?)',
 		// 添加设备信息
@@ -92,7 +94,8 @@ var sqlMap = {
 		addHchange:'insert into h_change(rNo,oldOwner,nowOwner,changedate) values (?,?,?,?)',
 		// 新增代收快递信息·
 		addColPass:'insert into col_pass(name,username,tel,address,date,isreceive) values (?,?,?,?,?,?)',
-		
+		// 新增公告信息
+		addNotice:'insert into notice(title,content,time,name) values (?,?,?,?)',
 		
 		// 新增快递公司管理信息
 		addPassMag:'insert into pass_mag(name,username,tel,address) values (?,?,?,?)',
@@ -128,6 +131,8 @@ var sqlMap = {
 		deletePassMag:'delete from pass_mag where id=?',
 		// 删除代收快递信息
 		deleteColPass:'delete from col_pass where id=?',
+		// 删除公告
+		deleteNotice:'delete from notice where id=?',
 		
 		// 修改住户信息
 		updateData:'update resident set rNo=?,username=?,persionNo=?,sex=?,telephone=?,date=? where id=?',
@@ -162,7 +167,9 @@ var sqlMap = {
 		// 编辑快递公司信息
 		updatePassMag:'update pass_mag set name=?,username=?,tel=?,address=? where id=?',
 		// 编辑代收快递信息领取与否
-		updateColPass:'update col_pass set isreceive=? where id=?',
+		updateColPass:'update col_pass set isreceive=?,alreadyDate=? where id=?',
+		// 编辑公告内容
+		updateNotice:'update notice set title=?,content=?,time=? where id=?',
 	}
 }
 

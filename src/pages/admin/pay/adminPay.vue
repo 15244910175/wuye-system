@@ -114,7 +114,7 @@
 					gasCase: '',
 					stopCase: '',
 					mandCase: '',
-					changedate: new Date(),
+					// changedate: new Date(),
 					remark: '',
 					state: '未缴费',
 					payabledate: ''

@@ -161,6 +161,16 @@
 
             </el-menu-item-group>
           </el-submenu>
+		  <el-submenu index="11">
+		    <template slot="title">
+		      <i class="el-icon-bell"></i>
+		      <span>公告管理</span>
+		    </template>
+		    <el-menu-item-group>
+		      <el-menu-item index="noticeMag" class="el-icon-menu">公告信息管理</el-menu-item>
+		  
+		    </el-menu-item-group>
+		  </el-submenu>
 
 
         </el-menu>

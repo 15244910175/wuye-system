@@ -129,7 +129,7 @@ router.post('/addNote', (req, res) => {
 	var sql = $sql.user.addNote;
 	// var params = req.body;
 	console.log(req);
-	conn.query(sql, [req.body.title, req.body.mark, req.body.type, req.body.time, req.body.leaverName],
+	conn.query(sql, [req.body.title,req.body.mark,req.body.type,req.body.time,req.body.leaverName],
 		function(err, result) {
 			var data = req.body;
 			console.log(result)
