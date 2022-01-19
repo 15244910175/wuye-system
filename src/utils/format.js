@@ -2,7 +2,7 @@ Date.prototype.Format = function (fmt) {
 let o = {
     'M+': this.getMonth() + 1,
     'd+': this.getDate(),
-    'h+': this.getHours(),
+    'H+': this.getHours(),
     'm+': this.getMinutes(),
     's+': this.getSeconds(),
     'q+': Math.floor((this.getMonth() + 3) / 3),
@@ -16,6 +16,6 @@ let o = {
   return fmt
 }
 export function formatDate (date) {
-  var time = date.Format('yyyy-MM-dd hh:mm:ss')
+  var time = new Date().Format('yyyy-MM-dd HH:mm:ss')
   return time
 }

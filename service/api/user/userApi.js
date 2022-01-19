@@ -102,6 +102,31 @@ router.post('/getNoteList', (req, res) => {
 		})
 	})
 });
+// 根据id查看公告详情
+router.post('/getNoticeMain', (req, res) => {
+	var sql = $sql.admin.getNoticeMain;
+	var params=req.body;
+	console.log(params);
+	var id = req.query.id;
+	conn.query(sql, [id],(err, result)=> {
+		// var data = JSON.parse(JSON.stringify(result))
+		if(err) throw err;
+		res.send({
+			status: 1,
+			msg: "查询成功",
+			list: result
+		});
+	})
+});
+// server.get("/detail",(req,res)=>{
+//     // 获取页面传过来的参数
+//     var id=req.query.id;
+//     var sql="sql语句 WHERE id=?"
+//     pool.query(sql,[id],(err,result)=>{
+//         if(err) throw err;
+//         res.send({code:1,msg:"查询成功",data:result});
+//     })
+// });
 
 
 // 新增报修事项
@@ -129,7 +154,7 @@ router.post('/addNote', (req, res) => {
 	var sql = $sql.user.addNote;
 	// var params = req.body;
 	console.log(req);
-	conn.query(sql, [req.body.title,req.body.mark,req.body.type,req.body.time,req.body.leaverName],
+	conn.query(sql, [req.body.title, req.body.mark, req.body.type, req.body.time, req.body.leaverName],
 		function(err, result) {
 			var data = req.body;
 			console.log(result)

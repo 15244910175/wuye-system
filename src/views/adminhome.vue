@@ -66,50 +66,57 @@
 			  <el-menu-item index="leasehold" class="el-icon-menu">租赁资料管理</el-menu-item>
 			</el-menu-item-group>
           </el-submenu>
-
           <el-submenu index="2">
+            <template slot="title">
+              <i class="el-icon-house"></i>
+              <span>房产管理</span>
+            </template>
+            <el-menu-item-group>
+				<el-menu-item index="house-mag" class="el-icon-menu">房产管理信息</el-menu-item>
+              
+			</el-menu-item-group>
+          </el-submenu>
+          <el-submenu index="3">
             <template slot="title">
               <i class="iconfont icon-xitongguanliyuan"></i>
               <span>系统管理员管理</span>
             </template>
             <el-menu-item-group>
-              <el-menu-item index="add-admin" class="el-icon-menu">添加管理员</el-menu-item>
+
               <el-menu-item index="check-admin" class="el-icon-menu">查看管理员</el-menu-item>
             </el-menu-item-group>
           </el-submenu>
-          <el-submenu index="3">
+          <el-submenu index="4">
             <template slot="title">
               <i class="el-icon-s-custom"></i>
               <span>保安管理</span>
             </template>
             <el-menu-item-group>
-              <el-menu-item index="add-baoan" class="el-icon-menu">添加保安信息</el-menu-item>
               <el-menu-item index="check-baoan" class="el-icon-menu">查看保安信息</el-menu-item>
-              <el-menu-item index="add-Scheduling" class="el-icon-menu">新增保安排班</el-menu-item>
               <el-menu-item index="check-Scheduling" class="el-icon-menu">查看保安排班记录</el-menu-item>
             </el-menu-item-group>
           </el-submenu>
-          <el-submenu index="4">
+          <el-submenu index="5">
             <template slot="title">
               <i class="iconfont icon-hrrenshirenshiguanli380"></i>
               <span>人事管理</span>
             </template>
             <el-menu-item-group>
-              <el-menu-item index="add-renshi" class="el-icon-menu">添加物业公司员工信息</el-menu-item>
+              
               <el-menu-item index="check-renshi" class="el-icon-menu">查看物业公司员工信息</el-menu-item>
             </el-menu-item-group>
           </el-submenu>
-          <el-submenu index="5">
+          <el-submenu index="6">
             <template slot="title">
               <i class="iconfont icon-shebeiguanli"></i>
               <span>设备管理</span>
             </template>
             <el-menu-item-group>
-              <el-menu-item index="add-equipment" class="el-icon-menu">添加设备信息</el-menu-item>
+
               <el-menu-item index="check-equipment" class="el-icon-menu">查看设备信息</el-menu-item>
             </el-menu-item-group>
           </el-submenu>
-          <el-submenu index="6">
+          <el-submenu index="7">
             <template slot="title">
               <i class="iconfont icon-wuyejiaofei"></i>
               <span>缴费管理</span>
@@ -119,7 +126,7 @@
               <el-menu-item index="check-adminPay" class="el-icon-menu">缴纳物业费信息查看</el-menu-item>
             </el-menu-item-group>
           </el-submenu>
-          <el-submenu index="7">
+          <el-submenu index="8">
             <template slot="title">
               <i class="iconfont icon-wuyebaoxiu"></i>
               <span>住户报修管理</span>
@@ -129,7 +136,7 @@
               <el-menu-item index="check-adminRepair" class="el-icon-menu">报修事项信息查看</el-menu-item>
             </el-menu-item-group>
           </el-submenu>
-          <el-submenu index="8">
+          <el-submenu index="9">
             <template slot="title">
               <i class="iconfont icon-tingche"></i>
               <span>住户停车车位管理</span>
@@ -140,7 +147,7 @@
               <el-menu-item index="check-carPark" class="el-icon-menu">小区车位查看</el-menu-item>
             </el-menu-item-group>
           </el-submenu>
-		  <el-submenu index="9">
+		  <el-submenu index="10">
 		    <template slot="title">
 		      <i class="el-icon-truck"></i>
 		      <span>小区快递管理</span>
@@ -150,7 +157,7 @@
 		      <el-menu-item index="col-pass" class="el-icon-menu">代收快递信息管理</el-menu-item>
 		    </el-menu-item-group>
 		  </el-submenu>
-          <el-submenu index="10">
+          <el-submenu index="11">
             <template slot="title">
               <i class="el-icon-s-tools"></i>
               <span>留言管理</span>
@@ -161,7 +168,7 @@
 
             </el-menu-item-group>
           </el-submenu>
-		  <el-submenu index="11">
+		  <el-submenu index="12">
 		    <template slot="title">
 		      <i class="el-icon-bell"></i>
 		      <span>公告管理</span>

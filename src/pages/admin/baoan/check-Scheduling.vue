@@ -29,6 +29,10 @@
 					<el-form-item>
 						<el-button size="mini" type="primary" class="el-icon-refresh" @click="resetForm">重置</el-button>
 					</el-form-item>
+					<el-form-item>
+						<el-button size="mini" type="primary" class="el-icon-plus" @click="dialogTableVisible1=true">新增
+						</el-button>
+					</el-form-item>
 				</el-form>
 			</div>
 			<el-table :data="typeList.slice((currentPage - 1) * pagesize, currentPage * pagesize)">
@@ -55,12 +59,12 @@
 			<div class="page">
 				<el-pagination @size-change="handleSizeChange" @current-change="handleCurrentChange"
 					:current-page="currentPage" :page-sizes="[5,10,15,20]" :page-size="pagesize"
-					layout=" prev, pager, next, sizes, jumper" :total="typeList.length">
+					layout="total, prev, pager, next, sizes, jumper" :total="typeList.length">
 				</el-pagination>
 			</div>
 		</div>
 
-		<el-dialog title="管理员信息" :visible.sync="dialogTableVisible">
+		<el-dialog title="保安排班信息" :visible.sync="dialogTableVisible">
 			<el-form ref="infoList" :model="infoList" :rules="infoListRules" label-width="120px">
 				<el-form-item label="保安姓名" prop="name">
 					<el-input v-model="infoList.name"></el-input>
@@ -74,8 +78,28 @@
 					<el-date-picker v-model="infoList.endTime" type="datetime" placeholder="请选择工作日期" style="width:100%">
 					</el-date-picker>
 				</el-form-item>
-				<el-button type="primary" style="margin-left: 40%;" @click="save">保存</el-button>
+				<el-button type="primary" style="margin-left: 40%;" @click="edit">保存</el-button>
 				<el-button @click="resetForm1('infoList')">重置</el-button>
+				<el-button @click="goBack">返回</el-button>
+			</el-form>
+		</el-dialog>
+		
+		<el-dialog title="保安排班信息" :visible.sync="dialogTableVisible1">
+			<el-form ref="addForm" :model="addForm" :rules="addFormRules" label-width="120px">
+				<el-form-item label="保安姓名" prop="name">
+					<el-input v-model="addForm.name"></el-input>
+				</el-form-item>
+				<el-form-item label="上班时间" prop="startTime">
+					<el-date-picker v-model="addForm.startTime" type="datetime" placeholder="请选择工作日期"
+						style="width:100%">
+					</el-date-picker>
+				</el-form-item>
+				<el-form-item label="下班时间" prop="endTime">
+					<el-date-picker v-model="addForm.endTime" type="datetime" placeholder="请选择工作日期" style="width:100%">
+					</el-date-picker>
+				</el-form-item>
+				<el-button type="primary" style="margin-left: 40%;" @click="add">保存</el-button>
+				<el-button @click="resetForm1('addForm')">重置</el-button>
 				<el-button @click="goBack">返回</el-button>
 			</el-form>
 		</el-dialog>
@@ -105,11 +129,41 @@
 					startTime: '',
 					endTime: '',
 				},
+				addForm:{
+					name: '',
+					startTime: '',
+					endTime: '',
+				},
 				currentPage: 1, //默认第一页
 				total: 0, //总条数
 				pagesize: 5, //默认第一页展示10条
 				dialogTableVisible: false,
+				dialogTableVisible1: false,
 				infoListRules: {
+					name: [{
+							required: true,
+							message: '请输入保安姓名',
+							trigger: 'blur'
+						},
+						{
+							min: 2,
+							max: 20,
+							message: '长度在 2 到 20 个字符',
+							trigger: 'blur'
+						}
+					],
+					startTime: [{
+						required: true,
+						message: '请选择工作开始时间',
+						trigger: 'blur'
+					}, ],
+					endTime: [{
+						required: true,
+						message: '请选择工作开始时间',
+						trigger: 'blur'
+					}, ],
+				},
+				addFormRules: {
 					name: [{
 							required: true,
 							message: '请输入保安姓名',
@@ -152,9 +206,13 @@
 			goBack() {
 				// router.push("check-admin");
 				this.dialogTableVisible = false;
+				this.dialogTableVisible1=false;
 			},
 			resetForm1(infoList) {
 				this.$refs[infoList].resetFields();
+			},
+			resetForm1(addForm) {
+				this.$refs[addForm].resetFields();
 			},
 			handleEdit(index, row) {
 				this.dialogTableVisible = true;
@@ -162,7 +220,40 @@
 				//row是该行tableData对应的一行
 				this.infoList = row
 			},
-			save() {
+			add() {
+				if (
+					this.addForm.name == "" ||
+					this.addForm.startTime == "" ||
+					this.addForm.endTime == "" 
+				) {
+					this.$message({
+						message: "必填项不能为空！",
+						type: "error",
+					});
+				} else {
+				request({
+				        url: "http://127.0.0.1:10520/api/admin/addPb",
+				        method: "post",
+				        data: this.addForm
+				      }).then(res => {
+				        console.log(res);
+				        if (res.msg === "新增成功") {
+				          this.$message({
+				            message: "恭喜你，新增成功",
+				            type: "success"
+				          });
+				          this.init();
+				        }
+				      });
+					  }
+			},
+			init() {
+			      // this.dialog_state = false;
+			      this.addForm = {};
+				  this.getBAaScList();
+				  this.dialogTableVisible1=false;
+			    },
+			edit() {
 				request({
 					url: "http://127.0.0.1:10520/api/admin/updatePb",
 					method: "post",

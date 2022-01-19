@@ -30,6 +30,10 @@
 					<el-form-item>
 						<el-button size="mini" type="primary" class="el-icon-refresh" @click="resetForm">重置</el-button>
 					</el-form-item>
+					<el-form-item>
+						<el-button size="mini" type="primary" class="el-icon-plus" @click="dialogTableVisible1=true">新增
+						</el-button>
+					</el-form-item>
 				</el-form>
 			</div>
 			<el-table :data="typeList.slice((currentPage - 1) * pagesize, currentPage * pagesize)">
@@ -38,11 +42,13 @@
 				</el-table-column>
 				<el-table-column prop="name" label="设备名称">
 				</el-table-column>
+				<el-table-column prop="num" label="设备数量">
+				</el-table-column>
 				<el-table-column prop="beDate" label="采购时间" :formatter="dateFormat">
 				</el-table-column>
 				<el-table-column prop="model" label="设备型号">
 				</el-table-column>
-				<el-table-column prop="inName" label="登记人">
+				<el-table-column prop="mark" label="设备说明">
 				</el-table-column>
 				<el-table-column label="具体操作" width="300">
 					<template slot-scope="scope">
@@ -58,7 +64,7 @@
 			<div class="page">
 				<el-pagination @size-change="handleSizeChange" @current-change="handleCurrentChange"
 					:current-page="currentPage" :page-sizes="[5,10,15,20]" :page-size="pagesize"
-					layout=" prev, pager, next, sizes, jumper" :total="typeList.length">
+					layout="total, prev, pager, next, sizes, jumper" :total="typeList.length">
 				</el-pagination>
 			</div>
 		</div>
@@ -81,8 +87,32 @@
 				<el-form-item label="设备说明" prop="mark">
 					<el-input v-model="infoList.mark"></el-input>
 				</el-form-item>
-				<el-button type="primary" style="margin-left: 40%;" @click="save">保存</el-button>
+				<el-button type="primary" style="margin-left: 40%;" @click="edit">保存</el-button>
 				<el-button @click="resetForm1('infoList')">重置</el-button>
+				<el-button @click="goBack">返回</el-button>
+			</el-form>
+		</el-dialog>
+		
+		<el-dialog title="设备信息" :visible.sync="dialogTableVisible1">
+			<el-form ref="addForm" :model="addForm" :rules="addFormRules" label-width="120px">
+				<el-form-item label="设备名称" prop="name">
+					<el-input v-model="addForm.name"></el-input>
+				</el-form-item>
+				<el-form-item label="设备型号" prop="model">
+					<el-input v-model="addForm.model"></el-input>
+				</el-form-item>
+				<el-form-item label="设备数量" prop="num">
+					<el-input v-model="addForm.num"></el-input>
+				</el-form-item>
+				<el-form-item label="采购时间" prop="beDate">
+					<el-date-picker v-model="addForm.beDate" type="date" placeholder="请选择工作日期" style="width:100%">
+					</el-date-picker>
+				</el-form-item>
+				<el-form-item label="设备说明" prop="mark">
+					<el-input v-model="addForm.mark"></el-input>
+				</el-form-item>
+				<el-button type="primary" style="margin-left: 40%;" @click="add">保存</el-button>
+				<el-button @click="resetForm1('addForm')">重置</el-button>
 				<el-button @click="goBack">返回</el-button>
 			</el-form>
 		</el-dialog>
@@ -115,11 +145,52 @@
 					beDate: '',
 					mark: ''
 				},
+				addForm: {
+					name: '',
+					model: '',
+					num: '',
+					beDate: '',
+					mark: ''
+				},
 				currentPage: 1, //默认第一页
 				total: 0, //总条数
 				pagesize: 5, //默认第一页展示10条
 				dialogTableVisible: false,
+				dialogTableVisible1: false,
 				infoListRules: {
+					name: [{
+						required: true,
+						message: '请输入设备名称',
+						trigger: 'blur'
+					}],
+					model: [{
+						required: true,
+						message: '请输入设备型号',
+						trigger: 'blur'
+					}, ],
+					num: [{
+							required: true,
+							message: '请选择性别',
+							trigger: 'blur'
+						},
+						{
+							type: 'number',
+							message: '数量必须为数字',
+							trigger: 'blur'
+						}
+					],
+					beDate: [{
+						required: true,
+						message: '请选择采购时间',
+						trigger: 'blur'
+					}, ],
+					mark: [{
+						required: true,
+						message: '请输入设备说明',
+						trigger: 'blur'
+					}, ]
+				},
+				addFormRules: {
 					name: [{
 						required: true,
 						message: '请输入设备名称',
@@ -173,9 +244,48 @@
 			goBack() {
 				// router.push("check-admin");
 				this.dialogTableVisible = false;
+				this.dialogTableVisible1=false;
 			},
 			resetForm1(infoList) {
 				this.$refs[infoList].resetFields();
+			},
+			resetForm1(addForm) {
+				this.$refs[addForm].resetFields();
+			},
+			add() {
+					  if (
+					  	this.addForm.name == "" ||
+					  	this.addForm.model == "" ||
+					  	this.addForm.num == "" ||
+					  	this.addForm.beDate == "" ||
+					  	this.addForm.mark == ""
+					  ) {
+					  	this.$message({
+					  		message: "必填项不能为空！",
+					  		type: "error",
+					  	});
+					  } else {
+				request({
+					url: "http://127.0.0.1:10520/api/admin/addEqu",
+					method: "post",
+					data: this.addForm
+				}).then(res => {
+					console.log(res);
+					if (res.msg === "新增成功") {
+						this.$message({
+							message: "恭喜你，新增成功",
+							type: "success"
+						});
+						this.init();
+					}
+				});
+					}
+			},
+			init() {
+				// this.dialog_state = false;
+				this.addForm = {};
+				this.dialogTableVisible1=false;
+				this.getEquipList();
 			},
 			handleEdit(index, row) {
 				this.dialogTableVisible = true;
@@ -183,7 +293,7 @@
 				//row是该行tableData对应的一行
 				this.infoList = row
 			},
-			save() {
+			edit() {
 				request({
 					url: "http://127.0.0.1:10520/api/admin/updateEqu",
 					method: "post",

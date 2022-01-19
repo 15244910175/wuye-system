@@ -73,7 +73,7 @@
 			<div class="page">
 				<el-pagination @size-change="handleSizeChange" @current-change="handleCurrentChange"
 					:current-page="currentPage" :page-sizes="[5,10,15,20]" :page-size="pagesize"
-					layout=" prev, pager, next, sizes, jumper" :total="typeList.length">
+					layout="total, prev, pager, next, sizes, jumper" :total="typeList.length">
 				</el-pagination>
 			</div>
 		</div>

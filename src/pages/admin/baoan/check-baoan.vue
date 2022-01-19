@@ -30,6 +30,10 @@
 					<el-form-item>
 						<el-button size="mini" type="primary" class="el-icon-refresh" @click="resetForm">重置</el-button>
 					</el-form-item>
+					<el-form-item>
+						<el-button size="mini" type="primary" class="el-icon-plus" @click="dialogTableVisible1=true">新增
+						</el-button>
+					</el-form-item>
 				</el-form>
 			</div>
 			<el-table :data="typeList.slice((currentPage - 1) * pagesize, currentPage * pagesize)">
@@ -60,7 +64,7 @@
 			<div class="page">
 				<el-pagination @size-change="handleSizeChange" @current-change="handleCurrentChange"
 					:current-page="currentPage" :page-sizes="[5,10,15,20]" :page-size="pagesize"
-					layout=" prev, pager, next, sizes, jumper" :total="typeList.length">
+					layout="total, prev, pager, next, sizes, jumper" :total="typeList.length">
 				</el-pagination>
 			</div>
 		</div>
@@ -86,8 +90,34 @@
 				<el-form-item label="职务" prop="post">
 					<el-input v-model="infoList.post"></el-input>
 				</el-form-item>
-				<el-button type="primary" style="margin-left: 40%;" @click="save"> 保存</el-button>
+				<el-button type="primary" style="margin-left: 40%;" @click="edit"> 保存</el-button>
 				<el-button @click="resetForm1('infoList')">重置</el-button>
+				<el-button @click="goBack">返回</el-button>
+			</el-form>
+		</el-dialog>
+		<el-dialog title="管理员信息" :visible.sync="dialogTableVisible1">
+			<el-form ref="addForm" :model="addForm" :rules="addFormRules" label-width="120px">
+				<el-form-item label="保安人员姓名" prop="name">
+					<el-input v-model="addForm.name"></el-input>
+				</el-form-item>
+				<el-form-item label="身份证" prop="persionNo">
+					<el-input v-model="addForm.persionNo"></el-input>
+				</el-form-item>
+				<el-form-item label="性别" prop="sex">
+					<el-select v-model="addForm.sex" placeholder="请选择性别" style="width:100%">
+						<el-option label="男" value="男"></el-option>
+						<el-option label="女" value="女"></el-option>
+					</el-select>
+				</el-form-item>
+				<el-form-item label="工作开始日期" prop="begDate">
+					<el-date-picker v-model="addForm.begDate" type="date" placeholder="请选择工作日期" style="width:100%">
+					</el-date-picker>
+				</el-form-item>
+				<el-form-item label="职务" prop="post">
+					<el-input v-model="addForm.post"></el-input>
+				</el-form-item>
+				<el-button type="primary" style="margin-left: 40%;" @click="add"> 保存</el-button>
+				<el-button @click="resetForm1('addForm')">重置</el-button>
 				<el-button @click="goBack">返回</el-button>
 			</el-form>
 		</el-dialog>
@@ -108,17 +138,16 @@
 					begDate: '',
 					post: ''
 				},
-				typeList: [{
-					name: '',
-					persionNo: '',
-					begDate: '',
-					post: '',
-					sex: ''
-				}],
+				typeList: [],
 				infoList: {
-					AdminName: '',
-					LoginName: '',
-					LoginPwd: '',
+				    name:'',
+					persionNo: '',
+					sex: '',
+					begDate: '',
+					post: ''
+				},
+				addForm: {
+				    name:'',
 					persionNo: '',
 					sex: '',
 					begDate: '',
@@ -128,7 +157,56 @@
 				total: 0, //总条数
 				pagesize: 5, //默认第一页展示10条
 				dialogTableVisible: false,
+				dialogTableVisible1: false,
 				infoListRules: {
+					name: [{
+							required: true,
+							message: '请输入管理员姓名',
+							trigger: 'blur'
+						},
+						{
+							min: 2,
+							max: 20,
+							message: '长度在 2 到 20 个字符',
+							trigger: 'blur'
+						}
+					],
+					persionNo: [{
+							required: true,
+							message: '请输入身份证号',
+							trigger: 'blur'
+						},
+						{
+							min: 18,
+							max: 18,
+							message: '长度18为个字符',
+							trigger: 'blur'
+						}
+					],
+					sex: [{
+						required: true,
+						message: '请选择性别',
+						trigger: 'blur'
+					}, ],
+					begDate: [{
+						required: true,
+						message: '请选择工作开始时间',
+						trigger: 'blur'
+					}, ],
+					post: [{
+							required: true,
+							message: '请输入职务',
+							trigger: 'blur'
+						},
+						{
+							min: 2,
+							max: 20,
+							message: '长度在 2 到 20 个字符',
+							trigger: 'blur'
+						}
+					],
+				},
+				addFormRules: {
 					name: [{
 							required: true,
 							message: '请输入管理员姓名',
@@ -195,9 +273,13 @@
 			goBack() {
 				// router.push("check-admin");
 				this.dialogTableVisible = false;
+				this.dialogTableVisible1=false;
 			},
 			resetForm1(infoList) {
 				this.$refs[infoList].resetFields();
+			},
+			resetForm1(addForm) {
+				this.$refs[addForm].resetFields();
 			},
 			handleEdit(index, row) {
 				this.dialogTableVisible = true;
@@ -205,7 +287,7 @@
 				//row是该行tableData对应的一行
 				this.infoList = row
 			},
-			save() {
+			edit() {
 				request({
 					url: "http://127.0.0.1:10520/api/admin/updateBa",
 					method: "post",
@@ -220,6 +302,41 @@
 						this.dialogTableVisible = false;
 					}
 				});
+			},
+			add() {
+				if (
+					this.addForm.name == "" ||
+					this.addForm.persionNo == "" ||
+					this.addForm.sex == "" ||
+					this.addForm.begDate == "" ||
+					this.addForm.post == ""
+				) {
+					this.$message({
+						message: "必填项不能为空！",
+						type: "error",
+					});
+				} else {
+				request({
+					url: "http://127.0.0.1:10520/api/admin/addba",
+					method: "post",
+					data: this.addForm
+				}).then(res => {
+					console.log(res);
+					if (res.msg === "新增成功") {
+						this.$message({
+							message: "恭喜你，新增成功",
+							type: "success"
+						});
+						this.init();
+					}
+				});
+				}
+			},
+			init() {
+				// this.dialog_state = false;
+				this.addForm = {};
+				this.getBaList();
+				this.dialogTableVisible1=false;
 			},
 			getBaList() {
 				var self = this;

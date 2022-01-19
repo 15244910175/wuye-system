@@ -116,6 +116,15 @@
 							
 						</el-menu-item-group>
 					</el-submenu>
+					<el-submenu index="7">
+						<template slot="title">
+							<i class="el-icon-bell"></i>
+							<span>公告</span>
+						</template>
+						<el-menu-item-group>
+							<el-menu-item index="notice" class="el-icon-menu">公告信息</el-menu-item>	
+						</el-menu-item-group>
+					</el-submenu>
 
 				</el-menu>
 			</el-aside>

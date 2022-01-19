@@ -54,7 +54,7 @@
 			</el-table>
 			<div class="page" style="margin-top: 20px;text-align: center;">
 				<el-pagination @size-change="handleSizeChange" @current-change="handleCurrentChange"
-					:current-page="currentPage" :page-sizes="[5,10,15,20]" :page-size="5" layout=" prev, pager, next, sizes, jumper"
+					:current-page="currentPage" :page-sizes="[5,10,15,20]" :page-size="5" layout="total, prev, pager, next, sizes, jumper"
 					:total="typeList.length">
 				</el-pagination>
 			</div>

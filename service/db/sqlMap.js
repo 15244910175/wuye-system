@@ -67,13 +67,17 @@ var sqlMap = {
 		getColpassList:'select * from col_pass',
 		// 查看公告列表
 		getNoticeList:'select * from notice',
+		// 根据id查询公告详情
+		getNoticeMain:'select * from notice where id=?',
+		// 查看房产管理信息
+		getHouseMagList:'select * from house_mag',
 		
 		// 新增住户信息
 		addData:'insert into resident(rNo,username,persionNo,sex,telephone,date) values (?,?,?,?,?,?)',
 		// 添加报修事项
 		addRepair:'insert into equip(name,inName,tel,address,beDate,mark,revalue) values(?,?,?,?,?,?,?)',
 		// 添加管理员
-		addAdmin:'insert into admin(AdminName,LoginName,persionNo,sex,begDate,post) values(?,?,?,?,?,?)',
+		addAdmin:'insert into admin(AdminName,persionNo,sex,begDate,post) values(?,?,?,?,?)',
 		// 添加物业费
 		addPay:'insert into t_change(dNo,zName,type,cases,changeName,waterCase,eCase,gasCase,stopCase,mandCase,remark,state,payabledate) values (?,?,?,?,?,?,?,?,?,?,?,?,?)',
 		// 新增预定车位
@@ -81,7 +85,7 @@ var sqlMap = {
 		// 添加设备信息
 		addEqu:'insert into chanel(name,model,num,beDate,mark) values(?,?,?,?,?)',
 		// 添加物业公司员工信息
-		addRs:'insert into rs(AdminName,persionNo,sex,begDate) values(?,?,?,?)',
+		addRs:'insert into rs(AdminName,persionNo,sex,begDate,post) values(?,?,?,?,?)',
 		// 添加保安排班
 		addPb:'insert into pb(name,startTime,endTime) values(?,?,?)',
 		// 添加保安信息
@@ -96,6 +100,8 @@ var sqlMap = {
 		addColPass:'insert into col_pass(name,username,tel,address,date,isreceive) values (?,?,?,?,?,?)',
 		// 新增公告信息
 		addNotice:'insert into notice(title,content,time,name) values (?,?,?,?)',
+		// 新增房产管理信息
+		addHouseMag:'insert into house_mag(rNo,buildArea,ableArea,name,sale_status,own_status) values (?,?,?,?,?,?)',
 		
 		// 新增快递公司管理信息
 		addPassMag:'insert into pass_mag(name,username,tel,address) values (?,?,?,?)',
@@ -133,11 +139,13 @@ var sqlMap = {
 		deleteColPass:'delete from col_pass where id=?',
 		// 删除公告
 		deleteNotice:'delete from notice where id=?',
+		// 删除房产信息
+		deleteHouseMag:'delete from house_mag where id=?',
 		
 		// 修改住户信息
 		updateData:'update resident set rNo=?,username=?,persionNo=?,sex=?,telephone=?,date=? where id=?',
 		// 修改管理员信息
-		updateAdmin:'update admin set AdminName=?,LoginName=?,LoginPwd=?,persionNo=?,sex=?,begDate=?,post=? where id=?',
+		updateAdmin:'update admin set AdminName=?,persionNo=?,sex=?,begDate=?,post=? where id=?',
 		// 修改保安信息
 		updateBa:'update ba set name=?,persionNo=?,sex=?,begDate=?,post=? where id=?',
 		// 修改保安排班记录
@@ -170,6 +178,8 @@ var sqlMap = {
 		updateColPass:'update col_pass set isreceive=?,alreadyDate=? where id=?',
 		// 编辑公告内容
 		updateNotice:'update notice set title=?,content=?,time=? where id=?',
+		// 编辑房产管理信息
+		updateHouseMag:'update house_mag set rNo=?,buildArea=?,ableArea=?,name=?,sale_status=?,own_status=? where id=?',
 	}
 }
 

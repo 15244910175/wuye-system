@@ -72,7 +72,15 @@ const routes = [{
         path: '/speak',
         component: resolve=>require(['../pages/user/note/speak.vue'],resolve),
       },
-	  
+	  {
+	    path: '/notice',
+	    component: resolve=>require(['../pages/user/notice/notice.vue'],resolve),
+	  },
+	  {
+	    path: '/main/:id',
+		name:'main',
+	    component: resolve=>require(['../pages/user/notice/main.vue'],resolve),
+	  },
     ]
   },
   {
@@ -85,22 +93,16 @@ const routes = [{
         path: '/',
         component: resolve=>require(['../pages/defalut.vue'],resolve),
       },
-     {
-      path: '/add-admin',
-      component: resolve=>require(['../pages/admin/admin/add-admin.vue'],resolve),
-     },
+    
      {
       path: '/check-admin',
       component: resolve=>require(['../pages/admin/admin/check-admin.vue'],resolve),
      },
-     {
-      path: '/add-baoan',
-      component: resolve=>require(['../pages/admin/baoan/add-baoan.vue'],resolve),
-     },
-     {
-      path: '/add-Scheduling',
-      component: resolve=>require(['../pages/admin/baoan/add-Scheduling.vue'],resolve),
-     },
+	 {
+	  path: '/house-mag',
+	  component: resolve=>require(['../pages/admin/house/house-mag.vue'],resolve),
+	 },
+    
      {
       path: '/check-Scheduling',
       component: resolve=>require(['../pages/admin/baoan/check-Scheduling.vue'],resolve),
@@ -121,10 +123,7 @@ const routes = [{
 		 path:'/leasehold',
 		 component:resolve=>require(['../pages/admin/data/leasehold.vue'],resolve)
 	 },
-     {
-      path: '/add-equipment',
-      component: resolve=>require(['../pages/admin/equipment/add-equipment.vue'],resolve),
-     },
+     
      {
       path: '/check-equipment',
       component: resolve=>require(['../pages/admin/equipment/check-equipment.vue'],resolve),
@@ -157,10 +156,7 @@ const routes = [{
       path: '/check-adminPay',
       component: resolve=>require(['../pages/admin/pay/check-adminPay.vue'],resolve),
      },
-     {
-      path: '/add-renshi',
-      component: resolve=>require(['../pages/admin/renshi/add-renshi.vue'],resolve),
-     },
+     
      {
       path: '/check-renshi',
       component: resolve=>require(['../pages/admin/renshi/check-renshi.vue'],resolve),

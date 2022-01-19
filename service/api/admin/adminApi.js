@@ -264,6 +264,22 @@ router.post('/getNoticeList', (req, res) => {
 		})
 	})
 });
+// 查看房产信息列表
+router.post('/getHouseMagList', (req, res) => {
+	var sql = $sql.admin.getHouseMagList;
+	var params = req.body;
+	console.log(params);
+	conn.query(sql, [], function(err, result) {
+		var data = JSON.parse(JSON.stringify(result))
+
+		return res.send({
+			status: 1,
+			msg: "查询成功",
+			list: data
+		})
+	})
+});
+
 
 
 // 新增住户信息
@@ -348,7 +364,7 @@ router.post('/addRs', (req, res) => {
   var sql = $sql.admin.addRs;
   // var params = req.body;
   console.log(req);
-  conn.query(sql, [req.body.AdminName, req.body.persionNo, req.body.sex, req.body.begDate], function (err, result) {
+  conn.query(sql, [req.body.AdminName, req.body.persionNo, req.body.sex, req.body.begDate,req.body.post], function (err, result) {
     var data = req.body;
     console.log(result)
     return res.send({
@@ -394,7 +410,7 @@ router.post('/addAdmin', (req, res) => {
   var sql = $sql.admin.addAdmin;
   // var params = req.body;
   console.log(req);
-  conn.query(sql, [req.body.AdminName, req.body.LoginName, req.body.persionNo, req.body.sex,req.body.begDate,req.body.post], function (err, result) {
+  conn.query(sql, [req.body.AdminName, req.body.persionNo, req.body.sex,req.body.begDate,req.body.post], function (err, result) {
     var data = req.body;
     console.log(result)
     return res.send({
@@ -467,6 +483,22 @@ router.post('/addColPass', (req, res) => {
     })
   })
 });
+// 新增房产管理信息
+router.post('/addHouseMag', (req, res) => {
+  var sql = $sql.admin.addHouseMag;
+  // var params = req.body;
+  console.log(req);
+  conn.query(sql, [req.body.rNo,req.body.buildArea,req.body.ableArea,req.body.name,req.body.sale_status,req.body.own_status], function (err, result) {
+    var data = req.body;
+    console.log(result)
+    return res.send({
+      status: 1,
+      msg: "新增成功",
+      data: data
+    })
+  })
+});
+
 
 
 // 新增快递公司管理
@@ -747,6 +779,21 @@ router.post('/deleteNotice', (req, res) => {
     })
   })
 });
+// 删除房产信息
+router.post('/deleteHouseMag', (req, res) => {
+  var sql = $sql.admin.deleteHouseMag;
+  // var params = req.body;
+  console.log(req);
+  conn.query(sql, [req.body.id], function (err, result) {
+    var data = result;
+    console.log(result)
+    return res.send({
+      status: 1,
+      msg: "删除成功",
+      data: data
+    })
+  })
+});
 
 // 修改住户信息
 router.post('/updateData', (req, res) => {
@@ -769,7 +816,7 @@ router.post('/updateAdmin', (req, res) => {
   var sql = $sql.admin.updateAdmin;
   // var params = req.body;
   console.log(req);
-  conn.query(sql, [req.body.AdminName, req.body.LoginName, req.body.LoginPwd, req.body.persionNo,req.body.sex,req.body.begDate,req.body.post,req.body.id], function (err, result) {
+  conn.query(sql, [req.body.AdminName,req.body.persionNo,req.body.sex,req.body.begDate,req.body.post,req.body.id], function (err, result) {
     var data = req.body;
     console.log(result)
     return res.send({
@@ -1015,6 +1062,21 @@ router.post('/updateNotice', (req, res) => {
   // var params = req.body;
   console.log(req);
   conn.query(sql, [req.body.title,req.body.content,req.body.time,req.body.id], function (err, result) {
+    var data = req.body;
+    console.log(result)
+    return res.send({
+      status: 1,
+      msg: "修改成功",
+      data: data
+    })
+  })
+});
+// 编辑房产管理信息
+router.post('/updateHouseMag', (req, res) => {
+  var sql = $sql.admin.updateHouseMag;
+  // var params = req.body;
+  console.log(req);
+  conn.query(sql, [req.body.rNo,req.body.buildArea,req.body.ableArea,req.body.name,req.body.sale_status,req.body.own_status,req.body.id], function (err, result) {
     var data = req.body;
     console.log(result)
     return res.send({
