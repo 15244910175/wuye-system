@@ -153,9 +153,9 @@ var sqlMap = {
 		// 修改物业人员信息
 		updateRs:'update rs set AdminName=?,LoginName=?,LoginPwd=?,persionNo=?,sex=?,begDate=?,post=? where id=?',
 		// 管理员回复留言
-		updateNote:'update t_leaverword set answerContent=? where id=?',
+		updateNote:'update t_leaverword set answerContent=?,reDate=? where id=?',
 		// 管理员回复投诉
-		updateCpt:'update t_leaverword set answerContent=? where id=?',
+		updateCpt:'update t_leaverword set answerContent=?,reDate=? where id=?',
 		// 修改车位明细信息
 		updateCarnum:'update carnum set num=? where id=?',
 		// 修改设备信息

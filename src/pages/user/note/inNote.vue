@@ -32,6 +32,10 @@
 					<el-form-item>
 						<el-button size="mini" type="primary" class="el-icon-refresh" @click="resetForm">重置</el-button>
 					</el-form-item>
+					<el-form-item>
+						<el-button size="mini" type="primary" class="el-icon-plus" @click="dialogTableVisible=true">新增
+						</el-button>
+					</el-form-item>
 				</el-form>
 			</div>
 
@@ -41,6 +45,8 @@
 				</el-table-column>
 				<el-table-column prop="title" label="标题">
 				</el-table-column>
+				<el-table-column prop="type" label="类型">
+				</el-table-column>
 				<el-table-column prop="mark" label="留言内容">
 				</el-table-column>
 				<!-- <el-table-column prop="leaverName" label="留言者">
@@ -49,7 +55,7 @@
 				</el-table-column>
 				<el-table-column prop="answerContent" label="管理员回复">
 				</el-table-column>
-				<el-table-column prop="reDate" label="回复时间">
+				<el-table-column prop="reDate" label="回复时间" :formatter="dateFormat">
 				</el-table-column>
 			</el-table>
 			<div class="page" style="margin-top: 20px;text-align: center;">
@@ -60,6 +66,25 @@
 			</div>
 			
 		</div>
+		
+		<el-dialog title="投诉与留言" :visible.sync="dialogTableVisible">
+			<el-form ref="addForm" :model="addForm" :rules="addFormRules" label-width="120px">
+				<el-form-item label="标题" prop="title">
+					<el-input v-model="addForm.title" placeholder="请输入标题"></el-input>
+				</el-form-item>
+				<el-form-item label="内容" prop="mark">
+					<el-input v-model="addForm.mark" placeholder="请输入标题"></el-input>
+				</el-form-item>
+				<el-form-item label="留言类型" prop="type">
+					<el-select v-model="addForm.type" placeholder="请选择留言类型" style="width:100%">
+						<el-option label="留言" value="留言"></el-option>
+						<el-option label="投诉" value="投诉"></el-option>
+					</el-select>
+				</el-form-item>
+				<el-button type="primary" @click="onSubmit">提交</el-button>
+				<el-button @click="resetForm('addForm')">重置</el-button>
+			</el-form>
+		</el-dialog>
 		
 	</div>
 </template>
@@ -87,7 +112,45 @@
 					answerContent: '',
 					reDate: ''
 				}],
-				
+				addForm: {
+					title: '',
+					mark: '',
+					type: '',
+					time: '',
+					leaverName:''
+				},
+				addFormRules: {
+					title: [{
+							required: true,
+							message: '请输入标题',
+							trigger: 'blur'
+						},
+						{
+							min: 2,
+							max: 20,
+							message: '长度在 2 到 20 个字符',
+							trigger: 'blur'
+						}
+					],
+					mark: [{
+							required: true,
+							message: '请输入留言内容',
+							trigger: 'blur'
+						},
+						{
+							min: 2,
+							max: 20,
+							message: '长度在 2 到 20 个字符',
+							trigger: 'blur'
+						}
+					],
+					type: [{
+						required: true,
+						message: '请选择留言类型',
+						trigger: 'blur'
+					}, ],
+				},
+				dialogTableVisible:false,
 				currentPage: 1, //默认第一页
 				total: 0, //总条数
 				pagesize: 5 //默认第一页展示10条
@@ -131,7 +194,53 @@
 			      console.log(res);
 			    });
 			},
-			
+			onSubmit() {
+				this.addForm.time = formatDate(new Date());
+				// this.title=this.title;
+				// this.typeId = this.uuid();
+				const params = {
+					title: this.addForm.title,
+					mark: this.addForm.mark,
+					type: this.addForm.type,
+					time: this.addForm.time
+				};
+				if (
+					this.addForm.title == "" ||
+					this.addForm.type == "" ||
+					// this.addForm.time == "" ||
+					// this.addForm.beDate == "" ||
+					this.addForm.mark == ""
+				) {
+					this.$message({
+						message: "参数不能为空！",
+						type: "error",
+					});
+				} else {
+				request({
+					url: "http://127.0.0.1:10520/api/user/addNote",
+					method: "post",
+					data: params
+				}).then(res => {
+					console.log(res);
+					if (res.msg === "新增成功") {
+						this.$message({
+							message: "恭喜你，新增成功",
+							type: "success"
+						});
+						this.init();
+					}
+				});
+			}
+			},
+			init() {
+				// this.dialog_state = false;
+				this.addForm = {};
+				this.getNoteList();
+				this.dialogTableVisible=false;
+			},
+			resetForm(addForm) {
+				this.$refs[addForm].resetFields();
+			},
 			
 			handleSizeChange(val) {
 				this.pagesize = val;

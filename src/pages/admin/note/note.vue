@@ -95,6 +95,9 @@
 	import moment from 'moment';
 	import axios from "axios";
 	import request from "../../../utils/request.js"
+	import {
+		formatDate
+	} from "../../../utils/format.js"
 	export default {
 		data() {
 			return {
@@ -115,7 +118,8 @@
 					mark: '',
 					leaverName: '',
 					time: '',
-					answerContent: ''
+					answerContent: '',
+					reDate:''
 				},
 				currentPage: 1, //默认第一页
 				total: 0, //总条数
@@ -149,6 +153,10 @@
 				this.infoList = row
 			},
 			save() {
+				this.infoList.reDate=formatDate(new Date());
+				const params = {
+					beDate: this.infoList.beDate,
+				};
 				request({
 					url: "http://127.0.0.1:10520/api/admin/updateNote",
 					method: "post",

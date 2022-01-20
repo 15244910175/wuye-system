@@ -266,6 +266,8 @@
 		width: 100vw;
 		height: 100vh;
 		box-sizing: border-box;
+		background-image: url(../assets/img/bg1.jpeg);
+		background-size: cover;
 	}
 
 	.contain {

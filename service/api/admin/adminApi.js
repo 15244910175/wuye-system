@@ -878,7 +878,7 @@ router.post('/updateNote', (req, res) => {
   var sql = $sql.admin.updateNote;
   // var params = req.body;
   console.log(req);
-  conn.query(sql, [req.body.answerContent,req.body.id], function (err, result) {
+  conn.query(sql, [req.body.answerContent,req.body.reDate,req.body.id], function (err, result) {
     var data = req.body;
     console.log(result)
     return res.send({
@@ -893,7 +893,7 @@ router.post('/updateCpt', (req, res) => {
   var sql = $sql.admin.updateCpt;
   // var params = req.body;
   console.log(req);
-  conn.query(sql, [req.body.answerContent,req.body.id], function (err, result) {
+  conn.query(sql, [req.body.answerContent,req.body.reDate,req.body.id], function (err, result) {
     var data = req.body;
     console.log(result)
     return res.send({
