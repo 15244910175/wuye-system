@@ -15,7 +15,7 @@
 					<span class="content">{{item.content}}</span><br>
 					</span>
 					<br>
-					<!-- 公司名称和地址  -->
+					
 					<div class="LOCAL">
 						<span class="company">
 							{{item.title}}
@@ -48,13 +48,13 @@
 			}
 		},
 		created() {
-			this.getNoticeList()
+			// this.getNoticeList()
 		},
-		mounted: function() {
-			this.id=this.$route.params.id;
-			console.log(this.$route.params.id);
-			this.getNoticeList(this.id)
-		},
+		// mounted: function() {
+		// 	this.id=this.$route.params.id;
+		// 	console.log(this.$route.params.id);
+		// 	this.getNoticeList(this.id)
+		// },
 
 		methods: {
 			// 时间格式化
@@ -69,23 +69,44 @@
 				return moment(date).format("YYYY-MM-DD hh:mm:ss")
 			
 			},
-			getNoticeList(id) {
-				var self = this;
-				axios.post("http://127.0.0.1:10520/api/admin/getNoticeList?id="+this.id, {
-					})
-					.then(function(res) {
-						if (res.data.status == 1) {
-							console.log("获取数据");
-							self.$message.success("数据已获取到！");
-						}
-						self.List = res.data.list;
-						console.log(self.List);
-						console.log(res);
-					})
-				
-			},
-		},
-	}
+			getNoticeMain() {
+			     this.$axios({
+			        method: 'post',
+			        url: 'http://127.0.0.1:10520/api/user/getNoticeMain',
+			        headers: {
+			            'Content-Type': "application/json;charset=UTF-8",
+			        },
+			      })
+			      .then(res=>{                   
+			        if(res.data.status === 1){
+			          
+			          var res = res.data.list;
+					  console.log(res);
+			          this.List = res
+			          console.log("获取成功")
+			        }else{
+			          console.log("获取失败")
+			        }
+			      })
+			      .catch(err=>{                   
+			        console.log("请求错误")
+			      })
+			    },
+			
+			    routerJump (e) {
+			      this.$router.push({
+			        path: '/main', query: { id: e } })
+			        localStorage.setItem('Id',e)
+			          console.log(e)
+			    }
+			  },
+			  mounted: function () {
+			      this.getNoticeMain()
+			  },
+			
+
+		}
+
 	
 </script>
 

@@ -144,14 +144,8 @@ const routes = [{
       path: '/check-park',
       component: resolve=>require(['../pages/admin/park/check-park.vue'],resolve),
      },
-     {
-      path: '/order-adminPark',
-      component: resolve=>require(['../pages/admin/park/order-adminPark.vue'],resolve),
-     },
-     {
-      path: '/adminPay',
-      component: resolve=>require(['../pages/admin/pay/adminPay.vue'],resolve),
-     },
+    
+    
      {
       path: '/check-adminPay',
       component: resolve=>require(['../pages/admin/pay/check-adminPay.vue'],resolve),
@@ -161,10 +155,7 @@ const routes = [{
       path: '/check-renshi',
       component: resolve=>require(['../pages/admin/renshi/check-renshi.vue'],resolve),
      },
-     {
-      path: '/add-adminRepair',
-      component: resolve=>require(['../pages/admin/repair/add-adminRepair.vue'],resolve),
-     },
+    
      {
       path: '/check-adminRepair',
       component: resolve=>require(['../pages/admin/repair/check-adminRepair.vue'],resolve),

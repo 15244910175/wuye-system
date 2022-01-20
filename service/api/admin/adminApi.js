@@ -317,7 +317,7 @@ router.post('/addOrderPark', (req, res) => {
   var sql = $sql.admin.addOrderPark;
   // var params = req.body;
   console.log(req);
-  conn.query(sql, [req.body.userid, req.body.persionNo, req.body.telephone, req.body.address,req.body.carAddress,req.body.state], function (err, result) {
+  conn.query(sql, [req.body.userid, req.body.persionNo, req.body.telephone, req.body.address,req.body.carAddress,req.body.changedate,req.body.state], function (err, result) {
     var data = req.body;
     console.log(result)
     return res.send({

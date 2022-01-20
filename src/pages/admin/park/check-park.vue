@@ -19,6 +19,10 @@
 					<el-form-item>
 						<el-button size="mini" type="primary" class="el-icon-refresh" @click="resetForm">重置</el-button>
 					</el-form-item>
+					<el-form-item>
+						<el-button size="mini" type="primary" class="el-icon-plus" @click="dialogTableVisible1=true">新增
+						</el-button>
+					</el-form-item>
 				</el-form>
 			</div>
 			<el-table :data="typeList.slice((currentPage - 1) * pagesize, currentPage * pagesize)">
@@ -46,7 +50,7 @@
 					layout="total, prev, pager, next, sizes, jumper" :total="typeList.length">
 				</el-pagination>
 			</div>
-			<el-card style="margin-top: 50px;">
+			<el-dialog title="车位数明细" :visible.sync="dialogTableVisible1">
 				<div slot="header" class="clearfix">
 					<span>车位明细</span>
 				</div>
@@ -60,7 +64,7 @@
 					</el-form-item>
 					<el-button type="primary" size="medium" style="margin-left: 50%;" @click="onSubmit">保存</el-button>
 				</el-form>
-			</el-card>
+			</el-dialog>
 		</div>
 
 		<el-dialog title="车位数明细" :visible.sync="dialogTableVisible">
@@ -99,6 +103,7 @@
 				total: 0, //总条数
 				pagesize: 5, //默认第一页展示10条
 				dialogTableVisible: false,
+				dialogTableVisible1: false,
 				infoListRules: {
 					num: [{
 							required: true,
@@ -159,6 +164,7 @@
 				// this.dialog_state = false;
 				this.infoList = {};
 				this.getNumList();
+				this.dialogTableVisible1=false;
 			},
 			goBack() {
 				// router.push("check-admin");
@@ -206,7 +212,7 @@
 			},
 			resetForm() {
 				this.formInline = {},
-					this.getNumList();
+				this.getNumList();
 			},
 			// 删除车位明细
 			deleteCarnum(id) {

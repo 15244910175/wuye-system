@@ -81,7 +81,7 @@ var sqlMap = {
 		// 添加物业费
 		addPay:'insert into t_change(dNo,zName,type,cases,changeName,waterCase,eCase,gasCase,stopCase,mandCase,remark,state,payabledate) values (?,?,?,?,?,?,?,?,?,?,?,?,?)',
 		// 新增预定车位
-		addOrderPark:'insert into carorder(userid,persionNo,telephone,address,carAddress,state) values(?,?,?,?,?,?)',
+		addOrderPark:'insert into carorder(userid,persionNo,telephone,address,carAddress,changedate,state) values(?,?,?,?,?,?,?)',
 		// 添加设备信息
 		addEqu:'insert into chanel(name,model,num,beDate,mark) values(?,?,?,?,?)',
 		// 添加物业公司员工信息
@@ -166,8 +166,10 @@ var sqlMap = {
 		updateRevalue:'update equip set revalue=? where id=?',
 		// 标记已缴费
 		updateAlrdypay:'update t_change set state=? where id=?',
+		
 		// 审核小区车位
 		updateCarorder:'update carorder set pass=?,state=? where id=?',
+		
 		// 编辑租赁信息
 		updateLeasehold:'update leasehold set name=?,rNo=?,persionNo=?,reTime=?,dateDue=? where id=?',
 		// 编辑产权变更管理

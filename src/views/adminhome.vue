@@ -122,7 +122,7 @@
               <span>缴费管理</span>
             </template>
             <el-menu-item-group>
-              <el-menu-item index="adminPay" class="el-icon-menu">缴纳费用</el-menu-item>
+              
               <el-menu-item index="check-adminPay" class="el-icon-menu">缴纳物业费信息查看</el-menu-item>
             </el-menu-item-group>
           </el-submenu>
@@ -132,7 +132,7 @@
               <span>住户报修管理</span>
             </template>
             <el-menu-item-group>
-              <el-menu-item index="add-adminRepair" class="el-icon-menu">添加报修事项</el-menu-item>
+              
               <el-menu-item index="check-adminRepair" class="el-icon-menu">报修事项信息查看</el-menu-item>
             </el-menu-item-group>
           </el-submenu>
@@ -143,7 +143,7 @@
             </template>
             <el-menu-item-group>
               <el-menu-item index="check-park" class="el-icon-menu">查看车位明细信息</el-menu-item>
-              <el-menu-item index="order-adminPark" class="el-icon-menu">预定小区车位</el-menu-item>
+             
               <el-menu-item index="check-carPark" class="el-icon-menu">小区车位查看</el-menu-item>
             </el-menu-item-group>
           </el-submenu>
