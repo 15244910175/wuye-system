@@ -27,6 +27,9 @@
 					<el-form-item>
 						<el-button size="mini" type="primary" class="el-icon-plus" @click="dialogTableVisible1=true">新增</el-button>
 					</el-form-item>
+					<el-form-item>
+						<el-button size="mini" type="primary" class="el-icon-download" >列表导出</el-button>
+					</el-form-item>
 				</el-form>
 			</div>
 			<el-table :data="typeList.slice((currentPage - 1) * pagesize, currentPage * pagesize)">

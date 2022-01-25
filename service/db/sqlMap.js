@@ -3,7 +3,7 @@ var sqlMap = {
         // 注册
         reg: 'insert into user (username, email, password, role ) values (?,?,?,?)',
         //登录
-        login: 'select * from user',
+        login: 'select * from user where username=? and password=?',
 		// 查询报修信息列表
 		getRepairList:'select * from equip',
 		// 查看小区车位
@@ -71,6 +71,8 @@ var sqlMap = {
 		getNoticeMain:'select * from notice where id=?',
 		// 查看房产管理信息
 		getHouseMagList:'select * from house_mag',
+		// 住户模糊查询
+		// queryUserList:'select * from resident where username like '%*%',
 		
 		// 新增住户信息
 		addData:'insert into resident(rNo,username,persionNo,sex,telephone,date) values (?,?,?,?,?,?)',

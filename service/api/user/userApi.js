@@ -12,9 +12,9 @@ conn.connect();
 // 登录接口
 router.post('/login', (req, res) => {
 	const params = req.body;
-	const sel_sql = $sql.user.login + " where username = '" + params.username + "'";
+	const sql = $sql.user.login ;
 	// console.log(sel_email);
-	conn.query(sel_sql, params.username, (error, results) => {
+	conn.query(sql, [params.username,params.password], (error, results) => {
 		if (error) {
 			throw error;
 		}
@@ -33,11 +33,11 @@ router.post('/login', (req, res) => {
 // 注册接口
 router.post('/reg', (req, res) => {
 	const params = req.body;
-	const sel_sql = $sql.user.login + " where username = '" + params.username + "'";
+	const sel_sql = $sql.user.login;
 	const add_sql = $sql.user.reg;
 	console.log(sel_sql);
 
-	conn.query(sel_sql, params.username, (error, results) => {
+	conn.query(sel_sql, [params.username,params.password], (error, results) => {
 		if (error) {
 			// console.log(err);
 			throw error;

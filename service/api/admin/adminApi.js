@@ -3,6 +3,8 @@ const express = require('express');
 const router = express.Router();
 const mysql = require('mysql');
 const $sql = require('../../db/sqlMap');
+const xlsx = require('node-xlsx');
+
 
 // 连接数据库
 var conn = mysql.createConnection(models.mysql);
@@ -23,6 +25,50 @@ router.post('/getRepairList', (req, res) => {
 		})
 	})
 });
+
+// 模糊查询住户信息
+router.post('/queryUserList', (req, res) => {
+	var sql = $sql.admin.queryUserList;
+	var params = req.body;
+	console.log(params);
+	conn.query(sql, [], function(err, result) {
+		var data = JSON.parse(JSON.stringify(result))
+
+		return res.send({
+			status: 1,
+			msg: "查询成功",
+			list: data
+		})
+	})
+});
+
+
+// router.post('/queryUserList', (req, res, next)=> {
+//   console.log(req.body)
+//   let username = req.body.username
+//   let pageSize = req.body.pageSize // 页大小
+//   let pageCurrent = req.body.pageCurrent // 当前页
+//   let start=(pageCurrent-1)*pageSize; // 起始位置
+//   conn.query(`SELECT *  FROM resident WHERE username LIKE '%${username}%' LIMIT ${start},${pageSize}`,function(err,result){
+//     if(err) throw err;
+//     let list = result
+//     conn.query(`SELECT COUNT(*) AS total FROM resident`,function(err,result1){
+//       if(err) throw err;
+//       console.log(result1[0].total)
+//       let obj = {
+//         pageSize: pageSize,
+//         pageCurrent: pageCurrent,
+//         total:result1[0].total,
+//         list: list
+//       }
+
+//       res.send(obj);
+//     })
+//   })
+// });
+
+
+
 // 查看管理员
 router.post(`/getAdminList`, (req, res) => {
 	var sql = $sql.admin.getAdminList;
@@ -1086,4 +1132,34 @@ router.post('/updateHouseMag', (req, res) => {
     })
   })
 });
+
+// 住户资料导出
+router.get('/exportExcel',async (req,res) => {
+    let data = [];
+    let title = ['住户编号','房号','住户姓名','住户电话','住户身份证','住户性别','住户入住时间'];
+    data.push(title);
+    let result = await PayInfo.find();
+    result.forEach(item => {
+        let arrInner = [];
+        arrInner.push(item.id);
+        arrInner.push(item.rNo);
+        arrInner.push(item.username);
+        arrInner.push(item.telephone);
+        arrInner.push(item.persionNo);
+        arrInner.push(item.sex);
+        arrInner.push(item.date);
+        data.push(arrInner);
+    });
+    let buffer = xlsx.build([
+        {
+            name:'住户资料信息',
+            data:data
+        }
+    ]);
+    console.log(buffer);
+    res.send(buffer);
+    // fs.writeFileSync('./excel.xlsx',buffer,{'flag':'w'});
+
+})
+
 module.exports = router;

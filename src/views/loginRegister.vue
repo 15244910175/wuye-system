@@ -66,6 +66,7 @@
 		setToken,
 		setUserName
 	} from "../utils/auth";
+	import Cookies from "js-cookie"
 	// import request from "../utils/request";
 	export default {
 		name: 'login-register',
@@ -78,6 +79,7 @@
 				labelPosition: 'right',
 				username:'',
 				password:'',
+				user:'',
 				form: {
 					username: '',
 					useremail: '',
@@ -157,39 +159,69 @@
 				this.form.username = ''
 				this.form.useremail = ''
 				this.form.userpwd = '',
-					this.form.role = ''
+				this.form.role = ''
 			},
+			//调用后台的方法 登录方法
+			// login() {
+			// 				//axios 获取网络
+			// 				var that = this
+			// 				this.$axios.post("http://127.0.0.1:10520/api/user/login", {
+			// 					username: this.username,
+			// 					password: this.password,
+			// 					//身份的验证
+			// 					indentity: this.role
+			// 				}).then(function(res) { //请求成功
+			// 					//回调方法里的this，只是调用方法体里面的参数，所以需要在外面将this定义好 JQuery
+			// 					if (res.data.status === 1) {
+			// 						// JSON.stringify将要序列化成 一个JSON 字符串的值，将值存在sessionStorage读取或保存数据中，设置key值为user
+			// 						sessionStorage.setItem("user", JSON.stringify({
+			// 							username: that.username,
+			// 						}))
+			
+			// 						if (that.indentity === "管理员") {
+			// 						//路由的跳转－－正常跳转就行
+			// 						that.$router.push("adminhome");
+									
+			// 						} else if (that.indentity === "业主") {
+			// 							//路由的跳转
+			// 							that.$router.push("userhome");
+										
+			// 						}
+			
+			// 					} else if (res.data.status === 0) {
+			// 						alert("用户名或者密码错误，请重新输入")
+			// 						// window.location.href = 'fail.html'
+			// 					}
+			// 				}).catch(function(err) { //请求失败
+			// 					console.log(err)
+			// 				})
+			// 			},
+
 			login() {
 				const self = this;
 				if (self.form.username != "" && self.form.userpwd != "") {
+					Cookies.set('username',self.form.username)
 					self.$axios({
 							method: 'post',
 							url: 'http://127.0.0.1:10520/api/user/login',
 							data: {
 								username: self.form.username,
 								// email: self.form.useremail,
-								password: self.form.userpwd
+								password: self.form.userpwd,
+								role:self.form.role
 							}
 						})
 						.then(res => {
 							switch (res.data) {
 								case 0:
-									alert("登陆成功！");
+									// alert("登陆成功！");
+									this.$message({
+										message:'登陆成功',
+										type:'success'
+									});
 									setToken(res.token);
 									setUserName(res.username);
 									self.$router.push("userhome");
-
-									// if (self.form.role === '管理员') {
-									// 	self.$router.push({name:'adminhome'})
-									// } else if (self.form.role === '业主') {
-									// 	self.$router.push({name:'userhome'})
-									// }
-									// if(this.$route.query.redirect){
-									// 	let redirect_path=this.$route.query.redirect
-									// 	this.$router.push({path:redirect_path})
-									// }else{
-									// 	this.$router.push({name:'adminhome'})
-									// }
 
 									break;
 								case -1:
@@ -224,16 +256,26 @@
 						.then(res => {
 							switch (res.data) {
 								case 0:
-									alert("注册成功！");
+									this.$message({
+										message:'注册成功',
+										type:'success'
+									});
 									this.login();
 									break;
 								case -1:
 									this.existed = true;
-									alert("用户名已经存在，请重新注册！")
+									this.$message({
+										message:'用户名已经存在，请重新注册',
+										type:'warning'
+									});
+									
 									break;
 								case -2:
 									this.existed = true;
-									alert("邮箱已经存在，请重新注册！")
+									this.$message({
+										message:'有限已经存在，请重新注册',
+										type:'warning'
+									});
 									break;
 							}
 						})
@@ -257,7 +299,17 @@
 			// 		localStorage.rmbPassword = false;
 			// 	}
 			// }
-		}
+		},
+		// created:在模板渲染成html前调用,即通常初始化某些属性值,然后再渲染成视图。
+				created() {
+					let username = JSON.parse(sessionStorage.getItem("user"))
+					if(username) {
+						//userName.username==user.username  对应登录界面设置的key里面的value对应的数组值
+						this.user = username.username
+						console.log("this.user:"+this.user)
+					}
+				},
+
 	}
 </script>
 

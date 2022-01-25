@@ -71,7 +71,7 @@
 							<span>住户报修管理</span>
 						</template>
 						<el-menu-item-group>
-							<el-menu-item index="add-repair" class="el-icon-menu">添加报修事项</el-menu-item>
+							
 							<el-menu-item index="check-repair" class="el-icon-menu">报修事项信息查看</el-menu-item>
 						</el-menu-item-group>
 					</el-submenu>
@@ -136,7 +136,7 @@
 		</el-container>
 
 		<!-- 修改密码 -->
-		<el-dialog title="修改密码" :isShow.sync="dialog_state" :visible.sync="visibleEditPasswordDialog" @close="init"
+	<!-- 	<el-dialog title="修改密码" :isShow.sync="dialog_state" :visible.sync="visibleEditPasswordDialog" @close="init"
 			width="30%">
 			<el-form ref="Form" :model="Form" :rules="FormRules" label-width="80px">
 				<el-form-item label="用户名" prop="password">
@@ -157,9 +157,9 @@
 				<el-button @click="visibleEditPasswordDialog = false">关 闭</el-button>
 				<el-button type="primary" @click="visibleEditPasswordDialog = false;Onsubmit">确认修改</el-button>
 			</span>
-		</el-dialog>
+		</el-dialog> -->
 		<!-- 修改用户信息 -->
-		<el-dialog title="修改用户信息" :visible.sync="visibleEditInfoDialog" width="30%">
+		<!-- <el-dialog title="修改用户信息" :visible.sync="visibleEditInfoDialog" width="30%">
 			<el-form ref="Form" :model="Form" :rules="FormRules" label-width="80px">
 				<el-form-item label="用户昵称" prop="username">
 					<el-input v-model="Form.username"></el-input>
@@ -172,25 +172,22 @@
 				<el-button @click="visibleEditInfoDialog = false">关 闭</el-button>
 				<el-button type="primary" @click="visibleEditInfoDialog = false">确认修改</el-button>
 			</span>
-		</el-dialog>
+		</el-dialog> -->
 	</el-container>
 
 
 </template>
 
 <script>
-	import {
-		getUserName
-	} from "../utils/auth";
+	// import {
+	// 	getUserName
+	// } from "../utils/auth";
 	// import request from '../utils/request'
-	// import Cookies from "js-cookie"
+	import Cookies from "js-cookie"
 	export default {
 		data() {
 			return {
-				username: "",
-				password: '',
-				email: '',
-				role: '',
+				
 				dialog_state: false,
 				// 是否折叠
 				isCollapse: false,
@@ -264,6 +261,11 @@
 		created() {
 			// this.getMenuList(),
 			this.activePath = window.sessionStorage.getItem('activePath')
+		},
+		computed:{
+			username(){
+				return Cookies.get('username')
+			}
 		},
 		methods: {
 
@@ -381,10 +383,10 @@
 		// 		return localStorage.getItem("username");
 		// 	},
 		// },
-		mounted() {
-			this.username = getUserName();
-			// this.username=Cookies.get('username')
-		},
+		// mounted() {
+		// 	this.username = getUserName();
+		// 	// this.username=Cookies.get('username')
+		// },
 	}
 </script>
 

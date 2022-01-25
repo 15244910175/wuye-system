@@ -31,10 +31,10 @@ const routes = [{
       //   path:'/useradmin',
       //   component:resolve=>require(['../views/useradmin.vue'],resolve)
       // },
-      {
-        path: '/add-repair',
-        component: resolve=>require(['../pages/user/repair/add-repair.vue'],resolve),
-      },
+      // {
+      //   path: '/add-repair',
+      //   component: resolve=>require(['../pages/user/repair/add-repair.vue'],resolve),
+      // },
       {
         path: '/check-repair',
         component: resolve=>require(['../pages/user/repair/check-repair.vue'],resolve),
