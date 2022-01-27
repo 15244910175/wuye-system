@@ -24,6 +24,12 @@
 						<el-button size="mini" type="primary" class="el-icon-plus" @click="dialogTableVisible=true">新增
 						</el-button>
 					</el-form-item>
+					<el-form-item>
+						<download-excel class="export-excel-wrapper" :data="typeList" :fields="json_fields"
+							name="快递公司管理.xls">
+						<el-button type="primary" size="small">导出EXCEL</el-button>
+						</download-excel>
+					</el-form-item>
 				</el-form>
 			</div>
 			<el-table :data="typeList.slice((currentPage - 1) * pagesize, currentPage * pagesize)">
@@ -165,6 +171,20 @@
 						trigger: 'blur'
 					}, ],
 				},
+				json_fields: {
+								快递公司名称: "name",
+								负责人: "username",
+								联系电话: "tel",
+								快递公司地址: "address"
+							 },
+				json_meta: [
+							[
+							{
+								key: "charset",
+								value: "utf-8"
+							}
+							]
+							],
 				dialogTableVisible: false,
 				dialogTableVisible1:false,
 				currentPage: 1, //默认第一页

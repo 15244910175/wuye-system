@@ -35,6 +35,12 @@
 						<el-button size="mini" type="primary" class="el-icon-plus" @click="dialogTableVisible1=true">新增
 						</el-button>
 					</el-form-item>
+					<el-form-item>
+						<download-excel class="export-excel-wrapper" :data="typeList" :fields="json_fields"
+							name="人事资料.xls">
+						<el-button type="primary" size="small">导出EXCEL</el-button>
+						</download-excel>
+					</el-form-item>
 				</el-form>
 			</div>
 			<el-table :data="typeList.slice((currentPage - 1) * pagesize, currentPage * pagesize)">
@@ -44,6 +50,8 @@
 				<el-table-column prop="AdminName" label="员工姓名">
 				</el-table-column>
 				<el-table-column prop="persionNo" label="身份证">
+				</el-table-column>
+				<el-table-column prop="sex" label="性别">
 				</el-table-column>
 				<el-table-column prop="begDate" label="开始工作日期" :formatter="dateFormat">
 				</el-table-column>
@@ -138,10 +146,6 @@
 					post: ''
 				},
 				typeList: [{
-					AdminName: '',
-					persionNo: '',
-					begDate: '',
-					post: ''
 				}, ],
 				infoList: {
 					AdminName: '',
@@ -157,6 +161,21 @@
 					begDate: '',
 					post: ''
 				},
+				json_fields: {
+								员工姓名: "AdminName",
+								身份证: "persionNo",
+								性别:"sex",
+								开始工作日期: "begDate",
+								员工职务: "post"
+							 },
+				json_meta: [
+							[
+							{
+								key: "charset",
+								value: "utf-8"
+							}
+							]
+							],
 				dialogTableVisible: false,
 				dialogTableVisible1: false,
 				currentPage: 1, //默认第一页

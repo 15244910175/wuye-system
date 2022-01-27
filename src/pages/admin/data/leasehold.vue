@@ -26,6 +26,13 @@
 						<el-button size="mini" type="primary" class="el-icon-plus" @click="dialogTableVisible=true">新增
 						</el-button>
 					</el-form-item>
+					<el-form-item>
+						<download-excel class="export-excel-wrapper" :data="typeList" :fields="json_fields"
+							name="租赁资料.xls">
+							<!-- 上面可以自定义自己的样式，还可以引用其他组件button -->
+							<el-button type="primary" size="small">导出EXCEL</el-button>
+						</download-excel>
+					</el-form-item>
 				</el-form>
 			</div>
 			<el-table :data="typeList.slice((currentPage - 1) * pagesize, currentPage * pagesize)">
@@ -59,7 +66,7 @@
 					layout="total, prev, pager, next, sizes, jumper" :total="typeList.length">
 				</el-pagination>
 			</div>
-			
+
 			<el-dialog title="租赁信息" :visible.sync="dialogTableVisible">
 				<el-form ref="addForm" :model="addForm" :rules="addFormRules" label-width="120px">
 					<el-form-item label="租赁人姓名" prop="name">
@@ -82,7 +89,7 @@
 					<el-button @click="goBack">返回</el-button>
 				</el-form>
 			</el-dialog>
-			
+
 			<el-dialog title="租赁信息" :visible.sync="dialogTableVisible1">
 				<el-form ref="infoList" :model="infoList" :rules="infoListRules" label-width="120px">
 					<el-form-item label="租赁人姓名" prop="name">
@@ -106,7 +113,7 @@
 				</el-form>
 			</el-dialog>
 		</div>
-		
+
 	</div>
 </template>
 
@@ -115,26 +122,26 @@
 	import moment from 'moment';
 	import request from "../../../utils/request.js"
 	export default {
-		data(){
+		data() {
 			return {
-				formInline:{
-					name:'',
-					rNo:''
+				formInline: {
+					name: '',
+					rNo: ''
 				},
-				typeList:[],
-				addForm:{
-					name:'',
-					rNo:'',
-					persionNo:'',
-					reTime:'',
-					dateDue:''
+				typeList: [],
+				addForm: {
+					name: '',
+					rNo: '',
+					persionNo: '',
+					reTime: '',
+					dateDue: ''
 				},
-				infoList:{
-					name:'',
-					rNo:'',
-					persionNo:'',
-					reTime:'',
-					dateDue:''
+				infoList: {
+					name: '',
+					rNo: '',
+					persionNo: '',
+					reTime: '',
+					dateDue: ''
 				},
 				addFormRules: {
 					name: [{
@@ -159,7 +166,7 @@
 							trigger: 'blur'
 						}
 					],
-					
+
 					reTime: [{
 						required: true,
 						message: '请选择租借时间',
@@ -194,7 +201,7 @@
 							trigger: 'blur'
 						}
 					],
-					
+
 					reTime: [{
 						required: true,
 						message: '请选择租借时间',
@@ -206,8 +213,23 @@
 						trigger: 'blur'
 					}, ],
 				},
-				dialogTableVisible:false,
-				dialogTableVisible1:false,
+				json_fields: {
+				        租赁人姓名: "name",
+				        房号: "rNo",
+				        身份证: "persionNo",
+				        租借时间: "reTime",
+						到期时间:"dateDue"
+				      },
+				      json_meta: [
+				        [
+				          {
+				            key: "charset",
+				            value: "utf-8"
+				          }
+				        ]
+				      ],
+				dialogTableVisible: false,
+				dialogTableVisible1: false,
 				currentPage: 1, //默认第一页
 				total: 0, //总条数
 				pagesize: 5 //默认第一页展示10条
@@ -216,24 +238,24 @@
 		created() {
 			this.getleaseholdList()
 		},
-		methods:{
+		methods: {
 			// 时间格式化
 			dateFormat: function(row, column) {
-			
+
 				var date = row[column.property];
-			
+
 				if (date == undefined) {
 					return ''
 				};
-			
+
 				return moment(date).format("YYYY-MM-DD")
-			
+
 			},
 			// 查询租赁信息
 			getleaseholdList() {
 				var self = this;
 				axios.post("http://127.0.0.1:10520/api/admin/getleaseholdList", {
-			
+
 					})
 					.then(function(res) {
 						if (res.data.status == 1) {
@@ -255,40 +277,40 @@
 					this.addForm.name == "" ||
 					this.addForm.persionNo == "" ||
 					this.addForm.reTime == "" ||
-					this.addForm.dateDue == "" 
+					this.addForm.dateDue == ""
 				) {
 					this.$message({
 						message: "必填项不能为空！",
 						type: "error",
 					});
 				} else {
-				request({
-					url: "http://127.0.0.1:10520/api/admin/addLeasehold",
-					method: "post",
-					data: this.addForm
-				}).then(res => {
-					console.log(res);
-					if (res.msg === "新增成功") {
-						this.$message({
-							message: "恭喜你，新增成功",
-							type: "success"
-						});
-						this.init();
-					}
-				});
+					request({
+						url: "http://127.0.0.1:10520/api/admin/addLeasehold",
+						method: "post",
+						data: this.addForm
+					}).then(res => {
+						console.log(res);
+						if (res.msg === "新增成功") {
+							this.$message({
+								message: "恭喜你，新增成功",
+								type: "success"
+							});
+							this.init();
+						}
+					});
 				}
 			},
 			init() {
 				// this.dialog_state = false;
 				this.addForm = {};
-				this.dialogTableVisible=false;
+				this.dialogTableVisible = false;
 				this.getleaseholdList();
 			},
 			goBack() {
 				// router.push("check-admin");
 				this.dialogTableVisible = false;
 			},
-			
+
 			handleEdit(index, row) {
 				this.dialogTableVisible1 = true;
 				console.log(index, row)
@@ -311,7 +333,7 @@
 					}
 				});
 			},
-			
+
 			// 删除租赁信息
 			deleteHouse(id) {
 				this.$confirm('删除后将无法恢复!, 是否继续?', '提示', {
@@ -358,7 +380,7 @@
 	div {
 		position: relative;
 	}
-	
+
 	.el-card {
 		position: absolute;
 		/* text-align: center; */
@@ -367,30 +389,30 @@
 		width: 750px;
 		height: 600px;
 	}
-	
+
 	.text {
 		font-size: 14px;
 	}
-	
+
 	.item {
 		margin-bottom: 18px;
 	}
-	
+
 	.clearfix:before,
 	.clearfix:after {
 		display: table;
 		content: "";
 	}
-	
+
 	.clearfix:after {
 		clear: both
 	}
-	
+
 	.box-card {
 		width: 700px;
 		/* height: 600px; */
 	}
-	
+
 	.el-form-item {
 		text-align-last: justify;
 		text-align: justify;
@@ -398,13 +420,13 @@
 		text-justify: distribute-all-lines;
 		/* border: 1px solid red; */
 	}
-	
+
 	.el-button {
 		/* position: relative; */
 		/* text-align: center; */
 		/* margin-left: 50%; */
 	}
-	
+
 	.page {
 		width: 30%;
 		margin: auto;

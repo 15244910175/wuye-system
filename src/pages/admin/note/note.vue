@@ -19,7 +19,7 @@
 					<el-form-item label="留言者">
 						<el-input size="mini" v-model="formInline.leaverName" placeholder="输入留言者"></el-input>
 					</el-form-item>
-					<el-form-item label="参与时间">
+					<el-form-item label="留言时间">
 						<el-date-picker size="mini" v-model="formInline.time" type="datetime" placeholder="选择时间"
 							style="width:100%">
 						</el-date-picker>
@@ -30,6 +30,12 @@
 					</el-form-item>
 					<el-form-item>
 						<el-button size="mini" type="primary" class="el-icon-refresh" @click="resetForm">重置</el-button>
+					</el-form-item>
+					<el-form-item>
+						<download-excel class="export-excel-wrapper" :data="typeList" :fields="json_fields"
+							name="留言信息.xls">
+						<el-button type="primary" size="small">导出EXCEL</el-button>
+						</download-excel>
 					</el-form-item>
 				</el-form>
 			</div>
@@ -43,7 +49,7 @@
 				</el-table-column>
 				<el-table-column prop="leaverName" label="留言者">
 				</el-table-column>
-				<el-table-column prop="time" label="参与时间" :formatter="dateFormat">
+				<el-table-column prop="time" label="留言时间" :formatter="dateFormat">
 				</el-table-column>
 				<el-table-column label="具体操作" width="400" style="text-align: center;">
 					<template slot-scope="scope">
@@ -121,6 +127,20 @@
 					answerContent: '',
 					reDate:''
 				},
+				json_fields: {
+								标题: "title",
+								留言内容: "mark",
+								留言者: "leaverName",
+								留言时间: "time"
+							 },
+				json_meta: [
+							[
+							{
+								key: "charset",
+								value: "utf-8"
+							}
+							]
+							],
 				currentPage: 1, //默认第一页
 				total: 0, //总条数
 				pagesize: 5, //默认第一页展示10条

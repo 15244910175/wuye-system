@@ -23,6 +23,12 @@
 						<el-button size="mini" type="primary" class="el-icon-plus" @click="dialogTableVisible1=true">新增
 						</el-button>
 					</el-form-item>
+					<el-form-item>
+						<download-excel class="export-excel-wrapper" :data="typeList" :fields="json_fields"
+							name="车位明细.xls">
+						<el-button type="primary" size="small">导出EXCEL</el-button>
+						</download-excel>
+					</el-form-item>
 				</el-form>
 			</div>
 			<el-table :data="typeList.slice((currentPage - 1) * pagesize, currentPage * pagesize)">
@@ -99,6 +105,18 @@
 					num: '',
 					date: '',
 				},
+				json_fields: {
+								车位总数: "num",
+								年份: "date",
+							 },
+				json_meta: [
+							[
+							{
+								key: "charset",
+								value: "utf-8"
+							}
+							]
+							],
 				currentPage: 1, //默认第一页
 				total: 0, //总条数
 				pagesize: 5, //默认第一页展示10条

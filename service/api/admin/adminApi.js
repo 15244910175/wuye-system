@@ -395,7 +395,7 @@ router.post('/addEqu', (req, res) => {
   var sql = $sql.admin.addEqu;
   // var params = req.body;
   console.log(req);
-  conn.query(sql, [req.body.name, req.body.model, req.body.num, req.body.beDate,req.body.mark], function (err, result) {
+  conn.query(sql, [req.body.name, req.body.model, req.body.num, req.body.beDate,req.body.mark,req.body.inName], function (err, result) {
     var data = req.body;
     console.log(result)
     return res.send({
@@ -985,7 +985,7 @@ router.post('/updateEqu', (req, res) => {
   var sql = $sql.admin.updateEqu;
   // var params = req.body;
   console.log(req);
-  conn.query(sql, [req.body.name, req.body.mark,req.body.model,req.body.num,req.body.beDate,req.body.id], function (err, result) {
+  conn.query(sql, [req.body.name, req.body.mark,req.body.model,req.body.num,req.body.beDate,req.body.inName,req.body.id], function (err, result) {
     var data = req.body;
     console.log(result)
     return res.send({

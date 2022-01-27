@@ -31,6 +31,13 @@
 						<el-button size="mini" type="primary" class="el-icon-plus" @click="dialogTableVisible=true">新增
 						</el-button>
 					</el-form-item>
+					<el-form-item>
+						<download-excel class="export-excel-wrapper" :data="typeList" :fields="json_fields"
+							name="房产管理信息.xls">
+							<!-- 上面可以自定义自己的样式，还可以引用其他组件button -->
+							<el-button type="primary" size="small">导出EXCEL</el-button>
+						</download-excel>
+					</el-form-item>
 				</el-form>
 			</div>
 			<el-table :data="typeList.slice((currentPage - 1) * pagesize, currentPage * pagesize)">
@@ -69,7 +76,7 @@
 				</el-pagination>
 			</div>
 		</div>
-		
+
 		<el-dialog title="房产信息" :visible.sync="dialogTableVisible">
 			<el-form ref="addForm" :model="addForm" :rules="addFormRules" label-width="120px">
 				<el-form-item label="房号" prop="rNo">
@@ -95,7 +102,7 @@
 				<el-button @click="goBack">返回</el-button>
 			</el-form>
 		</el-dialog>
-		
+
 		<el-dialog title="房产信息" :visible.sync="dialogTableVisible1">
 			<el-form ref="infoList" :model="infoList" :rules="infoListRules" label-width="120px">
 				<el-form-item label="房号" prop="rNo">
@@ -135,21 +142,21 @@
 					name: '',
 					sale_status: ''
 				},
-				addForm:{
-					rNo:'',
-					buildArea:'',
-					ableArea:'',
-					name:'',
-					sale_status:'',
-					own_status:''
+				addForm: {
+					rNo: '',
+					buildArea: '',
+					ableArea: '',
+					name: '',
+					sale_status: '',
+					own_status: ''
 				},
-				infoList:{
-					rNo:'',
-					buildArea:'',
-					ableArea:'',
-					name:'',
-					sale_status:'',
-					own_status:''
+				infoList: {
+					rNo: '',
+					buildArea: '',
+					ableArea: '',
+					name: '',
+					sale_status: '',
+					own_status: ''
 				},
 				addFormRules: {
 					name: [{
@@ -163,22 +170,20 @@
 						trigger: 'blur'
 					}, ],
 					buildArea: [{
-							required: true,
-							message: '请输入建筑面积',
-							trigger: 'blur'
-						},
-					],
+						required: true,
+						message: '请输入建筑面积',
+						trigger: 'blur'
+					}, ],
 					ableArea: [{
 						required: true,
 						message: '请输入使用面积',
 						trigger: 'blur'
 					}, ],
 					sale_status: [{
-							required: true,
-							message: '请输入出售状况',
-							trigger: 'blur'
-						},
-					],
+						required: true,
+						message: '请输入出售状况',
+						trigger: 'blur'
+					}, ],
 					own_status: [{
 						required: true,
 						message: '请输入产权状况',
@@ -197,31 +202,43 @@
 						trigger: 'blur'
 					}, ],
 					buildArea: [{
-							required: true,
-							message: '请输入建筑面积',
-							trigger: 'blur'
-						},
-					],
+						required: true,
+						message: '请输入建筑面积',
+						trigger: 'blur'
+					}, ],
 					ableArea: [{
 						required: true,
 						message: '请输入使用面积',
 						trigger: 'blur'
 					}, ],
 					sale_status: [{
-							required: true,
-							message: '请输入出售状况',
-							trigger: 'blur'
-						},
-					],
+						required: true,
+						message: '请输入出售状况',
+						trigger: 'blur'
+					}, ],
 					own_status: [{
 						required: true,
 						message: '请输入产权状况',
 						trigger: 'blur'
 					}, ],
 				},
-				typeList:[],
+				json_fields: {
+					房号: "rNo",
+					建筑面积: "buildArea",
+					使用面积: "ableArea",
+					房型名称: "name",
+					出售状况: "sale_status",
+					产权状况: "own_status"
+				},
+				json_meta: [
+					[{
+						key: "charset",
+						value: "utf-8"
+					}]
+				],
+				typeList: [],
 				dialogTableVisible: false,
-				dialogTableVisible1:false,
+				dialogTableVisible1: false,
 				currentPage: 1, //默认第一页
 				total: 0, //总条数
 				pagesize: 5 //默认第一页展示10条
@@ -230,12 +247,12 @@
 		created() {
 			this.getHouseMagList()
 		},
-		methods:{
+		methods: {
 			// 查询房产信息
 			getHouseMagList() {
 				var self = this;
 				axios.post("http://127.0.0.1:10520/api/admin/getHouseMagList", {
-			
+
 					})
 					.then(function(res) {
 						if (res.data.status == 1) {
@@ -265,26 +282,26 @@
 						type: "error",
 					});
 				} else {
-				request({
-					url: "http://127.0.0.1:10520/api/admin/addHouseMag",
-					method: "post",
-					data: this.addForm
-				}).then(res => {
-					console.log(res);
-					if (res.msg === "新增成功") {
-						this.$message({
-							message: "恭喜你，新增成功",
-							type: "success"
-						});
-						this.init();
-					}
-				});
+					request({
+						url: "http://127.0.0.1:10520/api/admin/addHouseMag",
+						method: "post",
+						data: this.addForm
+					}).then(res => {
+						console.log(res);
+						if (res.msg === "新增成功") {
+							this.$message({
+								message: "恭喜你，新增成功",
+								type: "success"
+							});
+							this.init();
+						}
+					});
 				}
 			},
 			init() {
 				// this.dialog_state = false;
 				this.addForm = {};
-				this.dialogTableVisible=false;
+				this.dialogTableVisible = false;
 				this.getHouseMagList();
 			},
 			handleEdit(index, row) {
@@ -351,7 +368,7 @@
 						})
 					});
 			},
-			
+
 			handleSizeChange(val) {
 				this.pagesize = val;
 			},
@@ -368,5 +385,4 @@
 		margin: auto;
 		margin-top: 50px;
 	}
-	
 </style>

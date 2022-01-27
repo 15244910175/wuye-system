@@ -59,10 +59,7 @@ const routes = [{
 	    path: '/colpass',
 	    component: resolve=>require(['../pages/user/pass/colpass.vue'],resolve),
 	  },
-	  {
-		  path:'/addNote',
-		  component:resolve=>require(['../pages/user/note/addNote.vue'],resolve),
-	  },
+	 
 	  
       {
         path: '/inNote',

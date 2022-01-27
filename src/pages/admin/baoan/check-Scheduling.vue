@@ -33,6 +33,12 @@
 						<el-button size="mini" type="primary" class="el-icon-plus" @click="dialogTableVisible1=true">新增
 						</el-button>
 					</el-form-item>
+					<el-form-item>
+						<download-excel class="export-excel-wrapper" :data="typeList" :fields="json_fields"
+							name="保安排班信息.xls">
+						<el-button type="primary" size="small">导出EXCEL</el-button>
+						</download-excel>
+					</el-form-item>
 				</el-form>
 			</div>
 			<el-table :data="typeList.slice((currentPage - 1) * pagesize, currentPage * pagesize)">
@@ -137,6 +143,19 @@
 				currentPage: 1, //默认第一页
 				total: 0, //总条数
 				pagesize: 5, //默认第一页展示10条
+				json_fields: {
+								保安姓名: "name",
+								上班时间: "startTime",
+								下班时间: "endTime"
+							 },
+				json_meta: [
+							[
+							{
+								key: "charset",
+								value: "utf-8"
+							}
+							]
+							],
 				dialogTableVisible: false,
 				dialogTableVisible1: false,
 				infoListRules: {

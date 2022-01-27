@@ -85,7 +85,7 @@ var sqlMap = {
 		// 新增预定车位
 		addOrderPark:'insert into carorder(userid,persionNo,telephone,address,carAddress,changedate,state) values(?,?,?,?,?,?,?)',
 		// 添加设备信息
-		addEqu:'insert into chanel(name,model,num,beDate,mark) values(?,?,?,?,?)',
+		addEqu:'insert into chanel(name,model,num,beDate,mark,inName) values(?,?,?,?,?,?)',
 		// 添加物业公司员工信息
 		addRs:'insert into rs(AdminName,persionNo,sex,begDate,post) values(?,?,?,?,?)',
 		// 添加保安排班
@@ -161,7 +161,7 @@ var sqlMap = {
 		// 修改车位明细信息
 		updateCarnum:'update carnum set num=? where id=?',
 		// 修改设备信息
-		updateEqu:'update chanel set name=?,mark=?,model=?,num=?,beDate=? where id=?',
+		updateEqu:'update chanel set name=?,mark=?,model=?,num=?,beDate=?,inName=? where id=?',
 		// 修改物业费信息
 		updatePay:'update t_change set dNo=?,type=?,changeName=?,zName=?,cases=?,waterCase=?,eCase=?,gasCase=?,stopCase=?,mandCase=?,remark=?,payabledate=? where id=?',
 		// 标记已修

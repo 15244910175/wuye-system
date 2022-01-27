@@ -28,6 +28,17 @@
 						<el-button size="mini" type="primary" class="el-icon-plus" @click="dialogTableVisible=true">新增
 						</el-button>
 					</el-form-item>
+					<el-form-item>
+					<download-excel
+					    class = "export-excel-wrapper"
+					    :data = "typeList"
+					    :fields = "json_fields"
+					    name = "产权变更信息.xls">
+					    <!-- 上面可以自定义自己的样式，还可以引用其他组件button -->
+					    <el-button type="primary" size="small">导出EXCEL</el-button>
+					</download-excel>
+					</el-form-item>
+					
 				</el-form>
 			</div>
 				<el-table :data="typeList.slice((currentPage - 1) * pagesize, currentPage * pagesize)">
@@ -171,6 +182,20 @@
 						trigger: 'blur'
 					}, ],
 				},
+				json_fields: {
+				        房号: "rNo",
+				        原房主: "oldOwner",
+				        现房主: "nowOwner",
+				        变更时间: "changedate"
+				      },
+				      json_meta: [
+				        [
+				          {
+				            key: "charset",
+				            value: "utf-8"
+				          }
+				        ]
+				      ],
 				dialogTableVisible: false,
 				dialogTableVisible1:false,
 				currentPage: 1, //默认第一页

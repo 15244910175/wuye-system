@@ -34,6 +34,12 @@
 						<el-button size="mini" type="primary" class="el-icon-plus" @click="dialogTableVisible1=true">新增
 						</el-button>
 					</el-form-item>
+					<el-form-item>
+						<download-excel class="export-excel-wrapper" :data="typeList" :fields="json_fields"
+							name="设备资料.xls">
+						<el-button type="primary" size="small">导出EXCEL</el-button>
+						</download-excel>
+					</el-form-item>
 				</el-form>
 			</div>
 			<el-table :data="typeList.slice((currentPage - 1) * pagesize, currentPage * pagesize)">
@@ -47,6 +53,8 @@
 				<el-table-column prop="beDate" label="采购时间" :formatter="dateFormat">
 				</el-table-column>
 				<el-table-column prop="model" label="设备型号">
+				</el-table-column>
+				<el-table-column prop="inName" label="购买人">
 				</el-table-column>
 				<el-table-column prop="mark" label="设备说明">
 				</el-table-column>
@@ -84,6 +92,9 @@
 					<el-date-picker v-model="infoList.beDate" type="date" placeholder="请选择工作日期" style="width:100%">
 					</el-date-picker>
 				</el-form-item>
+				<el-form-item label="购买人" prop="inName">
+					<el-input v-model="infoList.inName"></el-input>
+				</el-form-item>
 				<el-form-item label="设备说明" prop="mark">
 					<el-input v-model="infoList.mark"></el-input>
 				</el-form-item>
@@ -107,6 +118,9 @@
 				<el-form-item label="采购时间" prop="beDate">
 					<el-date-picker v-model="addForm.beDate" type="date" placeholder="请选择工作日期" style="width:100%">
 					</el-date-picker>
+				</el-form-item>
+				<el-form-item label="购买人" prop="inName">
+					<el-input v-model="addForm.inName"></el-input>
 				</el-form-item>
 				<el-form-item label="设备说明" prop="mark">
 					<el-input v-model="addForm.mark"></el-input>
@@ -133,25 +147,38 @@
 					inName: ''
 				},
 				typeList: [{
-					name: '',
-					beDate: '',
-					model: '',
-					inName: ''
 				}],
 				infoList: {
 					name: '',
 					model: '',
 					num: '',
 					beDate: '',
-					mark: ''
+					mark: '',
+					inName:''
 				},
 				addForm: {
 					name: '',
 					model: '',
 					num: '',
 					beDate: '',
-					mark: ''
+					mark: '',
+					inName:''
 				},
+				json_fields: {
+								设备名称: "name",
+								设备数量: "num",
+								采购时间: "beDate",
+								设备型号: "model",
+								设备说明: "mark"
+							 },
+				json_meta: [
+							[
+							{
+								key: "charset",
+								value: "utf-8"
+							}
+							]
+							],
 				currentPage: 1, //默认第一页
 				total: 0, //总条数
 				pagesize: 5, //默认第一页展示10条

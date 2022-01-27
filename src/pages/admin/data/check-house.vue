@@ -28,16 +28,23 @@
 						<el-button size="mini" type="primary" class="el-icon-plus" @click="dialogTableVisible1=true">新增</el-button>
 					</el-form-item>
 					<el-form-item>
-						<el-button size="mini" type="primary" class="el-icon-download" >列表导出</el-button>
+					<download-excel
+					    class = "export-excel-wrapper"
+					    :data = "typeList"
+					    :fields = "json_fields"
+					    name = "住户资料.xls">
+					    <!-- 上面可以自定义自己的样式，还可以引用其他组件button -->
+					    <el-button type="primary" size="small">导出EXCEL</el-button>
+					</download-excel>
 					</el-form-item>
+					
+					
 				</el-form>
 			</div>
 			<el-table :data="typeList.slice((currentPage - 1) * pagesize, currentPage * pagesize)">
 				<el-table-column label="住户编号" width="150">
 					<template slot-scope="scope">{{scope.$index+1}}</template>
 				</el-table-column>
-				<!-- <el-table-column prop="id" label="住户id">
-				</el-table-column> -->
 				<el-table-column prop="rNo" label="房号">
 				</el-table-column>
 				<el-table-column prop="username" label="住户姓名">
@@ -77,7 +84,7 @@
 					<el-input v-model="infoList.username"></el-input>
 				</el-form-item>
 				<el-form-item label="住户身份证" prop="persionNo">
-					<el-input v-model="infoList.persionNo"></el-input>
+					<el-input v-model="infoList.persionNo" ></el-input>
 				</el-form-item>
 				<el-form-item label="住户性别" prop="sex">
 					<el-select v-model="infoList.sex" placeholder="请选择性别" style="width:100%">
@@ -253,6 +260,23 @@
 						trigger: 'blur'
 					}, ],
 				},
+				json_fields: {
+				        房号: "rNo",
+				        住户姓名: "username",
+				        住户电话: "telephone",
+				        住户身份证: "persionNo",
+				        住户性别: "sex",
+				        住户入住时间: "date"
+				      },
+				      json_meta: [
+				        [
+				          {
+				            key: "charset",
+				            value: "utf-8"
+				          }
+				        ]
+				      ],
+				
 				dialogTableVisible: false,
 				dialogTableVisible1:false,
 				currentPage: 1, //默认第一页
@@ -364,6 +388,7 @@
 				this.addForm = {};
 				this.dialogTableVisible1=false;
 				this.getUserList();
+				// this.$refs[addForm].resetFields();
 			},
 			// 删除住户信息
 			deleteHouse(id) {
@@ -403,6 +428,7 @@
 			handleCurrentChange(val) {
 				this.currentPage = val;
 			},
+			
 		}
 	}
 </script>

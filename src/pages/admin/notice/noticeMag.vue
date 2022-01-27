@@ -21,6 +21,12 @@
 					<el-form-item>
 						<el-button size="mini" type="primary" class="el-icon-plus" @click="dialogTableVisible=true">新增公告</el-button>
 					</el-form-item>
+					<el-form-item>
+						<download-excel class="export-excel-wrapper" :data="typeList" :fields="json_fields"
+							name="公告信息.xls">
+						<el-button type="primary" size="small">导出EXCEL</el-button>
+						</download-excel>
+					</el-form-item>
 				</el-form>
 			</div>
 			<el-table :data="typeList.slice((currentPage - 1) * pagesize, currentPage * pagesize)">
@@ -95,6 +101,20 @@
 	export default {
 		data() {
 			return {
+				json_fields: {
+								公告标题: "title",
+								公告内容: "content",
+								发布时间: "time",
+								发布人: "name"
+							 },
+				json_meta: [
+							[
+							{
+								key: "charset",
+								value: "utf-8"
+							}
+							]
+							],
 				formInline:{
 					time:'',
 				},
