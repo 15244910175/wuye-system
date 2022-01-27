@@ -57,15 +57,13 @@
 				</el-pagination>
 			</div>
 			<el-dialog title="车位数明细" :visible.sync="dialogTableVisible1">
-				<div slot="header" class="clearfix">
-					<span>车位明细</span>
-				</div>
-				<el-form ref="infoList" :model="infoList" :rules="infoListRules">
+				
+				<el-form ref="addForm" :model="addForm" :rules="addFormRules">
 					<el-form-item label="本年车位数" prop="num">
-						<el-input size="mini" v-model="infoList.num"></el-input>
+						<el-input size="mini" v-model="addForm.num" placeholder="请输入车位数"></el-input>
 					</el-form-item>
 					<el-form-item label="年份" prop="date">
-						<el-date-picker v-model="infoList.date" type="year" placeholder="选择年" style="width: 80%;">
+						<el-date-picker v-model="addForm.date" type="year" placeholder="选择年" style="width: 90%;">
 						</el-date-picker>
 					</el-form-item>
 					<el-button type="primary" size="medium" style="margin-left: 50%;" @click="onSubmit">保存</el-button>
@@ -76,7 +74,7 @@
 		<el-dialog title="车位数明细" :visible.sync="dialogTableVisible">
 			<el-form ref="infoList" :model="infoList" label-width="120px" :rules="infoListRules">
 				<el-form-item label="本年车位数" prop="num">
-					<el-input size="mini" v-model="infoList.num"></el-input>
+					<el-input size="mini" v-model="infoList.num" placeholder="请输入车位数"></el-input>
 				</el-form-item>
 
 				<el-button type="primary" @click="save" style="margin-left: 40%;">保存</el-button>
@@ -105,6 +103,10 @@
 					num: '',
 					date: '',
 				},
+				addForm: {
+					num: '',
+					date: '',
+				},
 				json_fields: {
 								车位总数: "num",
 								年份: "date",
@@ -123,6 +125,30 @@
 				dialogTableVisible: false,
 				dialogTableVisible1: false,
 				infoListRules: {
+					num: [{
+							required: true,
+							message: '请输入车位总数',
+							trigger: 'blur'
+						},
+						{
+							// type: 'number',
+							message: '请输入正整数',
+							trigger: 'blur'
+						}
+					],
+					date: [{
+							required: true,
+							message: '请选择年份',
+							trigger: 'blur'
+						},
+						{
+							type: 'date',
+							message: '请选择年份',
+							trigger: 'blur'
+						}
+					]
+				},
+				addFormRules: {
 					num: [{
 							required: true,
 							message: '请输入车位总数',

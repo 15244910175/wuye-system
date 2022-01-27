@@ -64,38 +64,38 @@
 			</div>
 		</div>
 
-		<el-dialog title="快递公司管理信息" :visible.sync="dialogTableVisible">
+		<el-dialog title="新增快递公司管理信息" :visible.sync="dialogTableVisible">
 			<el-form ref="addForm" :model="addForm" :rules="addFormRules" label-width="120px">
 				<el-form-item label="快递公司名称" prop="name">
-					<el-input v-model="addForm.name"></el-input>
+					<el-input v-model="addForm.name" placeholder="请输入快递公司名称"></el-input>
 				</el-form-item>
 				<el-form-item label="负责人" prop="username">
-					<el-input v-model="addForm.username"></el-input>
+					<el-input v-model="addForm.username" placeholder="请输入负责人"></el-input>
 				</el-form-item>
 				<el-form-item label="联系电话" prop="tel">
-					<el-input v-model="addForm.tel"></el-input>
+					<el-input v-model="addForm.tel" placeholder="请输入联系电话"></el-input>
 				</el-form-item>
 				<el-form-item label="快递公司地址" prop="address">
-					<el-input v-model="addForm.address"></el-input>
+					<el-input v-model="addForm.address" placeholder="请输入快递公司地址"></el-input>
 				</el-form-item>
 				<el-button type="primary" style="margin-left: 40%;" @click="add">保存</el-button>
 				<el-button @click="resetForm1('addForm')">重置</el-button>
 				<el-button @click="goBack">返回</el-button>
 			</el-form>
 		</el-dialog>
-		<el-dialog title="快递公司管理信息" :visible.sync="dialogTableVisible1">
+		<el-dialog title="编辑快递公司管理信息" :visible.sync="dialogTableVisible1">
 			<el-form ref="infoList" :model="infoList" :rules="infoListRules" label-width="120px">
 				<el-form-item label="快递公司名称" prop="name">
-					<el-input v-model="infoList.name"></el-input>
+					<el-input v-model="infoList.name" placeholder="请输入快递公司名称"></el-input>
 				</el-form-item>
 				<el-form-item label="负责人" prop="username">
-					<el-input v-model="infoList.username"></el-input>
+					<el-input v-model="infoList.username" placeholder="请输入负责人"></el-input>
 				</el-form-item>
 				<el-form-item label="联系电话" prop="tel">
-					<el-input v-model="infoList.tel"></el-input>
+					<el-input v-model="infoList.tel" placeholder="请输入如联系电话"></el-input>
 				</el-form-item>
 				<el-form-item label="快递公司地址" prop="address">
-					<el-input v-model="infoList.address"></el-input>
+					<el-input v-model="infoList.address" placeholder="请输入快递公司地址"></el-input>
 				</el-form-item>
 				<el-button type="primary" style="margin-left: 40%;" @click="edit">保存</el-button>
 				<el-button @click="resetForm1('infoList')">重置</el-button>

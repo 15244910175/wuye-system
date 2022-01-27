@@ -77,26 +77,26 @@
 			</div>
 		</div>
 
-		<el-dialog title="设备信息" :visible.sync="dialogTableVisible">
+		<el-dialog title="编辑设备信息" :visible.sync="dialogTableVisible">
 			<el-form ref="infoList" :model="infoList" :rules="infoListRules" label-width="120px">
 				<el-form-item label="设备名称" prop="name">
-					<el-input v-model="infoList.name"></el-input>
+					<el-input v-model="infoList.name" placeholder="请输入设备名称"></el-input>
 				</el-form-item>
 				<el-form-item label="设备型号" prop="model">
-					<el-input v-model="infoList.model"></el-input>
+					<el-input v-model="infoList.model" placeholder="请输入设备型号"></el-input>
 				</el-form-item>
 				<el-form-item label="设备数量" prop="num">
-					<el-input v-model="infoList.num"></el-input>
+					<el-input v-model="infoList.num" placeholder="请输入设备数量"></el-input>
 				</el-form-item>
 				<el-form-item label="采购时间" prop="beDate">
 					<el-date-picker v-model="infoList.beDate" type="date" placeholder="请选择工作日期" style="width:100%">
 					</el-date-picker>
 				</el-form-item>
 				<el-form-item label="购买人" prop="inName">
-					<el-input v-model="infoList.inName"></el-input>
+					<el-input v-model="infoList.inName" placeholder="请输入购买人"></el-input>
 				</el-form-item>
 				<el-form-item label="设备说明" prop="mark">
-					<el-input v-model="infoList.mark"></el-input>
+					<el-input v-model="infoList.mark" placeholder="请输入设备说明"></el-input>
 				</el-form-item>
 				<el-button type="primary" style="margin-left: 40%;" @click="edit">保存</el-button>
 				<el-button @click="resetForm1('infoList')">重置</el-button>
@@ -107,23 +107,23 @@
 		<el-dialog title="设备信息" :visible.sync="dialogTableVisible1">
 			<el-form ref="addForm" :model="addForm" :rules="addFormRules" label-width="120px">
 				<el-form-item label="设备名称" prop="name">
-					<el-input v-model="addForm.name"></el-input>
+					<el-input v-model="addForm.name" placeholder="请输入设备名称"></el-input>
 				</el-form-item>
 				<el-form-item label="设备型号" prop="model">
-					<el-input v-model="addForm.model"></el-input>
+					<el-input v-model="addForm.model" placeholder="请输入设备型号"></el-input>
 				</el-form-item>
 				<el-form-item label="设备数量" prop="num">
-					<el-input v-model="addForm.num"></el-input>
+					<el-input v-model="addForm.num" placeholder="请输入设备数量"></el-input>
 				</el-form-item>
 				<el-form-item label="采购时间" prop="beDate">
 					<el-date-picker v-model="addForm.beDate" type="date" placeholder="请选择工作日期" style="width:100%">
 					</el-date-picker>
 				</el-form-item>
 				<el-form-item label="购买人" prop="inName">
-					<el-input v-model="addForm.inName"></el-input>
+					<el-input v-model="addForm.inName" placeholder="请输入购买人"></el-input>
 				</el-form-item>
 				<el-form-item label="设备说明" prop="mark">
-					<el-input v-model="addForm.mark"></el-input>
+					<el-input v-model="addForm.mark" placeholder="请输入设备说明"></el-input>
 				</el-form-item>
 				<el-button type="primary" style="margin-left: 40%;" @click="add">保存</el-button>
 				<el-button @click="resetForm1('addForm')">重置</el-button>
@@ -195,6 +195,11 @@
 						message: '请输入设备型号',
 						trigger: 'blur'
 					}, ],
+					inName: [{
+						required: true,
+						message: '请输入购买人',
+						trigger: 'blur'
+					}, ],
 					num: [{
 							required: true,
 							message: '请选择性别',
@@ -239,6 +244,11 @@
 							trigger: 'blur'
 						}
 					],
+					inName: [{
+						required: true,
+						message: '请输入购买人',
+						trigger: 'blur'
+					}, ],
 					beDate: [{
 						required: true,
 						message: '请选择采购时间',

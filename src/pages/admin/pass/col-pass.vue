@@ -75,22 +75,22 @@
 			</div>
 		</div>
 		
-		<el-dialog title="代收快递信息" :visible.sync="dialogTableVisible">
+		<el-dialog title="添加代收快递信息" :visible.sync="dialogTableVisible">
 			<el-form ref="addForm" :model="addForm" :rules="addFormRules" label-width="120px">
 				<el-form-item label="快递公司名称" prop="name">
-					<el-input v-model="addForm.name"></el-input>
+					<el-input v-model="addForm.name" placeholder="请输入快递公司名称"></el-input>
 				</el-form-item>
 				<el-form-item label="收货人" prop="username">
-					<el-input v-model="addForm.username"></el-input>
+					<el-input v-model="addForm.username" placeholder="请输入收货人"></el-input>
 				</el-form-item>
 				<el-form-item label="联系电话" prop="tel">
-					<el-input v-model="addForm.tel"></el-input>
+					<el-input v-model="addForm.tel" placeholder="请输入联系电话"></el-input>
 				</el-form-item>
 				<el-form-item label="收货地址" prop="address">
-					<el-input v-model="addForm.address"></el-input>
+					<el-input v-model="addForm.address" placeholder="请输入如收货地址"></el-input>
 				</el-form-item>
 				<el-form-item label="代收货日期" prop="date">
-					<el-date-picker v-model="addForm.date" type="date"></el-date-picker>
+					<el-date-picker v-model="addForm.date" type="date" placeholder="请选择代收货日期"></el-date-picker>
 				</el-form-item>
 				<el-form-item label="是否领取" prop="isreceive">
 					<el-select v-model="addForm.isreceive" placeholder="请选择领取与否" style="width:100%">
@@ -104,7 +104,7 @@
 			</el-form>
 		</el-dialog>
 		
-		<el-dialog title="代收快递信息" :visible.sync="dialogTableVisible1">
+		<el-dialog title="编辑代收快递信息" :visible.sync="dialogTableVisible1">
 			<el-form ref="infoList" :model="infoList" :rules="infoListRules" label-width="120px">
 				<el-form-item label="快递公司名称" prop="name">
 					<el-input v-model="infoList.name" disabled></el-input>
@@ -119,7 +119,7 @@
 					<el-input v-model="infoList.address" disabled></el-input>
 				</el-form-item>
 				<el-form-item label="代收货日期" prop="date">
-					<el-date-picker v-model="infoList.date" type="date" disabled></el-date-picker>
+					<el-date-picker v-model="infoList.date" type="date" disabled style="width: 80%;"></el-date-picker>
 				</el-form-item>
 				
 				<el-form-item label="是否领取" prop="isreceive">
@@ -129,7 +129,7 @@
 						</el-select>
 				</el-form-item>
 				<el-form-item label="收货日期" prop="alreadyDate">
-					<el-date-picker v-model="infoList.alreadyDate" type="date"></el-date-picker>
+					<el-date-picker v-model="infoList.alreadyDate" type="date" style="width: 80%;"></el-date-picker>
 				</el-form-item>
 				<el-button type="primary" style="margin-left: 40%;" @click="edit">保存</el-button>
 				<el-button @click="resetForm1('infoList')">重置</el-button>

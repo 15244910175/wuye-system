@@ -76,13 +76,13 @@
 			</div>
 		</div>
 
-		<el-dialog title="员工信息" :visible.sync="dialogTableVisible">
+		<el-dialog title="编辑员工信息" :visible.sync="dialogTableVisible">
 			<el-form ref="infoList" :model="infoList" :rules="infoListRules" label-width="120px">
 				<el-form-item label="员工姓名" prop="AdminName">
-					<el-input v-model="infoList.AdminName"></el-input>
+					<el-input v-model="infoList.AdminName" placeholder="请输入员工姓名"></el-input>
 				</el-form-item>
 				<el-form-item label="员工身份证" prop="persionNo">
-					<el-input v-model="infoList.persionNo"></el-input>
+					<el-input v-model="infoList.persionNo" placeholder="请输入员工身份证"></el-input>
 				</el-form-item>
 				<el-form-item label="性别" prop="sex">
 					<el-select v-model="infoList.sex" placeholder="请选择性别" style="width:100%">
@@ -96,20 +96,20 @@
 					</el-date-picker>
 				</el-form-item>
 				<el-form-item label="员工职务" prop="post">
-					<el-input v-model="infoList.post"></el-input>
+					<el-input v-model="infoList.post" placeholder="请输入员工职务"></el-input>
 				</el-form-item>
 				<el-button type="primary" style="margin-left: 40%;" @click="edit">保存</el-button>
 				<el-button @click="resetForm1('infoList')">重置</el-button>
 				<el-button @click="goBack">返回</el-button>
 			</el-form>
 		</el-dialog>
-		<el-dialog title="员工信息" :visible.sync="dialogTableVisible1">
+		<el-dialog title="新增员工信息" :visible.sync="dialogTableVisible1">
 			<el-form ref="addForm" :model="addForm" :rules="addFormRules" label-width="120px">
 				<el-form-item label="员工姓名" prop="AdminName">
-					<el-input v-model="addForm.AdminName"></el-input>
+					<el-input v-model="addForm.AdminName" placeholder="请输入员工姓名"></el-input>
 				</el-form-item>
 				<el-form-item label="员工身份证" prop="persionNo">
-					<el-input v-model="addForm.persionNo"></el-input>
+					<el-input v-model="addForm.persionNo" placeholder="请输入员工身份证"></el-input>
 				</el-form-item>
 				<el-form-item label="性别" prop="sex">
 					<el-select v-model="addForm.sex" placeholder="请选择性别" style="width:100%">
@@ -123,7 +123,7 @@
 					</el-date-picker>
 				</el-form-item>
 				<el-form-item label="员工职务" prop="post">
-					<el-input v-model="addForm.post"></el-input>
+					<el-input v-model="addForm.post" placeholder="请输入员工职务"></el-input>
 				</el-form-item>
 				<el-button type="primary" style="margin-left: 40%;" @click="add">保存</el-button>
 				<el-button @click="resetForm1('addForm')">重置</el-button>

@@ -70,19 +70,19 @@
 			<el-dialog title="租赁信息" :visible.sync="dialogTableVisible">
 				<el-form ref="addForm" :model="addForm" :rules="addFormRules" label-width="120px">
 					<el-form-item label="租赁人姓名" prop="name">
-						<el-input v-model="addForm.name"></el-input>
+						<el-input v-model="addForm.name" placeholder="请输入租赁人姓名"></el-input>
 					</el-form-item>
 					<el-form-item label="房号" prop="rNo">
-						<el-input v-model="addForm.rNo"></el-input>
+						<el-input v-model="addForm.rNo" placeholder="请输入房号"></el-input>
 					</el-form-item>
 					<el-form-item label="身份证" prop="persionNo">
-						<el-input v-model="addForm.persionNo"></el-input>
+						<el-input v-model="addForm.persionNo" placeholder="请输入身份证"></el-input>
 					</el-form-item>
 					<el-form-item label="租借时间" prop="reTime">
-						<el-date-picker v-model="addForm.reTime" type="date"></el-date-picker>
+						<el-date-picker v-model="addForm.reTime" type="date" placeholder="请选择租借时间" style="width: 100%;"></el-date-picker>
 					</el-form-item>
 					<el-form-item label="到期日期" prop="dateDue">
-						<el-date-picker v-model="addForm.dateDue" type="date"></el-date-picker>
+						<el-date-picker v-model="addForm.dateDue" type="date" placeholder="请选择到期日期" style="width: 100%;"></el-date-picker>
 					</el-form-item>
 					<el-button type="primary" style="margin-left: 40%;" @click="add">保存</el-button>
 					<el-button @click="resetForm1('addForm')">重置</el-button>
@@ -93,19 +93,19 @@
 			<el-dialog title="租赁信息" :visible.sync="dialogTableVisible1">
 				<el-form ref="infoList" :model="infoList" :rules="infoListRules" label-width="120px">
 					<el-form-item label="租赁人姓名" prop="name">
-						<el-input v-model="infoList.name"></el-input>
+						<el-input v-model="infoList.name" placeholder="请输入租赁人姓名"></el-input>
 					</el-form-item>
 					<el-form-item label="房号" prop="rNo">
-						<el-input v-model="infoList.rNo"></el-input>
+						<el-input v-model="infoList.rNo" placeholder="请输入房号"></el-input>
 					</el-form-item>
 					<el-form-item label="身份证" prop="persionNo">
-						<el-input v-model="infoList.persionNo"></el-input>
+						<el-input v-model="infoList.persionNo" placeholder="请输入身份证"></el-input>
 					</el-form-item>
 					<el-form-item label="租借时间" prop="reTime">
-						<el-date-picker v-model="infoList.reTime" type="date"></el-date-picker>
+						<el-date-picker v-model="infoList.reTime" type="date" placeholder="请选择租借时间" style="width: 100%;"></el-date-picker>
 					</el-form-item>
 					<el-form-item label="到期日期" prop="dateDue">
-						<el-date-picker v-model="infoList.dateDue" type="date"></el-date-picker>
+						<el-date-picker v-model="infoList.dateDue" type="date" placeholder="请选择到期时间" style="width: 100%;"></el-date-picker>
 					</el-form-item>
 					<el-button type="primary" style="margin-left: 40%;" @click="edit">保存</el-button>
 					<el-button @click="resetForm1('infoList')">重置</el-button>

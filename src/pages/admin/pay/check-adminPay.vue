@@ -17,7 +17,7 @@
 						<el-input size="mini" v-model="formInline.zName" placeholder="输入住户姓名"></el-input>
 					</el-form-item>
 					<el-form-item label="是否缴费">
-						<el-select v-model="formInline.state" placeholder="请选择是否缴费" style="width:100%">
+						<el-select v-model="formInline.state" placeholder="请选择是否缴费" style="width:100%" size="mini">
 							<el-option label="已缴费" value="已缴费"></el-option>
 							<el-option label="未缴费" value="未缴费"></el-option>
 						</el-select>
@@ -89,48 +89,51 @@
 				<el-row>
 					<el-col :span="12">
 						<el-form-item label="单据编号" prop="dNo">
-							<el-input v-model="infoList.dNo"></el-input>
+							<el-input v-model="infoList.dNo" placeholder="请输入单据编号"></el-input>
 						</el-form-item>
 					</el-col>
 					<el-col :span="12">
 						<el-form-item label="住户姓名" prop="zName">
-							<el-input v-model="infoList.zName"></el-input>
+							<el-input v-model="infoList.zName" placeholder="请输入住户姓名"></el-input>
 						</el-form-item>
 					</el-col>
 				</el-row>
 				<el-row>
 					<el-col :span="12">
 						<el-form-item label="缴费方式" prop="type">
-							<el-input v-model="infoList.type"></el-input>
+							<el-select v-model="infoList.type" placeholder="请选择缴费方式" style="width:100%">
+								<el-option label="线上缴费" value="线上缴费"></el-option>
+								<el-option label="线下缴费" value="线下缴费"></el-option>
+							</el-select>
 						</el-form-item>
 					</el-col>
 					<el-col :span="12">
 						<el-form-item label="缴费总额" prop="cases">
-							<el-input v-model="infoList.cases"></el-input>
+							<el-input v-model="infoList.cases" placeholder="请输入缴费总额"></el-input>
 						</el-form-item>
 					</el-col>
 				</el-row>
 				<el-row>
 					<el-col :span="12">
 						<el-form-item label="收费人员" prop="changeName">
-							<el-input v-model="infoList.changeName"></el-input>
+							<el-input v-model="infoList.changeName" placeholder="请输入收费人员"></el-input>
 						</el-form-item>
 					</el-col>
 					<el-col :span="12">
 						<el-form-item label="水费" prop="waterCase">
-							<el-input v-model="infoList.waterCase"></el-input>
+							<el-input v-model="infoList.waterCase" placeholder="请输入水费"></el-input>
 						</el-form-item>
 					</el-col>
 				</el-row>
 				<el-row>
 					<el-col :span="12">
 						<el-form-item label="电费" prop="eCase">
-							<el-input v-model="infoList.eCase"></el-input>
+							<el-input v-model="infoList.eCase" placeholder="请输入电费"></el-input>
 						</el-form-item>
 					</el-col>
 					<el-col :span="12">
 						<el-form-item label="气费" prop="gasCase">
-							<el-input v-model="infoList.gascase"></el-input>
+							<el-input v-model="infoList.gascase" 请输入气费></el-input>
 						</el-form-item>
 					</el-col>
 				</el-row>
@@ -138,20 +141,20 @@
 				<el-row>
 					<el-col :span="12">
 						<el-form-item label="停车费" prop="stopCase">
-							<el-input v-model="infoList.stopCase"></el-input>
+							<el-input v-model="infoList.stopCase" placeholder="请输入停车费"></el-input>
 						</el-form-item>
 					</el-col>
 					<el-col :span="12">
 						<el-form-item label="维修费用" prop="mandCase">
-							<el-input v-model="infoList.mandCase"></el-input>
+							<el-input v-model="infoList.mandCase" placeholder="请输入维修费用"></el-input>
 						</el-form-item>
 					</el-col>
 				</el-row>
 				<el-form-item label="应缴纳日期" prop="payabledate">
-					<el-date-picker v-model="infoList.payabledate" type="date"></el-date-picker>
+					<el-date-picker v-model="infoList.payabledate" type="date" placeholder="请选择应缴纳日期" style="width: 100%;"></el-date-picker>
 				</el-form-item>
-				<el-form-item label="备注" prop="remark">
-					<el-input v-model="infoList.remark" type="textarea"></el-input>
+				<el-form-item label="备注" prop="remark" >
+					<el-input v-model="infoList.remark" type="textarea" placeholder="请输入备注"></el-input>
 				</el-form-item>
 				<el-button type="primary" @click="save">保存</el-button>
 				<el-button @click="resetForm1('infoList')">重置</el-button>
@@ -181,12 +184,12 @@
 				<el-row>
 					<el-col :span="12">
 						<el-form-item label="单据编号" prop="dNo">
-							<el-input v-model="addForm.dNo"></el-input>
+							<el-input v-model="addForm.dNo" placeholder="请输入单据编号"></el-input>
 						</el-form-item>
 					</el-col>
 					<el-col :span="12">
 						<el-form-item label="住户姓名" prop="zName">
-							<el-input v-model="addForm.zName"></el-input>
+							<el-input v-model="addForm.zName" placeholder="请输入住户姓名"></el-input>
 						</el-form-item>
 					</el-col>
 				</el-row>
@@ -201,31 +204,31 @@
 					</el-col>
 					<el-col :span="12">
 						<el-form-item label="缴费总额" prop="cases">
-							<el-input v-model="addForm.cases"></el-input>
+							<el-input v-model="addForm.cases" placeholder="请输入缴费总额"></el-input>
 						</el-form-item>
 					</el-col>
 				</el-row>
 				<el-row>
 					<el-col :span="12">
 						<el-form-item label="收费人员" prop="changeName">
-							<el-input v-model="addForm.changeName"></el-input>
+							<el-input v-model="addForm.changeName" placeholder="请输入收费人员"></el-input>
 						</el-form-item>
 					</el-col>
 					<el-col :span="12">
 						<el-form-item label="水费" prop="waterCase">
-							<el-input v-model="addForm.waterCase"></el-input>
+							<el-input v-model="addForm.waterCase" placeholder="请输入水费"></el-input>
 						</el-form-item>
 					</el-col>
 				</el-row>
 				<el-row>
 					<el-col :span="12">
 						<el-form-item label="电费" prop="eCase">
-							<el-input v-model="addForm.eCase"></el-input>
+							<el-input v-model="addForm.eCase" placeholder="请输入电费"></el-input>
 						</el-form-item>
 					</el-col>
 					<el-col :span="12">
 						<el-form-item label="气费" prop="gascase">
-							<el-input v-model="addForm.gascase"></el-input>
+							<el-input v-model="addForm.gascase" placeholder="请输入气费"></el-input>
 						</el-form-item>
 					</el-col>
 				</el-row>
@@ -233,20 +236,20 @@
 				<el-row>
 					<el-col :span="12">
 						<el-form-item label="停车费" prop="stopCase">
-							<el-input v-model="addForm.stopCase"></el-input>
+							<el-input v-model="addForm.stopCase" placeholder="请输入停车费"></el-input>
 						</el-form-item>
 					</el-col>
 					<el-col :span="12">
 						<el-form-item label="维修费用" prop="mandCase">
-							<el-input v-model="addForm.mandCase"></el-input>
+							<el-input v-model="addForm.mandCase" placeholder="请输入维修费用"></el-input>
 						</el-form-item>
 					</el-col>
 				</el-row>
 				<el-form-item label="应缴纳日期" prop="payabledate">
-					<el-date-picker v-model="addForm.payabledate" type="date"></el-date-picker>
+					<el-date-picker v-model="addForm.payabledate" type="date" placeholder="请选择应缴纳日期" style="width: 100%;"></el-date-picker>
 				</el-form-item>
 				<el-form-item label="备注" prop="remark">
-					<el-input v-model="addForm.remark" type="textarea"></el-input>
+					<el-input v-model="addForm.remark" type="textarea" placeholder="请输入备注"></el-input>
 				</el-form-item>
 				<el-button type="primary" @click="add">保存</el-button>
 				<el-button @click="resetForm1('addForm')">重置</el-button>
@@ -589,6 +592,8 @@
 			goBack() {
 				// router.push("check-admin");
 				this.dialogTableVisible = false;
+				this.dialogTableVisible1 = false;
+				this.dialogTableVisible2 = false;
 			},
 			resetForm1(infoList) {
 				this.$refs[infoList].resetFields();

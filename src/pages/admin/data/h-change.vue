@@ -76,16 +76,16 @@
 		<el-dialog title="产权变更信息" :visible.sync="dialogTableVisible">
 			<el-form ref="addForm" :model="addForm" :rules="addFormRules" label-width="120px">
 				<el-form-item label="房号" prop="rNo">
-					<el-input v-model="addForm.rNo"></el-input>
+					<el-input v-model="addForm.rNo" placeholder="请输入房号"></el-input>
 				</el-form-item>
 				<el-form-item label="原房主" prop="oldOwner">
-					<el-input v-model="addForm.oldOwner"></el-input>
+					<el-input v-model="addForm.oldOwner" placeholder="请输入原房姓名"></el-input>
 				</el-form-item>
 				<el-form-item label="现房主" prop="nowOwner">
-					<el-input v-model="addForm.nowOwner"></el-input>
+					<el-input v-model="addForm.nowOwner" placeholder="请输入现房主姓名"></el-input>
 				</el-form-item>
 				<el-form-item label="产权变更时间" prop="changedate">
-					<el-date-picker v-model="addForm.changedate" type="date"></el-date-picker>
+					<el-date-picker v-model="addForm.changedate" type="date" placeholder="请选择产权变更时间" style="width: 100%;"></el-date-picker>
 				</el-form-item>
 				<el-button type="primary" style="margin-left: 40%;" @click="add">保存</el-button>
 				<el-button @click="resetForm1('addForm')">重置</el-button>
@@ -95,16 +95,16 @@
 		<el-dialog title="产权变更管理" :visible.sync="dialogTableVisible1">
 			<el-form ref="infoList" :model="infoList" :rules="infoListRules" label-width="120px">
 				<el-form-item label="房号" prop="rNo">
-					<el-input v-model="infoList.rNo"></el-input>
+					<el-input v-model="infoList.rNo" placeholder="请输入房号"></el-input>
 				</el-form-item>
 				<el-form-item label="原房主" prop="oldOwner">
-					<el-input v-model="infoList.oldOwner"></el-input>
+					<el-input v-model="infoList.oldOwner" placeholder="请输入原房主姓名"></el-input>
 				</el-form-item>
 				<el-form-item label="现房主" prop="nowOwner">
-					<el-input v-model="infoList.nowOwner"></el-input>
+					<el-input v-model="infoList.nowOwner" placeholder="请输入现房主姓名"></el-input>
 				</el-form-item>
 				<el-form-item label="变更时间" prop="changedate">
-					<el-date-picker v-model="infoList.changedate" type="date"></el-date-picker>
+					<el-date-picker v-model="infoList.changedate" type="date" placeholder="请选择产权变更时间" style="width: 100%;"></el-date-picker>
 				</el-form-item>
 				<el-button type="primary" style="margin-left: 40%;" @click="edit">保存</el-button>
 				<el-button @click="resetForm1('infoList')">重置</el-button>

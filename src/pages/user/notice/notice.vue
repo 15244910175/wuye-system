@@ -27,7 +27,7 @@
 				</el-table-column>
 				<el-table-column prop="title" label="公告标题" show-overflow-tooltip>
 				</el-table-column>
-				<el-table-column label="公告内容" show-overflow-tooltip>
+				<el-table-column label="公告内容" show-overflow-tooltip >
 				 <template slot-scope="scope">
 				    <p @click="detail(scope.row)">{{scope.row.content}}</p>
 				  </template>

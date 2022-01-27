@@ -61,13 +61,13 @@
 			
 		</div>
 		
-		<el-dialog title="公告信息" :visible.sync="dialogTableVisible">
+		<el-dialog title="新增公告信息" :visible.sync="dialogTableVisible">
 			<el-form ref="addForm" :model="addForm" :rules="addFormRules" label-width="120px">
 				<el-form-item label="标题" prop="title">
-					<el-input v-model="addForm.title"></el-input>
+					<el-input v-model="addForm.title" placeholder="请输入标题"></el-input>
 				</el-form-item>
 				<el-form-item label="内容" prop="content">
-					<el-input v-model="addForm.content"></el-input>
+					<el-input v-model="addForm.content" placeholder="请输入内容"></el-input>
 				</el-form-item>
 				<el-button type="primary" style="margin-left: 40%;" @click="add">保存</el-button>
 				<el-button @click="resetForm1('addForm')">重置</el-button>
@@ -75,13 +75,13 @@
 			</el-form>
 		</el-dialog>
 		
-		<el-dialog title="公告信息" :visible.sync="dialogTableVisible1">
+		<el-dialog title="编辑公告信息" :visible.sync="dialogTableVisible1">
 			<el-form ref="infoList" :model="infoList" :rules="infoListRules" label-width="120px">
 				<el-form-item label="标题" prop="title">
-					<el-input v-model="infoList.title"></el-input>
+					<el-input v-model="infoList.title" placeholder="请输入标题"></el-input>
 				</el-form-item>
 				<el-form-item label="内容" prop="content">
-					<el-input v-model="infoList.content"></el-input>
+					<el-input v-model="infoList.content" placeholder="请输入内容"></el-input>
 				</el-form-item>
 				<el-button type="primary" style="margin-left: 40%;" @click="edit">保存</el-button>
 				<el-button @click="resetForm1('infoList')">重置</el-button>

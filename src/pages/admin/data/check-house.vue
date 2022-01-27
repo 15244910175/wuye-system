@@ -78,13 +78,13 @@
 		<el-dialog title="住户信息" :visible.sync="dialogTableVisible">
 			<el-form ref="infoList" :model="infoList" :rules="infoListRules" label-width="120px">
 				<el-form-item label="房号" prop="rNo">
-					<el-input v-model="infoList.rNo"></el-input>
+					<el-input v-model="infoList.rNo" placeholder="请输入房号"></el-input>
 				</el-form-item>
 				<el-form-item label="住户姓名" prop="username">
-					<el-input v-model="infoList.username"></el-input>
+					<el-input v-model="infoList.username" placeholder="请输入住户姓名"></el-input>
 				</el-form-item>
 				<el-form-item label="住户身份证" prop="persionNo">
-					<el-input v-model="infoList.persionNo" ></el-input>
+					<el-input v-model="infoList.persionNo" placeholder="请输入住户身份证"></el-input>
 				</el-form-item>
 				<el-form-item label="住户性别" prop="sex">
 					<el-select v-model="infoList.sex" placeholder="请选择性别" style="width:100%">
@@ -93,10 +93,10 @@
 					</el-select>
 				</el-form-item>
 				<el-form-item label="住户电话" prop="telephone">
-					<el-input v-model="infoList.telephone"></el-input>
+					<el-input v-model="infoList.telephone" placeholder="请输入电话号码"></el-input>
 				</el-form-item>
 				<el-form-item label="住户入住时间" prop="date">
-					<el-date-picker v-model="infoList.date" type="date"></el-date-picker>
+					<el-date-picker v-model="infoList.date" type="date" placeholder="请选择住户入住时间" style="width: 100%;"></el-date-picker>
 				</el-form-item>
 				<el-button type="primary" style="margin-left: 40%;" @click="edit">保存</el-button>
 				<el-button @click="resetForm1('infoList')">重置</el-button>
@@ -107,13 +107,13 @@
 		<el-dialog title="住户信息" :visible.sync="dialogTableVisible1">
 			<el-form ref="addForm" :model="addForm" :rules="addFormRules" label-width="120px">
 				<el-form-item label="房号" prop="rNo">
-					<el-input v-model="addForm.rNo"></el-input>
+					<el-input v-model="addForm.rNo" placeholder="请输入房号"></el-input>
 				</el-form-item>
 				<el-form-item label="住户姓名" prop="username">
-					<el-input v-model="addForm.username"></el-input>
+					<el-input v-model="addForm.username" placeholder="请输入住户姓名"></el-input>
 				</el-form-item>
 				<el-form-item label="住户身份证" prop="persionNo">
-					<el-input v-model="addForm.persionNo"></el-input>
+					<el-input v-model="addForm.persionNo" placeholder="请输入住户身份证"></el-input>
 				</el-form-item>
 				<el-form-item label="住户性别" prop="sex">
 					<el-select v-model="addForm.sex" placeholder="请选择性别" style="width:100%">
@@ -122,10 +122,10 @@
 					</el-select>
 				</el-form-item>
 				<el-form-item label="住户电话" prop="telephone">
-					<el-input v-model="addForm.telephone"></el-input>
+					<el-input v-model="addForm.telephone" placeholder="请输入住户电话"></el-input>
 				</el-form-item>
 				<el-form-item label="住户入住时间" prop="date">
-					<el-date-picker v-model="addForm.date" type="date"></el-date-picker>
+					<el-date-picker v-model="addForm.date" type="date" placeholder="请选择住户入住时间" style="width: 100%;"></el-date-picker>
 				</el-form-item>
 				<el-button type="primary" style="margin-left: 40%;" @click="add">保存</el-button>
 				<el-button @click="resetForm1('addForm')">重置</el-button>
@@ -203,11 +203,6 @@
 							message: '请输入电话号码',
 							trigger: 'blur'
 						},
-						{
-							type: 'number',
-							message: '数量必须为数字',
-							trigger: 'blur'
-						}
 					],
 					date: [{
 						required: true,
@@ -248,11 +243,6 @@
 							message: '请输入电话号码',
 							trigger: 'blur'
 						},
-						{
-							type: 'number',
-							message: '数量必须为数字',
-							trigger: 'blur'
-						}
 					],
 					date: [{
 						required: true,
@@ -303,6 +293,7 @@
 			goBack() {
 				// router.push("check-admin");
 				this.dialogTableVisible = false;
+				this.dialogTableVisible1 = false;
 			},
 			resetForm1(infoList) {
 				this.$refs[infoList].resetFields();

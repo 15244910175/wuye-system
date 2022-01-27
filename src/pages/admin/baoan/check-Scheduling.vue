@@ -70,10 +70,10 @@
 			</div>
 		</div>
 
-		<el-dialog title="保安排班信息" :visible.sync="dialogTableVisible">
+		<el-dialog title="编辑保安排班信息" :visible.sync="dialogTableVisible">
 			<el-form ref="infoList" :model="infoList" :rules="infoListRules" label-width="120px">
 				<el-form-item label="保安姓名" prop="name">
-					<el-input v-model="infoList.name"></el-input>
+					<el-input v-model="infoList.name" placeholder="请输入保安姓名"></el-input>
 				</el-form-item>
 				<el-form-item label="上班时间" prop="startTime">
 					<el-date-picker v-model="infoList.startTime" type="datetime" placeholder="请选择工作日期"
@@ -90,10 +90,10 @@
 			</el-form>
 		</el-dialog>
 		
-		<el-dialog title="保安排班信息" :visible.sync="dialogTableVisible1">
+		<el-dialog title="新增保安排班信息" :visible.sync="dialogTableVisible1">
 			<el-form ref="addForm" :model="addForm" :rules="addFormRules" label-width="120px">
 				<el-form-item label="保安姓名" prop="name">
-					<el-input v-model="addForm.name"></el-input>
+					<el-input v-model="addForm.name" placeholder="请输入保安姓名"></el-input>
 				</el-form-item>
 				<el-form-item label="上班时间" prop="startTime">
 					<el-date-picker v-model="addForm.startTime" type="datetime" placeholder="请选择工作日期"

@@ -84,7 +84,7 @@
 			</div>
 		</div>
 
-		<el-dialog title="修改报修事项" :visible.sync="dialogTableVisible">
+		<el-dialog title="查看报修事项" :visible.sync="dialogTableVisible">
 			<el-form ref="infoList" :model="infoList" label-width="120px" :rules="infoListRules">
 				<el-form-item label="报修事项名称" prop="name">
 					<el-input v-model="infoList.name" disabled></el-input>
@@ -130,25 +130,25 @@
 			</el-form>
 		</el-dialog>
 
-		<el-dialog title="修改报修事项" :visible.sync="dialogTableVisible2">
+		<el-dialog title="新增报修事项" :visible.sync="dialogTableVisible2">
 			<el-form ref="addForm" :model="addForm" label-width="120px" :rules="addFormRules">
 				<el-form-item label="报修事项名称" prop="name">
-					<el-input v-model="addForm.name"></el-input>
+					<el-input v-model="addForm.name" placeholder="请输入报修事项名称"></el-input>
 				</el-form-item>
 				<el-form-item label="报修人" prop="inName">
-					<el-input v-model="addForm.inName"></el-input>
+					<el-input v-model="addForm.inName" placeholder="请输入报修人"></el-input>
 				</el-form-item>
 				<el-form-item label="联系电话" prop="tel">
-					<el-input v-model="addForm.tel"></el-input>
+					<el-input v-model="addForm.tel" placeholder="请输入联系电话"></el-input>
 				</el-form-item>
 				<el-form-item label="住户地址" prop="address">
-					<el-input v-model="addForm.address"></el-input>
+					<el-input v-model="addForm.address" placeholder="请输入住户地址"></el-input>
 				</el-form-item>
-				<el-form-item label="报修时间" prop="beDate">
-					<el-date-picker type="date" v-model="addForm.beDate"></el-date-picker>
+				<el-form-item label="报修时间" prop="beDate" >
+					<el-date-picker type="date" v-model="addForm.beDate" placeholder="请选择报修时间" style="width: 100%;"></el-date-picker>
 				</el-form-item>
 				<el-form-item label="报修情况说明" prop="mark">
-					<el-input v-model="addForm.mark"></el-input>
+					<el-input v-model="addForm.mark" placeholder="请输入保修情况说明"></el-input>
 				</el-form-item>
 				<el-form-item>
 					<el-button type="primary" @click="add" style="margin-left:40%">保存</el-button>

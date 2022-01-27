@@ -80,22 +80,22 @@
 		<el-dialog title="房产信息" :visible.sync="dialogTableVisible">
 			<el-form ref="addForm" :model="addForm" :rules="addFormRules" label-width="120px">
 				<el-form-item label="房号" prop="rNo">
-					<el-input v-model="addForm.rNo"></el-input>
+					<el-input v-model="addForm.rNo" placeholder="请输入房号"></el-input>
 				</el-form-item>
 				<el-form-item label="建筑面积" prop="buildArea">
-					<el-input v-model="addForm.buildArea"></el-input>
+					<el-input v-model="addForm.buildArea" placeholder="请输入建筑面积"></el-input>
 				</el-form-item>
 				<el-form-item label="使用面积" prop="ableArea">
-					<el-input v-model="addForm.ableArea"></el-input>
+					<el-input v-model="addForm.ableArea" placeholder="请输入如使用面积"></el-input>
 				</el-form-item>
 				<el-form-item label="房型名称" prop="name">
-					<el-input v-model="addForm.name"></el-input>
+					<el-input v-model="addForm.name" placeholder="请输入房型名称"></el-input>
 				</el-form-item>
 				<el-form-item label="出售状况" prop="sale_status">
-					<el-input v-model="addForm.sale_status"></el-input>
+					<el-input v-model="addForm.sale_status" placeholder="请输入出售状况"></el-input>
 				</el-form-item>
 				<el-form-item label="产权状况" prop="own_status">
-					<el-input v-model="addForm.own_status"></el-input>
+					<el-input v-model="addForm.own_status" placeholder="请输入产权状况"></el-input>
 				</el-form-item>
 				<el-button type="primary" style="margin-left: 40%;" @click="add">保存</el-button>
 				<el-button @click="resetForm1('addForm')">重置</el-button>
@@ -106,22 +106,22 @@
 		<el-dialog title="房产信息" :visible.sync="dialogTableVisible1">
 			<el-form ref="infoList" :model="infoList" :rules="infoListRules" label-width="120px">
 				<el-form-item label="房号" prop="rNo">
-					<el-input v-model="infoList.rNo"></el-input>
+					<el-input v-model="infoList.rNo" placeholder="请输入房号"></el-input>
 				</el-form-item>
 				<el-form-item label="建筑面积" prop="buildArea">
-					<el-input v-model="infoList.buildArea"></el-input>
+					<el-input v-model="infoList.buildArea" placeholder="请输入建筑面积"></el-input>
 				</el-form-item>
 				<el-form-item label="使用面积" prop="ableArea">
-					<el-input v-model="infoList.ableArea"></el-input>
+					<el-input v-model="infoList.ableArea" placeholder="请输入使用面积"></el-input>
 				</el-form-item>
 				<el-form-item label="房型名称" prop="name">
-					<el-input v-model="infoList.name"></el-input>
+					<el-input v-model="infoList.name" placeholder="请输入房型名称"></el-input>
 				</el-form-item>
 				<el-form-item label="出售状况" prop="sale_status">
-					<el-input v-model="infoList.sale_status"></el-input>
+					<el-input v-model="infoList.sale_status" placeholder="请输入出售状况"></el-input>
 				</el-form-item>
 				<el-form-item label="产权状况" prop="own_status">
-					<el-input v-model="infoList.own_status"></el-input>
+					<el-input v-model="infoList.own_status" placeholder="请输入产权状况"></el-input>
 				</el-form-item>
 				<el-button type="primary" style="margin-left: 40%;" @click="edit">保存</el-button>
 				<el-button @click="resetForm1('infoList')">重置</el-button>
