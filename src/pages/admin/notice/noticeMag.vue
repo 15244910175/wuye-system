@@ -30,18 +30,18 @@
 				</el-form>
 			</div>
 			<el-table :data="typeList.slice((currentPage - 1) * pagesize, currentPage * pagesize)">
-				<el-table-column label="公告编号" width="150">
+				<el-table-column label="公告编号" width="120" align="center">
 					<template slot-scope="scope">{{scope.$index+1}}</template>
 				</el-table-column>
-				<el-table-column prop="title" label="公告标题" show-overflow-tooltip>
+				<el-table-column prop="title" label="公告标题" align="center" show-overflow-tooltip>
 				</el-table-column>
-				<el-table-column prop="content" label="公告内容" show-overflow-tooltip>
+				<el-table-column prop="content" label="公告内容" align="center" show-overflow-tooltip>
 				</el-table-column>
-				<el-table-column prop="time" label="发布时间" :formatter="dateFormat">
+				<el-table-column prop="time" label="发布时间" align="center" :formatter="dateFormat">
 				</el-table-column>
-				<el-table-column prop="name" label="发布人">
+				<el-table-column prop="name" label="发布人" align="center">
 				</el-table-column>
-				<el-table-column label="具体操作" width="300">
+				<el-table-column label="具体操作" align="center">
 					<template slot-scope="scope">
 						<el-button type="primary" size="small" icon="el-icon-edit">
 							<a @click="handleEdit(scope.$index, scope.row)">编辑</a>
@@ -314,7 +314,7 @@
 	}
 </script>
 
-<style>
+<style scoped>
 	.page {
 		width: 30%;
 		margin: auto;

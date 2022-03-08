@@ -41,24 +41,24 @@
 				</el-form>
 			</div>
 			<el-table :data="typeList.slice((currentPage - 1) * pagesize, currentPage * pagesize)">
-				<el-table-column label="房产编号" width="150">
+				<el-table-column label="房产编号" align="center" width="120">
 					<template slot-scope="scope">{{scope.$index+1}}</template>
 				</el-table-column>
 				<!-- <el-table-column prop="id" label="住户id">
 				</el-table-column> -->
-				<el-table-column prop="rNo" label="房号">
+				<el-table-column prop="rNo" label="房号" align="center">
 				</el-table-column>
-				<el-table-column prop="buildArea" label="建筑面积">
+				<el-table-column prop="buildArea" label="建筑面积" align="center">
 				</el-table-column>
-				<el-table-column prop="ableArea" label="使用面积">
+				<el-table-column prop="ableArea" label="使用面积" align="center">
 				</el-table-column>
-				<el-table-column prop="name" label="房型名称">
+				<el-table-column prop="name" label="房型名称" align="center">
 				</el-table-column>
-				<el-table-column prop="sale_status" label="出售状况">
+				<el-table-column prop="sale_status" label="出售状况" align="center">
 				</el-table-column>
-				<el-table-column prop="own_status" label="产权状况">
+				<el-table-column prop="own_status" label="产权状况" align="center">
 				</el-table-column>
-				<el-table-column label="具体操作">
+				<el-table-column label="具体操作" align="center">
 					<template slot-scope="scope">
 						<el-button type="primary" size="small" icon="el-icon-edit">
 							<a @click="handleEdit(scope.$index, scope.row)">编辑</a>
@@ -379,7 +379,7 @@
 	}
 </script>
 
-<style>
+<style scoped>
 	.page {
 		width: 30%;
 		margin: auto;

@@ -32,14 +32,14 @@
 				</el-form>
 			</div>
 			<el-table :data="typeList.slice((currentPage - 1) * pagesize, currentPage * pagesize)">
-				<el-table-column label="序号" width="150">
+				<el-table-column label="车位信息编号" width="120" align="center">
 					<template slot-scope="scope">{{scope.$index+1}}</template>
 				</el-table-column>
-				<el-table-column prop="num" label="车位总数">
+				<el-table-column prop="num" label="车位总数" align="center">
 				</el-table-column>
-				<el-table-column prop="date" label="年份">
+				<el-table-column prop="date" label="年份" align="center">
 				</el-table-column>
-				<el-table-column label="具体操作" width="300">
+				<el-table-column label="具体操作" align="center">
 					<template slot-scope="scope">
 						<el-button type="primary" size="small" icon="el-icon-edit">
 							<a @click="handleEdit(scope.$index, scope.row)">编辑</a>
@@ -300,7 +300,7 @@
 
 	}
 </script>
-<style>
+<style scoped>
 	.t_box {
 		height: 100%;
 		margin: 0 auto;

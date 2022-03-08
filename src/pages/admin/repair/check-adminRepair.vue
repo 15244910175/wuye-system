@@ -47,22 +47,22 @@
 				</el-form>
 			</div>
 			<el-table :data="typeList.slice((currentPage - 1) * pagesize, currentPage * pagesize)">
-				<el-table-column label="序号" width="150">
+				<el-table-column label="报修事项编号" width="120" align="center">
 					<template slot-scope="scope">{{scope.$index+1}}</template>
 				</el-table-column>
-				<el-table-column prop="name" label="报修事项名称">
+				<el-table-column prop="name" label="报修事项名称" align="center">
 				</el-table-column>
-				<el-table-column prop="inName" label="报修人">
+				<el-table-column prop="inName" label="报修人" align="center">
 				</el-table-column>
-				<el-table-column prop="tel" label="电话">
+				<el-table-column prop="tel" label="电话" align="center">
 				</el-table-column>
-				<el-table-column prop="beDate" label="报修日期" width="250px" :formatter="dateFormat">
+				<el-table-column prop="beDate" label="报修日期" align="center" :formatter="dateFormat">
 				</el-table-column>
-				<el-table-column prop="address" label="住户地址">
+				<el-table-column prop="address" label="住户地址" align="center">
 				</el-table-column>
-				<el-table-column prop="revalue" label="是否已修">
+				<el-table-column prop="revalue" label="是否已修" align="center">
 				</el-table-column>
-				<el-table-column label="具体操作" width="400">
+				<el-table-column label="具体操作" width="300" align="center">
 					<template slot-scope="scope">
 						<el-button type="primary" size="small">
 							<a @click="handleEdit1(scope.$index, scope.row)">标记已修</a>
@@ -467,7 +467,7 @@
 
 	}
 </script>
-<style>
+<style scoped>
 	.t_box {
 		height: 100%;
 		margin: 0 auto;

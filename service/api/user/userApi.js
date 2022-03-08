@@ -128,6 +128,34 @@ router.post('/getNoticeMain', (req, res) => {
 //     })
 // });
 
+// 查询快递公司
+router.post("/search", function(req, res, next) {
+	var name = req.body.name;
+	// var age = req.body.s_age;
+	var sql = $sql.body.queryPass;
+	if (name) {
+		sql += " where name = '" + name + "'";
+	}
+	//if(age){  
+	//    sql += " and age = '" + age + "'";  
+	//}  
+
+	// sql.replace("where");
+	conn.query(sql, function(err, rows) {
+		if (err) {
+			res.send("查询失败: " + err);
+		} else {
+			res.render("pass", {
+				title: "快递公司列表",
+				datas: rows,
+				name: name,
+				// s_age: age
+			});
+		}
+	});
+})
+
+
 
 // 新增报修事项
 router.post('/addRepair', (req, res) => {

@@ -39,24 +39,24 @@
 				</el-form>
 			</div>
 			<el-table :data="typeList.slice((currentPage - 1) * pagesize, currentPage * pagesize)">
-				<el-table-column label="收货编号" width="150">
+				<el-table-column label="快递代收编号" width="120" align="center">
 					<template slot-scope="scope">{{0}}{{scope.$index+1}}</template>
 				</el-table-column>
-				<el-table-column prop="name" label="快递公司名称">
+				<el-table-column prop="name" label="快递公司名称" align="center">
 				</el-table-column>
-				<el-table-column prop="username" label="收货人">
+				<el-table-column prop="username" label="收货人" align="center">
 				</el-table-column>
-				<el-table-column prop="tel" label="联系电话">
+				<el-table-column prop="tel" label="联系电话" align="center">
 				</el-table-column>
-				<el-table-column prop="address" label="收货地址">
+				<el-table-column prop="address" label="收货地址" show-overflow-tooltip align="center">
 				</el-table-column>
-				<el-table-column prop="date" label="代收货日期" :formatter="dateFormat">
+				<el-table-column prop="date" label="代收货日期" align="center" :formatter="dateFormat">
 				</el-table-column>
-				<el-table-column prop="alreadyDate" label="收货日期" :formatter="dateFormat">
+				<el-table-column prop="alreadyDate" label="收货日期" align="center" :formatter="dateFormat">
 				</el-table-column>
-				<el-table-column prop="isreceive" label="是否领取">
+				<el-table-column prop="isreceive" label="是否领取" align="center">
 				</el-table-column>
-				<el-table-column label="具体操作">
+				<el-table-column label="具体操作" align="center" width="200">
 					<template slot-scope="scope">
 						<el-button type="primary" size="small" icon="el-icon-edit">
 							<a @click="handleEdit(scope.$index, scope.row)">编辑</a>
@@ -403,7 +403,7 @@
 	}
 </script>
 
-<style>
+<style scoped>
 	.page {
 		width: 30%;
 		margin: auto;

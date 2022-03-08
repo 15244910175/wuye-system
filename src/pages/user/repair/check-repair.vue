@@ -17,7 +17,7 @@
 						<el-input size="mini" v-model="formInline.inName" placeholder="输入报修人"></el-input>
 					</el-form-item>
 					<el-form-item label="报修日期">
-						<el-date-picker v-model="formInline.beDate" type="date" placeholder="选择日期" style="width:100%">
+						<el-date-picker size="mini" v-model="formInline.beDate" type="date" placeholder="选择日期" style="width:100%">
 						</el-date-picker>
 					</el-form-item>
 					<el-form-item label="住户地址">
@@ -35,20 +35,20 @@
 				</el-form>
 			</div>
 			<el-table :data="typeList.slice((currentPage - 1) * pagesize, currentPage * pagesize)">
-				<el-table-column label="序号" width="150">
+				<el-table-column label="报修编号" width="120" align="center">
 					<template slot-scope="scope">{{scope.$index+1}}</template>
 				</el-table-column>
-				<el-table-column prop="name" label="报修事项名称">
+				<el-table-column prop="name" label="报修事项名称" align="center">
 				</el-table-column>
 				<!-- <el-table-column prop="inName" label="报修人">
 				</el-table-column> -->
-				<el-table-column prop="tel" label="电话">
+				<el-table-column prop="tel" label="电话" align="center">
 				</el-table-column>
-				<el-table-column prop="beDate" label="报修时间" :formatter="dateFormat">
+				<el-table-column prop="beDate" label="报修时间" align="center" :formatter="dateFormat">
 				</el-table-column>
-				<el-table-column prop="address" label="住户地址">
+				<el-table-column prop="address" label="住户地址" align="center">
 				</el-table-column>
-				 <el-table-column prop="revalue" label="是否已修">
+				 <el-table-column prop="revalue" label="是否已修" align="center">
 				 </el-table-column>
 			</el-table>
 			<div class="page">
@@ -59,7 +59,7 @@
 			</div>
 		</div>
 		
-		<el-dialog title="报修事项" :visible.sync="dialogTableVisible">
+		<el-dialog title="新增报修事项" :visible.sync="dialogTableVisible" style="text-align: center;">
 			<el-form :model="data" ref="data" :rules="rules" label-width="120px">
 				<el-form-item label="报修事项名称" prop="name">
 					<el-input v-model="data.name" placeholder="请输入报修事项名称"></el-input>
@@ -289,7 +289,7 @@
 		}
 	}
 </script>
-<style>
+<style scoped>
 	.t_box {
 		height: 100%;
 		margin: 0 auto;
@@ -303,9 +303,14 @@
 /* .el-table {
 	width: 95%;
 } */
+/* .el-button {
+	text-align: center;
+} */
+
 	.page {
 		width: 30%;
 		margin: auto;
 		margin-top: 30px;
 	}
+	
 </style>

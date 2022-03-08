@@ -43,18 +43,18 @@
 				</el-form>
 			</div>
 			<el-table :data="typeList.slice((currentPage - 1) * pagesize, currentPage * pagesize)">
-				<el-table-column label="序号" width="150px">
+				<el-table-column label="管理员编号" width="120px" align="center">
 					<template slot-scope="scope">{{scope.$index+1}}</template>
 				</el-table-column>
-				<el-table-column prop="AdminName" label="管理员姓名">
+				<el-table-column prop="AdminName" label="管理员姓名" align="center">
 				</el-table-column>
-				<el-table-column prop="persionNo" label="身份证">
+				<el-table-column prop="persionNo" label="身份证" align="center">
 				</el-table-column>
-				<el-table-column prop="sex" label="性别">
+				<el-table-column prop="sex" label="性别" align="center">
 				</el-table-column>
-				<el-table-column prop="begDate" label="工作开始日期" :formatter="dateFormat">
+				<el-table-column prop="begDate" label="工作开始日期" align="center" :formatter="dateFormat">
 				</el-table-column>
-				<el-table-column prop="post" label="职务">
+				<el-table-column prop="post" label="职务" align="center">
 				</el-table-column>
 				<el-table-column label="具体操作">
 					<template slot-scope="scope">
@@ -433,7 +433,7 @@
 
 	}
 </script>
-<style>
+<style scoped>
 	.winClass {
 		width: 500px;
 	}

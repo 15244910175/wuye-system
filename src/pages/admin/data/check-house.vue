@@ -11,15 +11,15 @@
 		<div class="t_box">
 			<div class="search">
 				<el-form ref="formInline" :model="formInline" :inline="true">
-					<el-form-item label="住户姓名">
-						<el-input size="mini" v-model="formInline.username" placeholder="输入住户姓名"></el-input>
+					<el-form-item label="住户房号">
+						<el-input size="mini" v-model="formInline.rNo" placeholder="输入住户姓名"></el-input>
 					</el-form-item>
 					
 					<el-form-item label="入住时间">
 						<el-date-picker type="date" size="mini" v-model="formInline.date" placeholder="选择入住时间"></el-date-picker>
 					</el-form-item>
 					<el-form-item>
-						<el-button size="mini" type="primary" class="el-icon-search">查询</el-button>
+						<el-button size="mini" type="primary" class="el-icon-search" @click="queryInfo">查询</el-button>
 					</el-form-item>
 					<el-form-item>
 						<el-button size="mini" type="primary" class="el-icon-refresh" @click="resetForm">重置</el-button>
@@ -42,22 +42,22 @@
 				</el-form>
 			</div>
 			<el-table :data="typeList.slice((currentPage - 1) * pagesize, currentPage * pagesize)">
-				<el-table-column label="住户编号" width="150">
+				<el-table-column label="住户编号" align="center" width="120">
 					<template slot-scope="scope">{{scope.$index+1}}</template>
 				</el-table-column>
-				<el-table-column prop="rNo" label="房号">
+				<el-table-column prop="rNo" label="房号" align="center">
 				</el-table-column>
-				<el-table-column prop="username" label="住户姓名">
+				<el-table-column prop="username" label="住户姓名" align="center">
 				</el-table-column>
-				<el-table-column prop="telephone" label="住户电话">
+				<el-table-column prop="telephone" label="住户电话" align="center">
 				</el-table-column>
-				<el-table-column prop="persionNo" label="住户身份证">
+				<el-table-column prop="persionNo" label="住户身份证" align="center">
 				</el-table-column>
-				<el-table-column prop="sex" label="住户性别">
+				<el-table-column prop="sex" label="住户性别" align="center">
 				</el-table-column>
-				<el-table-column prop="date" label="住户入住时间" :formatter="dateFormat">
+				<el-table-column prop="date" label="住户入住时间" :formatter="dateFormat" align="center">
 				</el-table-column>
-				<el-table-column label="具体操作">
+				<el-table-column label="具体操作" align="center">
 					<template slot-scope="scope">
 						<el-button type="primary" size="small" icon="el-icon-edit">
 							<a @click="handleEdit(scope.$index, scope.row)">编辑</a>
@@ -142,7 +142,7 @@
 		data() {
 			return {
 				formInline: {
-					username: '',
+					rNo: '',
 					date:''
 				},
 				typeList: [{
@@ -323,12 +323,11 @@
 					}
 				});
 			},
+			
 			// 查询住户信息
 			getUserList() {
 				var self = this;
-				axios.post("http://127.0.0.1:10520/api/admin/getUserList", {
-
-					})
+				axios.post("http://127.0.0.1:10520/api/admin/getUserList")
 					.then(function(res) {
 						if (res.data.status == 1) {
 							console.log("获取数据");
@@ -343,6 +342,28 @@
 				this.formInline = {},
 					this.getUserList();
 			},
+			
+			 queryInfo() {
+			      if (
+			        this.formInline.rNo == "" ||
+			        this.formInline.date == ""
+			      ) {
+			        this.$message({
+			          message: "参数不能为空！",
+			          type: "error",
+			        });
+			      } else {
+			        axios
+			          .get("http://127.0.0.1:10520/api/admin/search", {
+			            rNo: this.formInline.rNo,
+			            date: this.formInline.date,
+			          })
+			          .then((res) => {
+			            console.log(res);
+			          });
+			      }
+			    },
+			
 			// 新增住户信息
 			add() {
 				if (
@@ -423,7 +444,7 @@
 		}
 	}
 </script>
-<style>
+<style scoped>
 	.t_box {
 		height: 100%;
 		margin: 0 auto;
@@ -446,7 +467,8 @@
 	}
 
 	.el-table-column {
-		/* width: 150px; */
+		/* width: 100px; */
+		/* text-align: center; */
 	}
 	.winClass{
 		font-size: 40px;

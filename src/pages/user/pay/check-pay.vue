@@ -13,9 +13,9 @@
           <el-form-item label="单据编号">
             <el-input size="mini" v-model="formInline.dNo" placeholder="输入单据编号"></el-input>
           </el-form-item>
-          <el-form-item label="住户姓名">
+         <!-- <el-form-item label="住户姓名">
             <el-input size="mini" v-model="formInline.zName" placeholder="输入住户姓名"></el-input>
-          </el-form-item>
+          </el-form-item> -->
           <el-form-item label="缴纳日期">
             <el-date-picker size="mini" v-model="formInline.changedate" type="date" placeholder="选择日期" style="width:100%">
             </el-date-picker>
@@ -30,26 +30,29 @@
       </div>
 
       <el-table :data="typeList.slice((currentPage - 1) * pagesize, currentPage * pagesize)">
-        <el-table-column label="序号" width="150">
+        <el-table-column label="物业费编号" width="120" align="center">
           <template slot-scope="scope">{{scope.$index+1}}</template>
         </el-table-column>
-        <el-table-column prop="dNo" label="单据编号">
+        <el-table-column prop="dNo" label="单据编号" align="center">
         </el-table-column>
-        <el-table-column prop="zName" label="住户姓名">
-        </el-table-column>
-		<el-table-column prop="payabledate" label="应缴纳日期" :formatter="dateFormat">
+       <!-- <el-table-column prop="zName" label="住户姓名">
+        </el-table-column> -->
+		<el-table-column prop="payabledate" label="应缴纳日期" align="center" :formatter="dateFormat">
 		</el-table-column>
-        <el-table-column prop="changedate" label="缴纳日期"  :formatter="dateFormat">
+        <el-table-column prop="changedate" label="缴纳日期" align="center"  :formatter="dateFormat">
         </el-table-column>
-        <el-table-column prop="cases" label="缴费总额">
+        <el-table-column prop="cases" label="缴费总额" align="center">
         </el-table-column>
-		<el-table-column prop="state" label="是否缴费">
+		<el-table-column prop="state" label="是否缴费" align="center">
 		</el-table-column>
-        <el-table-column label="具体操作" width="200px" >
+        <el-table-column label="具体操作" align="center" >
           <template slot-scope="scope">
             <el-button type="text" size="small">
               <a @click="handleEdit(scope.$index, scope.row)">查看详细信息</a>
             </el-button>
+			<el-button size="small" type="text">
+				<a>去缴费</a>
+			</el-button>
           </template>
         </el-table-column>
       </el-table>
@@ -242,7 +245,7 @@ import axios from 'axios';
   }
 </script>
 
-<style>
+<style scoped>
   .t_box {
     height: 100%;
     margin: 0 auto;

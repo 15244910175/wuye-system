@@ -123,16 +123,19 @@
 	}
 </script>
 
-<style>
+<style scoped>
+	
 	div {
-		position: relative;
+		text-align: center;
 	}
 
 	.el-card {
-		position: absolute;
-		/* text-align: center; */
-		margin-top: 30px;
-		margin-left: 300px;
+		width: 50%;
+		margin: 30px 0px 0px 0px;
+		display: inline-block;
+		
+		
+		
 	}
 
 	.text {

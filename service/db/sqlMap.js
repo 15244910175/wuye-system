@@ -12,7 +12,9 @@ var sqlMap = {
 		getPayList:`select * from t_change`,
 		// 查看留言
 		getNoteList:`select * from t_leaverword`,
-	
+		
+		// 查询快递公司
+		queryPass:'select * from pass_mag',
 	
         // 修改密码
         updatePwd:'update user set password=? where id=?',
@@ -73,6 +75,7 @@ var sqlMap = {
 		getHouseMagList:'select * from house_mag',
 		// 住户模糊查询
 		// queryUserList:'select * from resident where username like '%*%',
+		
 		
 		// 新增住户信息
 		addData:'insert into resident(rNo,username,persionNo,sex,telephone,date) values (?,?,?,?,?,?)',

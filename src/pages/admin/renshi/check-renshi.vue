@@ -44,20 +44,20 @@
 				</el-form>
 			</div>
 			<el-table :data="typeList.slice((currentPage - 1) * pagesize, currentPage * pagesize)">
-				<el-table-column label="序号">
+				<el-table-column label="保安排班编号" width="120" align="center">
 					<template slot-scope="scope">{{scope.$index+1}}</template>
 				</el-table-column>
-				<el-table-column prop="AdminName" label="员工姓名">
+				<el-table-column prop="AdminName" label="员工姓名" align="center">
 				</el-table-column>
-				<el-table-column prop="persionNo" label="身份证">
+				<el-table-column prop="persionNo" label="身份证" align="center">
 				</el-table-column>
-				<el-table-column prop="sex" label="性别">
+				<el-table-column prop="sex" label="性别" align="center">
 				</el-table-column>
-				<el-table-column prop="begDate" label="开始工作日期" :formatter="dateFormat">
+				<el-table-column prop="begDate" label="开始工作日期" align="center" :formatter="dateFormat">
 				</el-table-column>
-				<el-table-column prop="post" label="员工职务">
+				<el-table-column prop="post" label="员工职务" align="center">
 				</el-table-column>
-				<el-table-column label="具体操作" width="300">
+				<el-table-column label="具体操作"  align="center">
 					<template slot-scope="scope">
 						<el-button type="primary" size="small" icon="el-icon-edit">
 							<a @click="handleEdit(scope.$index, scope.row)">编辑</a>
@@ -425,7 +425,7 @@
 		}
 	}
 </script>
-<style>
+<style scoped>
 	.el-form-item {
 		text-align-last: justify;
 		text-align: justify;

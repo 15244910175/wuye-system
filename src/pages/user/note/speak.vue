@@ -8,7 +8,7 @@
         </el-breadcrumb>
 
         <el-card>
-            <el-table style="width: 100%" :data="dataList">
+            <el-table :data="dataList">
                 <el-table-column prop="prop" label="用户须承诺" width="width">
                 </el-table-column>
             </el-table>
@@ -50,8 +50,8 @@
         }
     }
 </script>
-<style>
+<style scoped>
 .el-card {
-    margin-top:30px;
+	margin-top: 30px;
 }
 </style>

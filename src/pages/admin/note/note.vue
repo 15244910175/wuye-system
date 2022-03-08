@@ -40,18 +40,18 @@
 				</el-form>
 			</div>
 			<el-table :data="typeList.slice((currentPage - 1) * pagesize, currentPage * pagesize)">
-				<el-table-column label="序号" width="150">
+				<el-table-column label="留言信息编号" width="120" align="center">
 					<template slot-scope="scope">{{scope.$index+1}}</template>
 				</el-table-column>
-				<el-table-column prop="title" label="标题">
+				<el-table-column prop="title" label="标题" align="center">
 				</el-table-column>
-				<el-table-column prop="mark" label="留言内容">
+				<el-table-column prop="mark" label="留言内容" align="center">
 				</el-table-column>
-				<el-table-column prop="leaverName" label="留言者">
+				<el-table-column prop="leaverName" label="留言者" align="center">
 				</el-table-column>
-				<el-table-column prop="time" label="留言时间" :formatter="dateFormat">
+				<el-table-column prop="time" label="留言时间" align="center" :formatter="dateFormat">
 				</el-table-column>
-				<el-table-column label="具体操作" width="400" style="text-align: center;">
+				<el-table-column label="具体操作" align="center">
 					<template slot-scope="scope">
 						<el-button type="primary" size="small" icon="el-icon-chat-line-square">
 							<a @click="handleEdit(scope.$index, scope.row)">管理员回复</a>
@@ -271,7 +271,7 @@
 
 	}
 </script>
-<style>
+<style scoped>
 	.t_box {
 		height: 100%;
 		margin: 0 auto;

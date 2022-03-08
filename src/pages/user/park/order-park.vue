@@ -39,24 +39,24 @@
 				</el-form>
 			</div>
 			<el-table :data="typeList.slice((currentPage - 1) * pagesize, currentPage * pagesize)">
-				<el-table-column label="序号" width="150">
+				<el-table-column label="车位编号" width="120" align="center">
 					<template slot-scope="scope">{{scope.$index+1}}</template>
 				</el-table-column>
-				<el-table-column prop="userid" label="住户姓名">
+				<el-table-column prop="userid" label="住户姓名" align="center">
 				</el-table-column>
-				<el-table-column prop="persionNo" label="住户身份证">
+				<el-table-column prop="persionNo" label="住户身份证" align="center">
 				</el-table-column>
-				<el-table-column prop="telephone" label="联系电话">
+				<el-table-column prop="telephone" label="联系电话" align="center">
 				</el-table-column>
-				<el-table-column prop="changedate" label="登记日期" :formatter="dateFormat">
+				<el-table-column prop="changedate" label="登记日期" align="center" :formatter="dateFormat">
 				</el-table-column>
-				<el-table-column prop="carAddress" label="停车车位号">
+				<el-table-column prop="carAddress" label="停车车位号" align="center">
 				</el-table-column>
-				<el-table-column prop="address" label="住户地址">
+				<el-table-column prop="address" label="住户地址" align="center">
 				</el-table-column>
-				<el-table-column prop="state" label="状态">
+				<el-table-column prop="state" label="状态" align="center">
 				</el-table-column>
-				<el-table-column prop="pass" label="是否通过">
+				<el-table-column prop="pass" label="是否通过" align="center">
 				</el-table-column>
 			</el-table>
 			<div class="page">
@@ -146,7 +146,7 @@
 		}
 	}
 </script>
-<style>
+<style scoped>
 .t_box {
 		height: 100%;
 		margin: 0 auto;

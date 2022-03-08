@@ -43,20 +43,20 @@
 				</el-form>
 			</div>
 			<el-table :data="typeList.slice((currentPage - 1) * pagesize, currentPage * pagesize)">
-				<el-table-column label="序号" width="150">
+				<el-table-column label="保安编号" width="120" align="center">
 					<template slot-scope="scope">{{scope.$index+1}}</template>
 				</el-table-column>
-				<el-table-column prop="name" label="保安姓名">
+				<el-table-column prop="name" label="保安姓名" align="center">
 				</el-table-column>
-				<el-table-column prop="persionNo" label="身份证号">
+				<el-table-column prop="persionNo" label="身份证号" align="center">
 				</el-table-column>
-				<el-table-column prop="sex" label="性别">
+				<el-table-column prop="sex" label="性别" align="center">
 				</el-table-column>
-				<el-table-column prop="begDate" label="工作开始日期" :formatter="dateFormat">
+				<el-table-column prop="begDate" label="工作开始日期" align="center" :formatter="dateFormat">
 				</el-table-column>
-				<el-table-column prop="post" label="职务">
+				<el-table-column prop="post" label="职务" align="center">
 				</el-table-column>
-				<el-table-column label="具体操作">
+				<el-table-column label="具体操作" align="center">
 					<template slot-scope="scope">
 						<el-button type="primary" size="small" icon="el-icon-edit">
 							<a @click="handleEdit(scope.$index, scope.row)">编辑</a>
@@ -426,7 +426,7 @@
 
 	}
 </script>
-<style>
+<style scoped>
 	.winClass {
 		width: 500px;
 	}

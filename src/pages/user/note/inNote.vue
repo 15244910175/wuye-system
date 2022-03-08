@@ -11,20 +11,17 @@
 			<div class="search">
 				<el-form ref="formInline" :model="formInline" :inline="true" class="demo-form-inline">
 					<el-form-item label="标题">
-						<el-input size="mini" v-model="formInline.title"></el-input>
+						<el-input size="mini" v-model="formInline.title" placeholder="请输入标题"></el-input>
 					</el-form-item>
 					<el-form-item label="留言内容">
-						<el-input size="mini" v-model="formInline.mark"></el-input>
+						<el-input size="mini" v-model="formInline.mark" placeholder="请输入留言内容"></el-input>
 					</el-form-item>
-					<!-- <el-form-item label="留言者">
-						<el-input size="mini" v-model="formInline.leaverName"></el-input>
-					</el-form-item> -->
 					<el-form-item label="参与日期">
 						<el-date-picker size="mini" v-model="formInline.time" type="date" placeholder="选择日期">
 						</el-date-picker>
 					</el-form-item>
 					<el-form-item label="回复日期">
-						<el-date-picker type="date" size="mini" v-model="formInline.reDate"></el-date-picker>
+						<el-date-picker type="date" size="mini" v-model="formInline.reDate" placeholder="请选择回复日期"></el-date-picker>
 					</el-form-item>
 					<el-form-item style="margin-left: 55px;">
 						<el-button size="mini" type="primary" class="el-icon-search">查询</el-button>
@@ -40,25 +37,25 @@
 			</div>
 
 			<el-table :data="typeList.slice((currentPage - 1) * pagesize, currentPage * pagesize)">
-				<el-table-column label="序号" >
+				<el-table-column label="留言投诉编号" align="center" width="120">
 					<template slot-scope="scope">{{scope.$index+1}}</template>
 				</el-table-column>
-				<el-table-column prop="title" label="标题">
+				<el-table-column prop="title" label="标题" align="center">
 				</el-table-column>
-				<el-table-column prop="type" label="类型">
+				<el-table-column prop="type" label="类型" align="center">
 				</el-table-column>
-				<el-table-column prop="mark" label="留言内容">
+				<el-table-column prop="mark" label="留言内容" align="center">
 				</el-table-column>
 				<!-- <el-table-column prop="leaverName" label="留言者">
 				</el-table-column> -->
-				<el-table-column prop="time" label="参与时间" :formatter="dateFormat">
+				<el-table-column prop="time" label="参与时间" align="center" :formatter="dateFormat">
 				</el-table-column>
-				<el-table-column prop="answerContent" label="管理员回复">
+				<el-table-column prop="answerContent" label="管理员回复" align="center">
 				</el-table-column>
-				<el-table-column prop="reDate" label="回复时间" :formatter="dateFormat">
+				<el-table-column prop="reDate" label="回复时间" align="center" :formatter="dateFormat">
 				</el-table-column>
 			</el-table>
-			<div class="page" style="margin-top: 20px;text-align: center;">
+			<div class="page" >
 				<el-pagination @size-change="handleSizeChange" @current-change="handleCurrentChange"
 					:current-page="currentPage" :page-sizes="[5,10,15,20]" :page-size="5" layout="total, prev, pager, next, sizes, jumper"
 					:total="typeList.length">
@@ -251,7 +248,7 @@
 		}
 	}
 </script>
-<style>
+<style scoped>
 	.t_box {
 		height: 100%;
 		margin: 0 auto;

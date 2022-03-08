@@ -36,20 +36,20 @@
 				</el-form>
 			</div>
 			<el-table :data="typeList.slice((currentPage - 1) * pagesize, currentPage * pagesize)">
-				<el-table-column label="租赁编号" width="150">
+				<el-table-column label="租赁编号" width="120" align="center">
 					<template slot-scope="scope">{{scope.$index+1}}</template>
 				</el-table-column>
-				<el-table-column prop="name" label="租赁人姓名">
+				<el-table-column prop="name" label="租赁人姓名" align="center">
 				</el-table-column>
-				<el-table-column prop="rNo" label="房号">
+				<el-table-column prop="rNo" label="房号" align="center">
 				</el-table-column>
-				<el-table-column prop="persionNo" label="身份证">
+				<el-table-column prop="persionNo" label="身份证" align="center">
 				</el-table-column>
-				<el-table-column prop="reTime" label="租借时间" :formatter="dateFormat">
+				<el-table-column prop="reTime" label="租借时间" :formatter="dateFormat" align="center">
 				</el-table-column>
-				<el-table-column prop="dateDue" label="到期时间" :formatter="dateFormat">
+				<el-table-column prop="dateDue" label="到期时间" :formatter="dateFormat" align="center">
 				</el-table-column>
-				<el-table-column label="具体操作">
+				<el-table-column label="具体操作" align="center">
 					<template slot-scope="scope">
 						<el-button type="primary" size="small" icon="el-icon-edit">
 							<a @click="handleEdit(scope.$index, scope.row)">编辑</a>
@@ -376,7 +376,7 @@
 	}
 </script>
 
-<style>
+<style scoped>
 	div {
 		position: relative;
 	}

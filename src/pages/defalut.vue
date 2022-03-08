@@ -4,7 +4,7 @@
 
 <script>
 </script>
-<style>
+<style scoped>
 .home {
     background: #52AADB;
     position:absolue;

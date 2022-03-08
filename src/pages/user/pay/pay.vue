@@ -8,6 +8,6 @@
         </el-breadcrumb>
     </div>
 </template>
-<style>
+<style scoped>
 
 </style>

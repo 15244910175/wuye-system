@@ -12,7 +12,7 @@
 			<div class="search">
 				<el-form ref="formInline" :model="formInline" :inline="true">
 					<el-form-item label="收货日期">
-						<el-date-picker v-model="formInline.alreadyDate" type="date" placeholder="请选择收货日期"></el-date-picker>
+						<el-date-picker size="mini" v-model="formInline.alreadyDate" type="date" placeholder="请选择收货日期"></el-date-picker>
 					</el-form-item>
 					<el-form-item>
 						<el-button size="mini" type="primary" class="el-icon-search">查询</el-button>
@@ -23,16 +23,16 @@
 				</el-form>
 			</div>
 			<el-table :data="typeList.slice((currentPage - 1) * pagesize, currentPage * pagesize)">
-				<el-table-column label="收货编号" width="150">
+				<el-table-column label="收货编号" width="120" align="center">
 					<template slot-scope="scope">{{0}}{{scope.$index+1}}</template>
 				</el-table-column>
-				<el-table-column prop="name" label="快递公司名称">
+				<el-table-column prop="name" label="快递公司名称" align="center">
 				</el-table-column>
-				<el-table-column prop="address" label="收货地址">
+				<el-table-column prop="address" label="收货地址" show-overflow-tooltip align="center">
 				</el-table-column>
-				<el-table-column prop="date" label="代收货日期" :formatter="dateFormat">
+				<el-table-column prop="date" label="代收货日期" align="center" :formatter="dateFormat">
 				</el-table-column>
-				<el-table-column prop="alreadyDate" label="收货日期" :formatter="dateFormat">
+				<el-table-column prop="alreadyDate" label="收货日期" align="center" :formatter="dateFormat">
 				</el-table-column>
 			</el-table>
 			<div class="page">
@@ -211,7 +211,7 @@
 	}
 </script>
 
-<style>
+<style scoped>
 	.page {
 		width: 30%;
 		margin: auto;

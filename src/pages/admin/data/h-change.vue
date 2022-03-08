@@ -41,19 +41,19 @@
 					
 				</el-form>
 			</div>
-				<el-table :data="typeList.slice((currentPage - 1) * pagesize, currentPage * pagesize)">
-					<el-table-column label="产权变更编号" width="150">
+				<el-table :data="typeList.slice((currentPage - 1) * pagesize, currentPage * pagesize)" >
+					<el-table-column label="产权变更编号" align="center" width="120"> 
 						<template slot-scope="scope">{{scope.$index+1}}</template>
 					</el-table-column>
-					<el-table-column prop="rNo" label="房号">
+					<el-table-column prop="rNo" label="房号" align="center">
 					</el-table-column>
-					<el-table-column prop="oldOwner" label="原房主">
+					<el-table-column prop="oldOwner" label="原房主" align="center">
 					</el-table-column>
-					<el-table-column prop="nowOwner" label="现房主">
+					<el-table-column prop="nowOwner" label="现房主" align="center">
 					</el-table-column>
-					<el-table-column prop="changedate" label="变更时间" :formatter="dateFormat">
+					<el-table-column prop="changedate" label="变更时间" align="center" :formatter="dateFormat">
 					</el-table-column>
-					<el-table-column label="具体操作">
+					<el-table-column label="具体操作" align="center">
 						<template slot-scope="scope">
 							<el-button type="primary" size="small" icon="el-icon-edit">
 								<a @click="handleEdit(scope.$index, scope.row)">编辑</a>
@@ -344,7 +344,7 @@
 		}
 	}
 </script>
-<style>
+<style scoped>
 	div {
 		position: relative;
 	}
@@ -389,10 +389,8 @@
 		/* border: 1px solid red; */
 	}
 
-	.el-button {
-		/* position: relative; */
-		/* text-align: center; */
-		/* margin-left: 50%; */
+	.el-table-column {
+		/* width: 100px; */
 	}
 
 	.page {

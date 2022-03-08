@@ -22,19 +22,16 @@
 				</el-form>
 			</div>
 			<el-table :data="typeList.slice((currentPage - 1) * pagesize, currentPage * pagesize)">
-				<el-table-column label="公告编号" width="150">
+				<el-table-column label="公告编号" width="150" align="center">
 					<template slot-scope="scope">{{scope.$index+1}}</template>
 				</el-table-column>
-				<el-table-column prop="title" label="公告标题" show-overflow-tooltip>
+				<el-table-column prop="title" label="公告标题" align="center" show-overflow-tooltip>
 				</el-table-column>
-				<el-table-column label="公告内容" show-overflow-tooltip >
-				 <template slot-scope="scope">
-				    <p @click="detail(scope.row)">{{scope.row.content}}</p>
-				  </template>
+				<el-table-column label="公告内容" show-overflow-tooltip align="center" prop="content">
 				</el-table-column>
-				<el-table-column prop="time" label="发布时间" :formatter="dateFormat">
+				<el-table-column prop="time" label="发布时间" :formatter="dateFormat" align="center">
 				</el-table-column>
-				<el-table-column prop="name" label="发布人">
+				<el-table-column prop="name" label="发布人" align="center">
 				</el-table-column>
 				
 			</el-table>
@@ -118,7 +115,7 @@
 	}
 </script>
 
-<style>
+<style scoped>
 	.page {
 		width: 30%;
 		margin: auto;
