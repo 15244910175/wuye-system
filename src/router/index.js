@@ -27,22 +27,15 @@ const routes = [{
         path: '/check-data',
         component: resolve=>require(['../pages/user/data/check-data.vue'],resolve),
       },
-      // {
-      //   path:'/useradmin',
-      //   component:resolve=>require(['../views/useradmin.vue'],resolve)
-      // },
-      // {
-      //   path: '/add-repair',
-      //   component: resolve=>require(['../pages/user/repair/add-repair.vue'],resolve),
-      // },
+	  {
+	    path: '/house',
+	    component: resolve=>require(['../pages/user/house/house.vue'],resolve),
+	  },
       {
         path: '/check-repair',
         component: resolve=>require(['../pages/user/repair/check-repair.vue'],resolve),
       },
-      {
-        path: '/pay',
-        component: resolve=>require(['../pages/user/pay/pay.vue'],resolve),
-      },
+      
       {
         path: '/check-pay',
         component: resolve=>require(['../pages/user/pay/check-pay.vue'],resolve),
@@ -115,12 +108,7 @@ const routes = [{
      {
       path: '/check-house',
       component: resolve=>require(['../pages/admin/data/check-house.vue'],resolve),
-     },
-	 {
-		 path:'/leasehold',
-		 component:resolve=>require(['../pages/admin/data/leasehold.vue'],resolve)
-	 },
-     
+     },  
      {
       path: '/check-equipment',
       component: resolve=>require(['../pages/admin/equipment/check-equipment.vue'],resolve),

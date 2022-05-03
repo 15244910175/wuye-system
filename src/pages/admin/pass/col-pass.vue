@@ -15,7 +15,7 @@
 						<el-input size="mini" v-model="formInline.name" placeholder="请输入收货人"></el-input>
 					</el-form-item>
 					<el-form-item label="是否领取">
-						<el-select v-model="formInline.isreceive" placeholder="请选择领取与否" style="width:100%">
+						<el-select size="mini" v-model="formInline.isreceive" placeholder="请选择领取与否" style="width:100%">
 							<el-option label="已领取" value="已领取"></el-option>
 							<el-option label="未领取" value="未领取"></el-option>
 						</el-select>
@@ -75,7 +75,7 @@
 			</div>
 		</div>
 		
-		<el-dialog title="添加代收快递信息" :visible.sync="dialogTableVisible">
+		<el-dialog title="新增代收快递信息" :visible.sync="dialogTableVisible">
 			<el-form ref="addForm" :model="addForm" :rules="addFormRules" label-width="120px">
 				<el-form-item label="快递公司名称" prop="name">
 					<el-input v-model="addForm.name" placeholder="请输入快递公司名称"></el-input>

@@ -1,5 +1,6 @@
 <template>
-    <div class="home">欢迎使用！</div>
+    <div class="home">欢迎进入 小区物业管理系统！</div>
+	
 </template>
 
 <script>

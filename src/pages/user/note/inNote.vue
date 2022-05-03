@@ -10,20 +10,10 @@
 		<div class="t_box">
 			<div class="search">
 				<el-form ref="formInline" :model="formInline" :inline="true" class="demo-form-inline">
-					<el-form-item label="标题">
+					<el-form-item label="留言/投诉标题">
 						<el-input size="mini" v-model="formInline.title" placeholder="请输入标题"></el-input>
 					</el-form-item>
-					<el-form-item label="留言内容">
-						<el-input size="mini" v-model="formInline.mark" placeholder="请输入留言内容"></el-input>
-					</el-form-item>
-					<el-form-item label="参与日期">
-						<el-date-picker size="mini" v-model="formInline.time" type="date" placeholder="选择日期">
-						</el-date-picker>
-					</el-form-item>
-					<el-form-item label="回复日期">
-						<el-date-picker type="date" size="mini" v-model="formInline.reDate" placeholder="请选择回复日期"></el-date-picker>
-					</el-form-item>
-					<el-form-item style="margin-left: 55px;">
+					<el-form-item >
 						<el-button size="mini" type="primary" class="el-icon-search">查询</el-button>
 					</el-form-item>
 					<el-form-item>
@@ -95,11 +85,6 @@
 			return {
 				formInline: {
 					title: '',
-					mark: '',
-					leaverName: '',
-					time: '',
-					answerContent: '',
-					reDate: '',
 				},
 				typeList: [{
 					title: '',

@@ -13,17 +13,6 @@
 					<el-form-item label="设备名称">
 						<el-input size="mini" v-model="formInline.name" placeholder="输入设备名称"></el-input>
 					</el-form-item>
-					<el-form-item label="采购时间">
-						<el-date-picker size="mini" v-model="formInline.beDate" type="date" placeholder="选择采购时间"
-							style="width:100%">
-						</el-date-picker>
-					</el-form-item>
-					<el-form-item label="设备型号">
-						<el-input size="mini" v-model="formInline.model" placeholder="输入设备型号"></el-input>
-					</el-form-item>
-					<el-form-item label="登记人">
-						<el-input size="mini" v-model="formInline.inName" placeholder="输入登记人"></el-input>
-					</el-form-item>
 					<el-form-item>
 						<el-button size="mini" type="primary" class="el-icon-search">查询</el-button>
 					</el-form-item>
@@ -43,12 +32,14 @@
 				</el-form>
 			</div>
 			<el-table :data="typeList.slice((currentPage - 1) * pagesize, currentPage * pagesize)">
-				<el-table-column label="设备编号" width="120" align="center">
+				<el-table-column label="设备编号" width="100" align="center">
 					<template slot-scope="scope">{{scope.$index+1}}</template>
 				</el-table-column>
 				<el-table-column prop="name" label="设备名称" align="center">
 				</el-table-column>
-				<el-table-column prop="num" label="设备数量" align="center">
+				<el-table-column prop="num" label="设备数量" width="120" align="center">
+				</el-table-column>
+				<el-table-column prop="price" label="购买金额" width="120" align="center">
 				</el-table-column>
 				<el-table-column prop="beDate" label="采购时间" align="center" :formatter="dateFormat">
 				</el-table-column>
@@ -56,7 +47,7 @@
 				</el-table-column>
 				<el-table-column prop="inName" label="购买人" align="center">
 				</el-table-column>
-				<el-table-column prop="mark" label="设备说明" align="center">
+				<el-table-column prop="mark" label="设备说明" align="center" width="120">
 				</el-table-column>
 				<el-table-column label="具体操作" align="center">
 					<template slot-scope="scope">
@@ -88,8 +79,11 @@
 				<el-form-item label="设备数量" prop="num">
 					<el-input v-model="infoList.num" placeholder="请输入设备数量"></el-input>
 				</el-form-item>
+				<el-form-item label="购买金额" prop="price">
+					<el-input v-model="infoList.price" placeholder="请输入购买金额"></el-input>
+				</el-form-item>
 				<el-form-item label="采购时间" prop="beDate">
-					<el-date-picker v-model="infoList.beDate" type="date" placeholder="请选择工作日期" style="width:100%">
+					<el-date-picker v-model="infoList.beDate" type="date" placeholder="请选择采购时间" style="width:100%">
 					</el-date-picker>
 				</el-form-item>
 				<el-form-item label="购买人" prop="inName">
@@ -104,7 +98,7 @@
 			</el-form>
 		</el-dialog>
 		
-		<el-dialog title="设备信息" :visible.sync="dialogTableVisible1">
+		<el-dialog title="新增设备信息" :visible.sync="dialogTableVisible1">
 			<el-form ref="addForm" :model="addForm" :rules="addFormRules" label-width="120px">
 				<el-form-item label="设备名称" prop="name">
 					<el-input v-model="addForm.name" placeholder="请输入设备名称"></el-input>
@@ -115,8 +109,11 @@
 				<el-form-item label="设备数量" prop="num">
 					<el-input v-model="addForm.num" placeholder="请输入设备数量"></el-input>
 				</el-form-item>
+				<el-form-item label="购买金额" prop="price">
+					<el-input v-model="addForm.price" placeholder="请输入购买金额"></el-input>
+				</el-form-item>
 				<el-form-item label="采购时间" prop="beDate">
-					<el-date-picker v-model="addForm.beDate" type="date" placeholder="请选择工作日期" style="width:100%">
+					<el-date-picker v-model="addForm.beDate" type="date" placeholder="请选择采购时间" style="width:100%">
 					</el-date-picker>
 				</el-form-item>
 				<el-form-item label="购买人" prop="inName">
@@ -142,9 +139,6 @@
 			return {
 				formInline: {
 					name: '',
-					beDate: '',
-					model: '',
-					inName: ''
 				},
 				typeList: [{
 				}],
@@ -154,7 +148,8 @@
 					num: '',
 					beDate: '',
 					mark: '',
-					inName:''
+					inName:'',
+					peice:''
 				},
 				addForm: {
 					name: '',
@@ -162,7 +157,8 @@
 					num: '',
 					beDate: '',
 					mark: '',
-					inName:''
+					inName:'',
+					price:''
 				},
 				json_fields: {
 								设备名称: "name",
@@ -202,7 +198,18 @@
 					}, ],
 					num: [{
 							required: true,
-							message: '请选择性别',
+							message: '请输入设备数量',
+							trigger: 'blur'
+						},
+						{
+							type: 'number',
+							message: '数量必须为数字',
+							trigger: 'blur'
+						}
+					],
+					price: [{
+							required: true,
+							message: '输入购买金额',
 							trigger: 'blur'
 						},
 						{
@@ -228,6 +235,17 @@
 						message: '请输入设备名称',
 						trigger: 'blur'
 					}],
+					price: [{
+							required: true,
+							message: '请输入购买金额',
+							trigger: 'blur'
+						},
+						{
+							type: 'number',
+							message: '数量必须为数字',
+							trigger: 'blur'
+						}
+					],
 					model: [{
 						required: true,
 						message: '请输入设备型号',
@@ -235,7 +253,7 @@
 					}, ],
 					num: [{
 							required: true,
-							message: '请选择性别',
+							message: '请输入设备数量',
 							trigger: 'blur'
 						},
 						{
@@ -429,13 +447,13 @@
 		margin-top: 50px;
 	}
 
-	.el-form-item {
+	/* .el-form-item {
 		text-align-last: justify;
 		text-align: justify;
 		text-justify: distribute;
 		text-justify: distribute-all-lines;
-		/* border: 1px solid red; */
-	}
+		
+	} */
 
 	.el-button {
 		/* position: relative; */

@@ -48,9 +48,9 @@
 				</el-table-column> -->
 				<el-table-column prop="rNo" label="房号" align="center">
 				</el-table-column>
-				<el-table-column prop="buildArea" label="建筑面积" align="center">
+				<el-table-column prop="buildArea" label="建筑面积(平方米)" align="center">
 				</el-table-column>
-				<el-table-column prop="ableArea" label="使用面积" align="center">
+				<el-table-column prop="ableArea" label="使用面积(平方米)" align="center">
 				</el-table-column>
 				<el-table-column prop="name" label="房型名称" align="center">
 				</el-table-column>
@@ -71,13 +71,13 @@
 			</el-table>
 			<div class="page">
 				<el-pagination @size-change="handleSizeChange" @current-change="handleCurrentChange"
-					:current-page="currentPage" :page-sizes="[5,10,15,20]" :page-size="pagesize"
+					:current-page="currentPage" :page-sizes="[8,16,24,32]" :page-size="pagesize"
 					layout="total, prev, pager, next, sizes, jumper" :total="typeList.length">
 				</el-pagination>
 			</div>
 		</div>
 
-		<el-dialog title="房产信息" :visible.sync="dialogTableVisible">
+		<el-dialog title="新增房产信息" :visible.sync="dialogTableVisible">
 			<el-form ref="addForm" :model="addForm" :rules="addFormRules" label-width="120px">
 				<el-form-item label="房号" prop="rNo">
 					<el-input v-model="addForm.rNo" placeholder="请输入房号"></el-input>
@@ -103,7 +103,7 @@
 			</el-form>
 		</el-dialog>
 
-		<el-dialog title="房产信息" :visible.sync="dialogTableVisible1">
+		<el-dialog title="编辑房产信息" :visible.sync="dialogTableVisible1">
 			<el-form ref="infoList" :model="infoList" :rules="infoListRules" label-width="120px">
 				<el-form-item label="房号" prop="rNo">
 					<el-input v-model="infoList.rNo" placeholder="请输入房号"></el-input>
@@ -241,7 +241,7 @@
 				dialogTableVisible1: false,
 				currentPage: 1, //默认第一页
 				total: 0, //总条数
-				pagesize: 5 //默认第一页展示10条
+				pagesize: 8 //默认第一页展示10条
 			}
 		},
 		created() {
@@ -380,6 +380,12 @@
 </script>
 
 <style scoped>
+	.t_box {
+		height: 100%;
+		margin: 0 auto;
+		margin-top: 20px;
+	}
+	
 	.page {
 		width: 30%;
 		margin: auto;

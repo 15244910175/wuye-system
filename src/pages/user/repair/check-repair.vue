@@ -13,13 +13,6 @@
 					<el-form-item label="报修事项名称">
 						<el-input size="mini" v-model="formInline.name" placeholder="输入名称"></el-input>
 					</el-form-item>
-					<el-form-item label="报修人">
-						<el-input size="mini" v-model="formInline.inName" placeholder="输入报修人"></el-input>
-					</el-form-item>
-					<el-form-item label="报修日期">
-						<el-date-picker size="mini" v-model="formInline.beDate" type="date" placeholder="选择日期" style="width:100%">
-						</el-date-picker>
-					</el-form-item>
 					<el-form-item label="住户地址">
 						<el-input size="mini" v-model="formInline.address" placeholder="输入住户地址"></el-input>
 					</el-form-item>
@@ -107,11 +100,7 @@
 
 				formInline: {
 					name: '',
-					inName: '',
-					tel: '',
-					beDate: '',
 					address: '',
-					revalue: ''
 				},
 				typeList: [{
 					name: '',

@@ -13,17 +13,6 @@
 					<el-form-item label="保安姓名">
 						<el-input size="mini" v-model="formInline.name" placeholder="输入保安姓名"></el-input>
 					</el-form-item>
-					<el-form-item label="身份证号">
-						<el-input size="mini" v-model="formInline.persionNo" placeholder="输入身份证号"></el-input>
-					</el-form-item>
-					<el-form-item label="工作开始日期">
-						<el-date-picker size="mini" v-model="formInline.begDate" type="date" placeholder="请选择工作日期"
-							style="width:100%">
-						</el-date-picker>
-					</el-form-item>
-					<el-form-item label="职务">
-						<el-input size="mini" v-model="formInline.post" placeholder="输入职务"></el-input>
-					</el-form-item>
 					<el-form-item>
 						<el-button size="mini" type="primary" class="el-icon-search">查询</el-button>
 					</el-form-item>
@@ -77,11 +66,8 @@
 
 		<el-dialog title="编辑保安信息" :visible.sync="dialogTableVisible">
 			<el-form ref="infoList" :model="infoList" :rules="infoListRules" label-width="120px">
-				<el-form-item label="保安人员姓名" prop="name">
+				<el-form-item label="姓名" prop="name">
 					<el-input v-model="infoList.name" placeholder="请输入保安姓名"></el-input>
-				</el-form-item>
-				<el-form-item label="身份证" prop="persionNo">
-					<el-input v-model="infoList.persionNo" placeholder="请输入身份证"></el-input>
 				</el-form-item>
 				<el-form-item label="性别" prop="sex">
 					<el-select v-model="infoList.sex" placeholder="请选择性别" style="width:100%">
@@ -89,13 +75,17 @@
 						<el-option label="女" value="女"></el-option>
 					</el-select>
 				</el-form-item>
-				<el-form-item label="工作开始日期" prop="begDate">
-					<el-date-picker v-model="infoList.begDate" type="date" placeholder="请选择工作日期" style="width:100%">
-					</el-date-picker>
+				<el-form-item label="身份证" prop="persionNo">
+					<el-input v-model="infoList.persionNo" placeholder="请输入身份证"></el-input>
 				</el-form-item>
 				<el-form-item label="职务" prop="post">
 					<el-input v-model="infoList.post" placeholder="请输入职务"></el-input>
 				</el-form-item>
+				<el-form-item label="工作开始日期" prop="begDate">
+					<el-date-picker v-model="infoList.begDate" type="date" placeholder="请选择工作日期" style="width:100%">
+					</el-date-picker>
+				</el-form-item>
+			
 				<el-button type="primary" style="margin-left: 40%;" @click="edit"> 保存</el-button>
 				<el-button @click="resetForm1('infoList')">重置</el-button>
 				<el-button @click="goBack">返回</el-button>
@@ -103,11 +93,8 @@
 		</el-dialog>
 		<el-dialog title="新增保安信息" :visible.sync="dialogTableVisible1">
 			<el-form ref="addForm" :model="addForm" :rules="addFormRules" label-width="120px">
-				<el-form-item label="保安人员姓名" prop="name">
+				<el-form-item label="姓名" prop="name">
 					<el-input v-model="addForm.name" placeholder="请输入保安姓名"></el-input>
-				</el-form-item>
-				<el-form-item label="身份证" prop="persionNo">
-					<el-input v-model="addForm.persionNo" placeholder="请输入身份证"></el-input>
 				</el-form-item>
 				<el-form-item label="性别" prop="sex">
 					<el-select v-model="addForm.sex" placeholder="请选择性别" style="width:100%">
@@ -115,13 +102,17 @@
 						<el-option label="女" value="女"></el-option>
 					</el-select>
 				</el-form-item>
-				<el-form-item label="工作开始日期" prop="begDate">
-					<el-date-picker v-model="addForm.begDate" type="date" placeholder="请选择工作日期" style="width:100%">
-					</el-date-picker>
+				<el-form-item label="身份证" prop="persionNo">
+					<el-input v-model="addForm.persionNo" placeholder="请输入身份证"></el-input>
 				</el-form-item>
 				<el-form-item label="职务" prop="post">
 					<el-input v-model="addForm.post" placeholder="请输入职务"></el-input>
 				</el-form-item>
+				<el-form-item label="工作开始日期" prop="begDate">
+					<el-date-picker v-model="addForm.begDate" type="date" placeholder="请选择工作日期" style="width:100%">
+					</el-date-picker>
+				</el-form-item>
+				
 				<el-button type="primary" style="margin-left: 40%;" @click="add"> 保存</el-button>
 				<el-button @click="resetForm1('addForm')">重置</el-button>
 				<el-button @click="goBack">返回</el-button>
@@ -140,9 +131,6 @@
 			return {
 				formInline: {
 					name: '',
-					persionNo: '',
-					begDate: '',
-					post: ''
 				},
 				typeList: [],
 				infoList: {
@@ -182,7 +170,7 @@
 				infoListRules: {
 					name: [{
 							required: true,
-							message: '请输入管理员姓名',
+							message: '请输入保安姓名',
 							trigger: 'blur'
 						},
 						{
@@ -230,7 +218,7 @@
 				addFormRules: {
 					name: [{
 							required: true,
-							message: '请输入管理员姓名',
+							message: '请输入保安姓名',
 							trigger: 'blur'
 						},
 						{
@@ -448,13 +436,13 @@
 		margin-top: 50px;
 	}
 
-	.el-form-item {
+	/* .el-form-item {
 		text-align-last: justify;
 		text-align: justify;
 		text-justify: distribute;
 		text-justify: distribute-all-lines;
-		/* border: 1px solid red; */
-	}
+		
+	} */
 
 	.el-button {
 		/* position: relative; */

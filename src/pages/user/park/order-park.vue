@@ -13,17 +13,7 @@
 					<el-form-item label="住户姓名">
 						<el-input size="mini" v-model="formInline.userid" placeholder="输入住户姓名"></el-input>
 					</el-form-item>
-					<el-form-item label="住户身份证">
-						<el-input size="mini" v-model="formInline.persionNo" placeholder="输入住户身份证"></el-input>
-					</el-form-item>
-					<el-form-item label="联系电话">
-						<el-input size="mini" v-model="formInline.telephone" placeholder="输入联系方式"></el-input>
-					</el-form-item>
-					<el-form-item label="登记日期">
-						<el-date-picker size="mini" v-model="formInline.changedate" type="date" placeholder="选择日期"
-							style="width:100%">
-						</el-date-picker>
-					</el-form-item>
+					
 					<el-form-item label="停车车位号">
 						<el-input size="mini" v-model="formInline.carAddress" placeholder="输入停车车位号"></el-input>
 					</el-form-item>
@@ -35,6 +25,10 @@
 					</el-form-item>
 					<el-form-item>
 						<el-button size="mini" type="primary" class="el-icon-refresh" @click="resetForm">重置</el-button>
+					</el-form-item>
+					<el-form-item>
+						<el-button size="mini" type="primary" class="el-icon-plus" @click="dialogTableVisible1=true">新增
+						</el-button>
 					</el-form-item>
 				</el-form>
 			</div>
@@ -66,6 +60,29 @@
 				</el-pagination>
 			</div>
 		</div>
+		
+		<el-dialog title="预定小区车位" :visible.sync="dialogTableVisible1">
+			<el-form ref="addForm" :model="addForm" :rules="addFormRules" label-width="120px">
+				<el-form-item label="住户姓名" prop="userid">
+					<el-input v-model="addForm.userid" placeholder="请输入住户姓名"></el-input>
+				</el-form-item>
+				<el-form-item label="住户身份证" prop="persionNo">
+					<el-input v-model="addForm.persionNo" placeholder="请输入身份证"></el-input>
+				</el-form-item>
+				<el-form-item label="联系电话" prop="telephone">
+					<el-input v-model="addForm.telephone" placeholder="请输入联系方式"></el-input>
+				</el-form-item>
+				<el-form-item label="住户地址" prop="address">
+					<el-input v-model="addForm.address" placeholder="请输入住户地址"></el-input>
+				</el-form-item>
+				<el-form-item label="预留车位号" prop="carAddress">
+					<el-input v-model="addForm.carAddress" placeholder="请输入预留车位号"></el-input>
+				</el-form-item>
+				<el-button type="primary" @click="add">保存</el-button>
+				<el-button @click="resetForm('addForm')">重置</el-button>
+				<el-button @click="goBack">返回</el-button>
+			</el-form>
+		</el-dialog>
 	</div>
 </template>
 
@@ -75,11 +92,9 @@
 	export default {
 		data() {
 			return {
+				dialogTableVisible1: false,
 				formInline: {
 					userid: '',
-					persionNo: '',
-					telephone: '',
-					changedate: '',
 					carAddress: '',
 					address: '',
 				},
@@ -93,6 +108,64 @@
 					state: '',
 					pass:''
 				}],
+				addForm: {
+					userid: '',
+					persionNo: '',
+					telephone: '',
+					address: '',
+					carAddress: '',
+					state:"未审核",
+					changedate:''
+				},
+				addFormRules: {
+					userid: [{
+							required: true,
+							message: '请输入住户姓名',
+							trigger: 'blur'
+						},
+						{
+							min: 2,
+							max: 20,
+							message: '长度在 2 到 20 个字符',
+							trigger: 'blur'
+						}
+					],
+					persionNo: [{
+							required: true,
+							message: '请输入身份证',
+							trigger: 'blur'
+						},
+						{
+							min: 18,
+							max: 18,
+							message: '请输入18位字符',
+							trigger: 'blur'
+						}
+					],
+					telephone: [{
+							required: true,
+							message: '请输入联系电话',
+							trigger: 'blur'
+						},
+						{
+							type: 'number',
+							max: 11,
+							message: '联系电话输入11位正整数',
+							trigger: 'blur'
+						}
+					],
+					address: [{
+						required: true,
+						message: '请输入住户地址',
+						trigger: 'blur'
+					}, ],
+					carAddress: [{
+						required: true,
+						message: '请输入预留车位号',
+						trigger: 'blur'
+					}, ],
+				
+				},
 				currentPage: 1, //默认第一页
 				total: 0, //总条数
 				pagesize: 5 //默认第一页展示10条
@@ -135,6 +208,58 @@
 						// console.log(self.typeList);
 						console.log(res);
 					});
+			},
+			add() {
+				this.addForm.changedate = formatDate(new Date());
+				// this.title=this.title;
+				// this.typeId = this.uuid();
+				const params = {
+					userid:this.addForm.userid,
+					persionNo:this.addForm.persionNo,
+					telephone:this.addForm.telephone,
+					address:this.addForm.address,
+					carAddress:this.addForm.carAddress,
+					changedate:this.addForm.changedate
+				};
+				if (
+					this.addForm.userid == "" ||
+					this.addForm.persionNo == "" ||
+					this.addForm.telephone == "" ||
+					this.addForm.address == "" ||
+					this.addForm.carAddress == "" 
+				) {
+					this.$message({
+						message: "必填项不能为空！",
+						type: "error",
+					});
+				} else {
+				request({
+					url: "http://127.0.0.1:10520/api/admin/addOrderPark",
+					method: "post",
+					data: this.addForm
+				}).then(res => {
+					console.log(res);
+					if (res.msg === "新增成功") {
+						this.$message({
+							message: "恭喜你，新增成功",
+							type: "success"
+						});
+						this.init();
+					}
+				});
+				}
+			},
+			init() {
+				// this.dialog_state = false;
+				this.addForm = {};
+				this.getCarparkList();
+				this.dialogTableVisible1=false;
+			},
+			resetForm(addForm) {
+				this.$refs[addForm].resetFields();
+			},
+			goBack() {
+			this.dialogTableVisible1=false;	
 			},
 			handleSizeChange(val) {
 				console.log(`每页 ${size} 条`);

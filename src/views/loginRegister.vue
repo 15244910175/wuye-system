@@ -5,33 +5,34 @@
 				<div class="big-contain" v-if="isLogin">
 					<div class="btitle" name="first">账户登录</div>
 					<div class="bform">
-						<el-form :model="form" :rules="rules" ref="form" label-width="100px" class="demo-ruleForm"
+						<el-form :model="inForm" :rules="rules" ref="inForm" label-width="100px" class="demo-ruleForm"
 							:label-position="labelPosition">
-							<el-form-item label="用户名" prop="username">
-								<el-input v-model="form.username"></el-input>
+							<el-form-item label="账号" prop="username">
+								<el-input v-model="inForm.username"></el-input>
 							</el-form-item>
 							<el-form-item label="密码" prop="userpwd">
-								<el-input v-model="form.userpwd" type="password"></el-input>
+								<el-input v-model="inForm.userpwd" type="password" show-password></el-input>
 							</el-form-item>
-							<!-- <el-checkbox id="savePassword" checked="checked" @click="savePassword()">记住密码</el-checkbox>
-							<router-link to="/ForgetPassword">忘记密码</router-link> -->
 						</el-form>
 					</div>
-					<el-button class="bbutton" @click="login">登录</el-button>
+					<el-row>
+						<el-button @click="resetForm1('inForm')" type="primary">清空</el-button>
+					<el-button @click="login" type="primary">登录</el-button>
+					</el-row>
 				</div>
 				<div class="big-contain" v-else>
 					<div class="btitle" name="second">创建账户</div>
 					<div class="bform">
 						<el-form :model="form" :rules="rules" ref="form" label-width="100px" class="demo-ruleForm"
 							:label-position="labelPosition">
-							<el-form-item label="用户名" prop="username">
+							<el-form-item label="账号" prop="username">
 								<el-input v-model="form.username"></el-input>
 							</el-form-item>
 							<el-form-item label="邮箱" prop="useremail">
 								<el-input v-model="form.useremail" type="email"></el-input>
 							</el-form-item>
-							<el-form-item label="密码" prop="userpwd">
-								<el-input v-model="form.userpwd" type="password"></el-input>
+							<el-form-item label="密码" prop="userpwd" >
+								<el-input v-model="form.userpwd" type="password" show-password></el-input>
 							</el-form-item>
 							<el-form-item label="权限" prop="role">
 								<el-select v-model="form.role" placeholder="请选择">
@@ -42,7 +43,10 @@
 							</el-form-item>
 						</el-form>
 					</div>
-					<button class="bbutton" @click="register">注册</button>
+					<el-row>
+					<el-button @click="resetForm('form')" type="primary">清空</el-button>
+					<el-button  @click="register" type="primary">注册</el-button>
+					</el-row>
 				</div>
 			</div>
 			<div class="small-box" :class="{active:isLogin}">
@@ -86,6 +90,11 @@
 					userpwd: '',
 					role: '',
 					checked: ''
+				},
+				inForm :{
+					username:'',
+					userpwd:'',
+					role:''
 				},
 				options: [{
 					value: '选项1',
@@ -199,16 +208,16 @@
 
 			login() {
 				const self = this;
-				if (self.form.username != "" && self.form.userpwd != "") {
-					Cookies.set('username',self.form.username)
+				if (self.inForm.username != "" && self.inForm.userpwd != "") {
+					Cookies.set('username',self.inForm.username)
 					self.$axios({
 							method: 'post',
 							url: 'http://127.0.0.1:10520/api/user/login',
 							data: {
-								username: self.form.username,
+								username: self.inForm.username,
 								// email: self.form.useremail,
-								password: self.form.userpwd,
-								role:self.form.role
+								password: self.inForm.userpwd,
+								role:self.inForm.role
 							}
 						})
 						.then(res => {
@@ -236,7 +245,10 @@
 							console.log(err);
 						})
 				} else {
-					alert("填写不能为空！");
+					this.$message({
+						message:'填写不能为空',
+						type:'warning'
+					});
 				}
 			},
 			register() {
@@ -268,23 +280,32 @@
 										message:'用户名已经存在，请重新注册',
 										type:'warning'
 									});
-									
 									break;
-								case -2:
-									this.existed = true;
-									this.$message({
-										message:'有限已经存在，请重新注册',
-										type:'warning'
-									});
-									break;
+								// case -2:
+								// 	this.existed = true;
+								// 	this.$message({
+								// 		message:'邮箱已经存在，请重新注册',
+								// 		type:'warning'
+								// 	});
+								// 	break;
 							}
 						})
 						.catch(err => {
 							console.log(err);
 						})
 				} else {
-					alert("填写不能为空！");
+					this.$message({
+						message:'填写不能为空',
+						type:'warning'
+					});
+					// alert("填写不能为空！");
 				}
+			},
+			resetForm(form) {
+				this.$refs[form].resetFields();
+			},
+			resetForm1(inForm) {
+				this.$refs[inForm].resetFields();
 			},
 			// 记住密码
 			// savePassword() {

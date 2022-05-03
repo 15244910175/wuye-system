@@ -22,12 +22,7 @@
 							<el-option label="未缴费" value="未缴费"></el-option>
 						</el-select>
 					</el-form-item>
-					<el-form-item label="缴纳日期">
-						<el-date-picker size="mini" v-model="formInline.changedate" type="date" placeholder="选择日期"
-							style="width:100%">
-						</el-date-picker>
-					</el-form-item>
-
+					
 					<el-form-item>
 						<el-button size="mini" type="primary" class="el-icon-search">查询</el-button>
 					</el-form-item>
@@ -84,7 +79,7 @@
 			</div>
 		</div>
 
-		<el-dialog title="维修费用" :visible.sync="dialogTableVisible">
+		<el-dialog title="编辑维修费用" :visible.sync="dialogTableVisible">
 			<el-form ref="infoList" :model="infoList" :rules="infoListRules" label-width="120px">
 				<el-row>
 					<el-col :span="12">
@@ -156,7 +151,7 @@
 				<el-form-item label="备注" prop="remark" >
 					<el-input v-model="infoList.remark" type="textarea" placeholder="请输入备注"></el-input>
 				</el-form-item>
-				<el-button type="primary" @click="save">保存</el-button>
+				<el-button type="primary" @click="save" style="margin-left: 40%;">保存</el-button>
 				<el-button @click="resetForm1('infoList')">重置</el-button>
 				<el-button @click="goBack">返回</el-button>
 			</el-form>
@@ -179,7 +174,7 @@
 		</el-dialog>
 		
 		
-		<el-dialog title="维修费用" :visible.sync="dialogTableVisible2">
+		<el-dialog title="新增维修费用" :visible.sync="dialogTableVisible2">
 			<el-form ref="addForm" :model="addForm" :rules="addFormRules" label-width="120px">
 				<el-row>
 					<el-col :span="12">
@@ -251,7 +246,7 @@
 				<el-form-item label="备注" prop="remark">
 					<el-input v-model="addForm.remark" type="textarea" placeholder="请输入备注"></el-input>
 				</el-form-item>
-				<el-button type="primary" @click="add">保存</el-button>
+				<el-button type="primary" @click="add" style="margin-left: 40%;">保存</el-button>
 				<el-button @click="resetForm1('addForm')">重置</el-button>
 				<el-button @click="goBack">返回</el-button>
 			</el-form>
@@ -269,7 +264,6 @@
 				formInline: {
 					dNo: '',
 					zName: '',
-					changedate: '',
 					state: ''
 				},
 				typeList: [{
@@ -678,13 +672,13 @@
 		margin-top: 50px;
 	}
 
-	.el-form-item {
+	/* .el-form-item {
 		text-align-last: justify;
 		text-align: justify;
 		text-justify: distribute;
 		text-justify: distribute-all-lines;
-		/* border: 1px solid red; */
-	}
+		
+	} */
 
 	.el-button {
 		/* position: relative; */

@@ -5,7 +5,7 @@ var sqlMap = {
         //登录
         login: 'select * from user where username=? and password=?',
 		// 查询报修信息列表
-		getRepairList:'select * from equip',
+		getRepairList:'select * from equip where inName="里欧"',
 		// 查看小区车位
 		getOrdercar:`select * from carorder`,
 		// 查看物业费信息
@@ -78,7 +78,7 @@ var sqlMap = {
 		
 		
 		// 新增住户信息
-		addData:'insert into resident(rNo,username,persionNo,sex,telephone,date) values (?,?,?,?,?,?)',
+		addData:'insert into resident(rNo,username,persionNo,sex,telephone,date,dateDue) values (?,?,?,?,?,?,?)',
 		// 添加报修事项
 		addRepair:'insert into equip(name,inName,tel,address,beDate,mark,revalue) values(?,?,?,?,?,?,?)',
 		// 添加管理员
@@ -88,7 +88,7 @@ var sqlMap = {
 		// 新增预定车位
 		addOrderPark:'insert into carorder(userid,persionNo,telephone,address,carAddress,changedate,state) values(?,?,?,?,?,?,?)',
 		// 添加设备信息
-		addEqu:'insert into chanel(name,model,num,beDate,mark,inName) values(?,?,?,?,?,?)',
+		addEqu:'insert into chanel(name,model,num,beDate,mark,inName,price) values(?,?,?,?,?,?,?)',
 		// 添加物业公司员工信息
 		addRs:'insert into rs(AdminName,persionNo,sex,begDate,post) values(?,?,?,?,?)',
 		// 添加保安排班
@@ -148,7 +148,7 @@ var sqlMap = {
 		deleteHouseMag:'delete from house_mag where id=?',
 		
 		// 修改住户信息
-		updateData:'update resident set rNo=?,username=?,persionNo=?,sex=?,telephone=?,date=? where id=?',
+		updateData:'update resident set rNo=?,username=?,persionNo=?,sex=?,telephone=?,date=?,dateDue=? where id=?',
 		// 修改管理员信息
 		updateAdmin:'update admin set AdminName=?,persionNo=?,sex=?,begDate=?,post=? where id=?',
 		// 修改保安信息
@@ -164,7 +164,7 @@ var sqlMap = {
 		// 修改车位明细信息
 		updateCarnum:'update carnum set num=? where id=?',
 		// 修改设备信息
-		updateEqu:'update chanel set name=?,mark=?,model=?,num=?,beDate=?,inName=? where id=?',
+		updateEqu:'update chanel set name=?,mark=?,model=?,num=?,beDate=?,inName=?,price=? where id=?',
 		// 修改物业费信息
 		updatePay:'update t_change set dNo=?,type=?,changeName=?,zName=?,cases=?,waterCase=?,eCase=?,gasCase=?,stopCase=?,mandCase=?,remark=?,payabledate=? where id=?',
 		// 标记已修
@@ -187,6 +187,7 @@ var sqlMap = {
 		updateNotice:'update notice set title=?,content=?,time=? where id=?',
 		// 编辑房产管理信息
 		updateHouseMag:'update house_mag set rNo=?,buildArea=?,ableArea=?,name=?,sale_status=?,own_status=? where id=?',
+		
 	}
 }
 

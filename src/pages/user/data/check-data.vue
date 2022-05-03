@@ -15,9 +15,6 @@
 				<el-form-item label="住户姓名" prop="username">
 					<el-input v-model="dataForm.username" placeholder="请输入住户姓名"></el-input>
 				</el-form-item>
-				<el-form-item label="住户密码" prop="password">
-					<el-input v-model="dataForm.password" placeholder="请输入住户密码"></el-input>
-				</el-form-item>
 				<el-form-item label="住户身份证" prop="persionNo">
 					<el-input v-model="dataForm.persionNo" placeholder="请输入住户身份证"></el-input>
 				</el-form-item>
@@ -158,7 +155,7 @@
 
 	.box-card {
 		width: 700px;
-		height: 600px;
+		height: 550px;
 	}
 
 	.el-form-item {
@@ -166,11 +163,5 @@
 		text-align: justify;
 		text-justify: distribute-all-lines;
 		/* border: 1px solid red; */
-	}
-
-	.el-button {
-		/* position: relative; */
-		/* text-align: center; */
-		margin-left: 45%;
 	}
 </style>

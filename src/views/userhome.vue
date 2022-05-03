@@ -27,20 +27,8 @@
 						<img src="../assets/img/img.jpg">
 						<!-- {{username}} -->
 					</div>
-					<!-- 用户名下拉菜单 -->
-					<el-dropdown class="user-name" trigger="click" @command="hadleCommand">
-						<span class="el-dropdown-link">
-							{{ username }}
-							<i class="el-icon-caret-bottom"></i>
-						</span>
-						<el-dropdown-menu slot="dropdown">
-							<el-dropdown-item command=""><a @click="visibleEditPasswordDialog = true">修改密码</a>
-							</el-dropdown-item>
-							<el-dropdown-item command=""><a @click="visibleEditInfoDialog = true">修改用户的信息</a>
-							</el-dropdown-item>
-							<el-dropdown-item divided command="loginout">退出登录</el-dropdown-item>
-						</el-dropdown-menu>
-					</el-dropdown>
+					<el-button type="info" @click="loginout" style="margin-left: 10%;;">退出</el-button>
+					
 				</div>
 			</div>
 
@@ -49,7 +37,7 @@
 		<!-- 主体区域 -->
 		<el-container>
 			<!-- 侧边栏区域 -->
-			<el-aside :width="isCollapse ? '64px' :'200px'">
+			<el-aside :width="isCollapse ? '64px' :'230px'">
 				<div class="toggle-button" @click="toggleCollapse">|||</div>
 				<!-- 侧边栏菜单区域 -->
 				<el-menu background-color="#333744" text-color="#fff" active-text-color="#3B9FFF" :unique-opened="true"
@@ -67,6 +55,17 @@
 					</el-submenu>
 					<el-submenu index="2">
 						<template slot="title">
+							<i class="iconfont icon-zhuhuziliao"></i>
+							<span>房产管理</span>
+						</template>
+						<el-menu-item-group>
+							<!-- <i class="iconfont icon-menu""></i> -->
+							<el-menu-item index="house" class="el-icon-menu">房产管理信息</el-menu-item>
+						</el-menu-item-group>
+					</el-submenu>
+					
+					<el-submenu index="3">
+						<template slot="title">
 							<i class="iconfont icon-wuyebaoxiu"></i>
 							<span>住户报修管理</span>
 						</template>
@@ -75,17 +74,17 @@
 							<el-menu-item index="check-repair" class="el-icon-menu">报修事项信息查看</el-menu-item>
 						</el-menu-item-group>
 					</el-submenu>
-					<el-submenu index="3">
+					<el-submenu index="4">
 						<template slot="title">
 							<i class="iconfont icon-wuyejiaofei"></i>
 							<span>缴费管理</span>
 						</template>
 						<el-menu-item-group>
-							<el-menu-item index="pay" class="el-icon-menu">费用信息</el-menu-item>
+							
 							<el-menu-item index="check-pay" class="el-icon-menu">查看缴纳物业费信息</el-menu-item>
 						</el-menu-item-group>
 					</el-submenu>
-					<el-submenu index="4">
+					<el-submenu index="5">
 						<template slot="title">
 							<i class="iconfont icon-tingche"></i>
 							<span>住户停车车位管理</span>
@@ -94,7 +93,7 @@
 							<el-menu-item index="order-park" class="el-icon-menu">预定小区车位查看</el-menu-item>
 						</el-menu-item-group>
 					</el-submenu>
-					<el-submenu index="5">
+					<el-submenu index="6">
 					  <template slot="title">
 					    <i class="el-icon-truck"></i>
 					    <span>快递管理</span>
@@ -104,7 +103,7 @@
 					    <el-menu-item index="colpass" class="el-icon-menu">代收快递信息管理</el-menu-item>
 					  </el-menu-item-group>
 					</el-submenu>
-					<el-submenu index="6">
+					<el-submenu index="7">
 						<template slot="title">
 							<i class="iconfont icon-liuyan1"></i>
 							<span>留言管理</span>
@@ -116,7 +115,7 @@
 							
 						</el-menu-item-group>
 					</el-submenu>
-					<el-submenu index="7">
+					<el-submenu index="8">
 						<template slot="title">
 							<i class="el-icon-bell"></i>
 							<span>公告</span>

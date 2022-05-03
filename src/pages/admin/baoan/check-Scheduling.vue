@@ -13,16 +13,6 @@
 					<el-form-item label="保安姓名">
 						<el-input size="mini" v-model="formInline.name" placeholder="输入保安姓名"></el-input>
 					</el-form-item>
-					<el-form-item label="上班时间">
-						<el-date-picker size="mini" v-model="formInline.startTime" type="datetime" placeholder="请选择上班时间"
-							style="width:100%">
-						</el-date-picker>
-					</el-form-item>
-					<el-form-item label="下班时间">
-						<el-date-picker size="mini" v-model="formInline.endTime" type="datetime" placeholder="请选择下班时间"
-							style="width:100%">
-						</el-date-picker>
-					</el-form-item>
 					<el-form-item>
 						<el-button size="mini" type="primary" class="el-icon-search">查询</el-button>
 					</el-form-item>
@@ -122,8 +112,6 @@
 			return {
 				formInline: {
 					name: '',
-					startTime: '',
-					endTime: '',
 				},
 				typeList: [{
 					name: '',

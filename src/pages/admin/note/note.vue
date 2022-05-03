@@ -10,19 +10,8 @@
 		<div class="t_box">
 			<div class="search">
 				<el-form ref="formInline" :model="formInline" :inline="true">
-					<el-form-item label="标题">
+					<el-form-item label="留言标题">
 						<el-input size="mini" v-model="formInline.title" placeholder="输入标题"></el-input>
-					</el-form-item>
-					<el-form-item label="留言内容">
-						<el-input size="mini" v-model="formInline.mark" placeholder="输入留言内容"></el-input>
-					</el-form-item>
-					<el-form-item label="留言者">
-						<el-input size="mini" v-model="formInline.leaverName" placeholder="输入留言者"></el-input>
-					</el-form-item>
-					<el-form-item label="留言时间">
-						<el-date-picker size="mini" v-model="formInline.time" type="datetime" placeholder="选择时间"
-							style="width:100%">
-						</el-date-picker>
 					</el-form-item>
 
 					<el-form-item>
@@ -109,9 +98,6 @@
 			return {
 				formInline: {
 					title: '',
-					mark: '',
-					leaverName: '',
-					time: '',
 				},
 				typeList: [{
 					title: '',
@@ -289,13 +275,13 @@
 		margin-top: 50px;
 	}
 
-	.el-form-item {
+	/* .el-form-item {
 		text-align-last: justify;
 		text-align: justify;
 		text-justify: distribute;
 		text-justify: distribute-all-lines;
-		/* border: 1px solid red; */
-	}
+		
+	} */
 
 	.el-button {
 		/* position: relative; */

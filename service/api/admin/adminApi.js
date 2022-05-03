@@ -298,7 +298,7 @@ router.post('/addData', (req, res) => {
   var sql = $sql.admin.addData;
   // var params = req.body;
   console.log(req);
-  conn.query(sql, [req.body.rNo,req.body.username, req.body.persionNo, req.body.sex, req.body.telephone,req.body.date], function (err, result) {
+  conn.query(sql, [req.body.rNo,req.body.username, req.body.persionNo, req.body.sex, req.body.telephone,req.body.date,req.body.dateDue], function (err, result) {
     var data = req.body;
     console.log(result)
     return res.send({
@@ -360,7 +360,7 @@ router.post('/addEqu', (req, res) => {
   var sql = $sql.admin.addEqu;
   // var params = req.body;
   console.log(req);
-  conn.query(sql, [req.body.name, req.body.model, req.body.num, req.body.beDate,req.body.mark,req.body.inName], function (err, result) {
+  conn.query(sql, [req.body.name, req.body.model, req.body.num, req.body.beDate,req.body.mark,req.body.inName,req.body.price], function (err, result) {
     var data = req.body;
     console.log(result)
     return res.send({
@@ -811,7 +811,7 @@ router.post('/updateData', (req, res) => {
   var sql = $sql.admin.updateData;
   // var params = req.body;
   console.log(req);
-  conn.query(sql, [req.body.rNo,req.body.username, req.body.persionNo, req.body.sex,req.body.telephone,req.body.date,req.body.id], function (err, result) {
+  conn.query(sql, [req.body.rNo,req.body.username, req.body.persionNo, req.body.sex,req.body.telephone,req.body.date,req.body.dateDue,req.body.id], function (err, result) {
     var data = req.body;
     console.log(result)
     return res.send({
@@ -950,7 +950,7 @@ router.post('/updateEqu', (req, res) => {
   var sql = $sql.admin.updateEqu;
   // var params = req.body;
   console.log(req);
-  conn.query(sql, [req.body.name, req.body.mark,req.body.model,req.body.num,req.body.beDate,req.body.inName,req.body.id], function (err, result) {
+  conn.query(sql, [req.body.name, req.body.mark,req.body.model,req.body.num,req.body.beDate,req.body.inName,req.body.price,req.body.id], function (err, result) {
     var data = req.body;
     console.log(result)
     return res.send({

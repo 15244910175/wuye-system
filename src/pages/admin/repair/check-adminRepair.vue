@@ -10,15 +10,6 @@
 		<div class="t_box">
 			<div class="search">
 				<el-form ref="formInline" :model="formInline" :inline="true">
-					<el-form-item label="报修事项名称">
-						<el-input size="mini" v-model="formInline.name" placeholder="输入保修事项名称"></el-input>
-					</el-form-item>
-					<el-form-item label="报修人">
-						<el-input size="mini" v-model="formInline.inName" placeholder="输入报修人"></el-input>
-					</el-form-item>
-					<el-form-item label="电话">
-						<el-input size="mini" v-model="formInline.tel" placeholder="输入电话"></el-input>
-					</el-form-item>
 					<el-form-item label="报修日期">
 						<el-date-picker size="mini" v-model="formInline.beDate" type="date" placeholder="选择日期"
 							style="width:100%">
@@ -27,17 +18,19 @@
 					<el-form-item label="住户地址">
 						<el-input size="mini" v-model="formInline.address" placeholder="输入住户地址"></el-input>
 					</el-form-item>
-
+					<el-form-item label="是否已修" prop="revalue">
+						<el-select size="mini" v-model="formInline.revalue" placeholder="请选择已修与否" style="width:100%">
+							<el-option label="已修" value="已修"></el-option>
+							<el-option label="未修" value="未修"></el-option>
+						</el-select>
+					</el-form-item>
 					<el-form-item>
 						<el-button size="mini" type="primary" class="el-icon-search">查询</el-button>
 					</el-form-item>
 					<el-form-item>
 						<el-button size="mini" type="primary" class="el-icon-refresh" @click="resetForm">重置</el-button>
 					</el-form-item>
-					<el-form-item>
-						<el-button size="mini" type="primary" class="el-icon-plus" @click="dialogTableVisible2=true">新增
-						</el-button>
-					</el-form-item>
+				
 					<el-form-item>
 						<download-excel class="export-excel-wrapper" :data="typeList" :fields="json_fields"
 							name="报修信息.xls">
@@ -130,33 +123,7 @@
 			</el-form>
 		</el-dialog>
 
-		<el-dialog title="新增报修事项" :visible.sync="dialogTableVisible2">
-			<el-form ref="addForm" :model="addForm" label-width="120px" :rules="addFormRules">
-				<el-form-item label="报修事项名称" prop="name">
-					<el-input v-model="addForm.name" placeholder="请输入报修事项名称"></el-input>
-				</el-form-item>
-				<el-form-item label="报修人" prop="inName">
-					<el-input v-model="addForm.inName" placeholder="请输入报修人"></el-input>
-				</el-form-item>
-				<el-form-item label="联系电话" prop="tel">
-					<el-input v-model="addForm.tel" placeholder="请输入联系电话"></el-input>
-				</el-form-item>
-				<el-form-item label="住户地址" prop="address">
-					<el-input v-model="addForm.address" placeholder="请输入住户地址"></el-input>
-				</el-form-item>
-				<el-form-item label="报修时间" prop="beDate" >
-					<el-date-picker type="date" v-model="addForm.beDate" placeholder="请选择报修时间" style="width: 100%;"></el-date-picker>
-				</el-form-item>
-				<el-form-item label="报修情况说明" prop="mark">
-					<el-input v-model="addForm.mark" placeholder="请输入保修情况说明"></el-input>
-				</el-form-item>
-				<el-form-item>
-					<el-button type="primary" @click="add" style="margin-left:40%">保存</el-button>
-					<el-button @click="resetForm1('addForm')">重置</el-button>
-					<el-button @click="goBack" >返回</el-button>
-				</el-form-item>
-			</el-form>
-		</el-dialog>
+		
 	</div>
 </template>
 
@@ -168,11 +135,9 @@
 		data() {
 			return {
 				formInline: {
-					name: '',
-					inName: '',
-					tel: '',
 					beDate: '',
-					address: ''
+					address: '',
+					revalue:''
 				},
 				typeList: [],
 				infoList: {
@@ -485,13 +450,13 @@
 		margin-top: 50px;
 	}
 
-	.el-form-item {
+	/* .el-form-item {
 		text-align-last: justify;
 		text-align: justify;
 		text-justify: distribute;
 		text-justify: distribute-all-lines;
-		/* border: 1px solid red; */
-	}
+		
+	} */
 
 	.el-button {
 		/* position: relative; */
