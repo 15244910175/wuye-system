@@ -59,9 +59,6 @@
 				</el-table-column>
 				<el-table-column label="具体操作" align="center" width="300">
 					<template slot-scope="scope">
-						<el-button type="primary" size="small" icon="el-icon-view">
-							<a @click="handleEdit1(scope.$index, scope.row)">标记已缴费</a>
-						</el-button>
 						<el-button type="primary" size="small" icon="el-icon-edit">
 							<a @click="handleEdit(scope.$index, scope.row)">编辑</a>
 						</el-button>
@@ -156,24 +153,6 @@
 				<el-button @click="goBack">返回</el-button>
 			</el-form>
 		</el-dialog>
-		
-		<el-dialog title="缴费情况" :visible.sync="dialogTableVisible1">
-			<el-form ref="infoList" :model="infoList" label-width="120px" :rules="infoListRules">
-
-				<el-form-item label="是否缴费" prop="state">
-					<el-select v-model="infoList.state" placeholder="请选择已修与否" style="width:100%">
-						<el-option label="已缴费" value="已缴费"></el-option>
-						<el-option label="未缴费" value="未缴费"></el-option>
-					</el-select>
-				</el-form-item>
-
-				<el-button type="primary" @click="save1" style="margin-left: 40%;">保存</el-button>
-				<el-button @click="resetForm1('infoList')">重置</el-button>
-				<el-button @click="goBack">返回</el-button>
-			</el-form>
-		</el-dialog>
-		
-		
 		<el-dialog title="新增维修费用" :visible.sync="dialogTableVisible2">
 			<el-form ref="addForm" :model="addForm" :rules="addFormRules" label-width="120px">
 				<el-row>
@@ -481,12 +460,6 @@
 			this.getPayListL();
 		},
 		methods: {
-			handleEdit1(index, row) {
-				this.dialogTableVisible1 = true;
-				console.log(index, row)
-				//row是该行tableData对应的一行
-				this.infoList = row
-			},
 			save1() {
 				request({
 					url: "http://127.0.0.1:10520/api/admin/updateAlrdypay",
