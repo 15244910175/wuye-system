@@ -10,19 +10,13 @@
 
 		<div class="t_box">
 			<div class="search">
-				<el-form ref="formInline" :model="formInline" :inline="true">
+				<el-form ref="formInline" :model=" queryForm" :inline="true">
 					<el-form-item label="房号">
 						<el-input size="mini" v-model="formInline.rNo" placeholder="输入房号"></el-input>
 					</el-form-item>
-					<el-form-item label="房型名称">
-						<el-input size="mini" v-model="formInline.name" placeholder="输入房型名称"></el-input>
-					</el-form-item>
-					<el-form-item label="出售状况">
-						<el-input size="mini" v-model="formInline.sale_status" placeholder="输入出售状况"></el-input>
-					</el-form-item>
 
 					<el-form-item>
-						<el-button size="mini" type="primary" class="el-icon-search">查询</el-button>
+						<el-button size="mini" type="primary" class="el-icon-search" @click="searchTab">查询</el-button>
 					</el-form-item>
 					<el-form-item>
 						<el-button size="mini" type="primary" class="el-icon-refresh" @click="resetForm">重置</el-button>
@@ -139,8 +133,6 @@
 			return {
 				formInline: {
 					rNo: '',
-					name: '',
-					sale_status: ''
 				},
 				addForm: {
 					rNo: '',
@@ -236,6 +228,7 @@
 						value: "utf-8"
 					}]
 				],
+				 queryForm:{},
 				typeList: [],
 				dialogTableVisible: false,
 				dialogTableVisible1: false,
@@ -247,19 +240,54 @@
 		created() {
 			this.getHouseMagList()
 		},
+		 mounted() {
+		    // 加载列表
+		    this.searchTab();
+		  },
 		methods: {
+			// 搜索
+			searchTab() {
+				var self=this;
+				axios
+				    .post("http://127.0.0.1:10520/api/user/ss",{
+					
+				})
+				.then(function(res){
+					if(res.msg==="查询成功"){
+						self.$message.success("查询成功！");
+						self.typeList=res.list;
+						self.total = self.typeList.length;
+					}
+					
+				})
+				},
+				//    request({
+				//           url: "http://127.0.0.1:10520/api/user/ss",
+				//           method: "get",
+				//           data: {}
+				//         }).then(res => {
+				//           console.log(res);
+				//           if (res.msg === "查询成功") {
+				//             this.typeList = res.list;
+				//             this.total = this.typeList.length;
+				//           }
+				//         });
+				// },
+			
 			// 查询房产信息
 			getHouseMagList() {
 				var self = this;
-				axios.post("http://127.0.0.1:10520/api/admin/getHouseMagList", {
-
-					})
+				request({
+				       url: "http://127.0.0.1:10520/api/admin/getHouseMagList",
+				       method: "post",
+				       data: {}
+				     })
 					.then(function(res) {
-						if (res.data.status == 1) {
-							console.log("获取数据");
+						if (res.msg === "获取数据成功") {
+							console.log("获取数据成功");
 							self.$message.success("数据已获取到！");
 						}
-						self.typeList = res.data.list;
+						self.typeList = res.list;
 						// console.log(self.typeList);
 						console.log(res);
 					})

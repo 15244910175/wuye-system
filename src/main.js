@@ -1,5 +1,6 @@
 import Vue from 'vue'
-import axios from 'axios'
+// import axios from 'axios'
+// import axios from '/src/utils/axios.js'
 import App from './App.vue'
 import router from './router'
 import '../public/reset.css'
@@ -22,5 +23,44 @@ new Vue({
   render: h => h(App)
 }).$mount('#app')
 
+import axios from 'axios'
+
+// 添加请求拦截器，在请求头中加token,Cookie
+// axios.interceptors.request.use(
+//   config => {
+//     if (localStorage.getItem('Authorization')) {
+//       config.headers.Authorization = localStorage.getItem('Authorization');
+//     }
+//     if (localStorage.getItem('Cookies')) {
+//       config.headers.Cookies = localStorage.getItem('Cookies');
+//     }
+//     return config;
+//   }, error => {
+//     return Promise.reject(error);
+//   });
+
+// // 这里拦截401错误，并重新跳入登页重新获取token
+// axios.interceptors.response.use(
+//   response => {
+//     console.log("response.use" + response)
+//     if (response.data.data && response.data.data.ecode == '401') {
+//       localStorage.removeItem('Authorization');
+//       localStorage.removeItem('Cookie');
+//       this.$router.push('/login');
+//     } else {
+//       return response;
+//     }
+//   }, error => {
+//     if (error.response) {
+//       switch (error.response.status) {
+//         case 401:
+//           localStorage.removeItem('Authorization');
+//           localStorage.removeItem('Cookie');
+//           this.$router.push('/login');
+//       }
+//     }
+//     return Promise.reject(error.response.data)
+//   }
+// );
 
 

@@ -13,9 +13,6 @@
           <el-form-item label="单据编号">
             <el-input size="mini" v-model="formInline.dNo" placeholder="输入单据编号"></el-input>
           </el-form-item>
-         <!-- <el-form-item label="住户姓名">
-            <el-input size="mini" v-model="formInline.zName" placeholder="输入住户姓名"></el-input>
-          </el-form-item> -->
           <el-form-item label="缴纳日期">
             <el-date-picker size="mini" v-model="formInline.changedate" type="date" placeholder="选择日期" style="width:100%">
             </el-date-picker>
@@ -135,6 +132,32 @@
 				<el-button @click="goBack" style="margin-left: 45%;">返回</el-button>
 			</el-form>
 		</el-dialog>
+		
+		<el-dialog title="去缴费" :visible.sync="dialogTableVisible1">
+			<el-form ref="infoList" :model="infoList" :rules="infoListRules" label-width="120px">
+				<el-form-item label="房号" prop="rNo">
+					<el-input v-model="infoList.rNo" placeholder="请输入房号"></el-input>
+				</el-form-item>
+				<el-form-item label="建筑面积" prop="buildArea">
+					<el-input v-model="infoList.buildArea" placeholder="请输入建筑面积"></el-input>
+				</el-form-item>
+				<el-form-item label="使用面积" prop="ableArea">
+					<el-input v-model="infoList.ableArea" placeholder="请输入使用面积"></el-input>
+				</el-form-item>
+				<el-form-item label="房型名称" prop="name">
+					<el-input v-model="infoList.name" placeholder="请输入房型名称"></el-input>
+				</el-form-item>
+				<el-form-item label="出售状况" prop="sale_status">
+					<el-input v-model="infoList.sale_status" placeholder="请输入出售状况"></el-input>
+				</el-form-item>
+				<el-form-item label="产权状况" prop="own_status">
+					<el-input v-model="infoList.own_status" placeholder="请输入产权状况"></el-input>
+				</el-form-item>
+				<el-button type="primary" style="margin-left: 40%;" @click="edit">保存</el-button>
+				<el-button @click="resetForm1('infoList')">重置</el-button>
+				<el-button @click="goBack">返回</el-button>
+			</el-form>
+		</el-dialog>
   </div>
 </template>
 
@@ -145,40 +168,13 @@ import axios from 'axios';
     data() {
       return {
         formInline: {
-          dNo: '',
-          zName: '',
+          dNo: '',   
           changedate: '',
-          case: ''
         },
-        typeList: [{
-          dNo: '',
-          zName: '',
-          changedate: '',
-          cases: '',
-          type: '',
-          waterCase:'',
-          eCase:'',
-          gascase:'',
-          stopCase:'',
-          mandCase:'',
-          remark:'',
-		  state:'',
-		  payabledate:''
-        }],
-		infoList:[{
-			dNo: '',
-			zName: '',
-			changedate: '',
-			cases: '',
-			type: '',
-			waterCase:'',
-			eCase:'',
-			gascase:'',
-			stopCase:'',
-			mandCase:'',
-			remark:''
-		}],
+        typeList: [{}],
+		infoList:[{}],
         dialogTableVisible: false,
+		dialogTableVisible1: false,
         currentPage: 1, //默认第一页
         total: 0, //总条数
         pagesize: 5 //默认第一页展示10条
@@ -215,10 +211,6 @@ import axios from 'axios';
         var self = this;
         axios
           .post("http://127.0.0.1:10520/api/user/getPayList", {
-            //   params: {
-            //     pageNum: 5,
-            //     pageSize: 300
-            //   }
           })
           .then(function (res) {
             if (res.data.status == 1) {

@@ -17,7 +17,7 @@
 					</div>
 					<el-row>
 						<el-button @click="resetForm1('inForm')" type="primary">清空</el-button>
-					<el-button @click="login" type="primary">登录</el-button>
+						<el-button @click="login" type="primary">登录</el-button>
 					</el-row>
 				</div>
 				<div class="big-contain" v-else>
@@ -31,7 +31,7 @@
 							<el-form-item label="邮箱" prop="useremail">
 								<el-input v-model="form.useremail" type="email"></el-input>
 							</el-form-item>
-							<el-form-item label="密码" prop="userpwd" >
+							<el-form-item label="密码" prop="userpwd">
 								<el-input v-model="form.userpwd" type="password" show-password></el-input>
 							</el-form-item>
 							<el-form-item label="权限" prop="role">
@@ -44,8 +44,8 @@
 						</el-form>
 					</div>
 					<el-row>
-					<el-button @click="resetForm('form')" type="primary">清空</el-button>
-					<el-button  @click="register" type="primary">注册</el-button>
+						<el-button @click="resetForm('form')" type="primary">清空</el-button>
+						<el-button @click="register" type="primary">注册</el-button>
 					</el-row>
 				</div>
 			</div>
@@ -81,9 +81,9 @@
 				passwordError: false,
 				existed: false,
 				labelPosition: 'right',
-				username:'',
-				password:'',
-				user:'',
+				username: '',
+				password: '',
+				user: '',
 				form: {
 					username: '',
 					useremail: '',
@@ -91,10 +91,10 @@
 					role: '',
 					checked: ''
 				},
-				inForm :{
-					username:'',
-					userpwd:'',
-					role:''
+				inForm: {
+					username: '',
+					userpwd: '',
+					role: ''
 				},
 				options: [{
 					value: '选项1',
@@ -168,7 +168,7 @@
 				this.form.username = ''
 				this.form.useremail = ''
 				this.form.userpwd = '',
-				this.form.role = ''
+					this.form.role = ''
 			},
 			//调用后台的方法 登录方法
 			// login() {
@@ -186,17 +186,17 @@
 			// 						sessionStorage.setItem("user", JSON.stringify({
 			// 							username: that.username,
 			// 						}))
-			
+
 			// 						if (that.indentity === "管理员") {
 			// 						//路由的跳转－－正常跳转就行
 			// 						that.$router.push("adminhome");
-									
+
 			// 						} else if (that.indentity === "业主") {
 			// 							//路由的跳转
 			// 							that.$router.push("userhome");
-										
+
 			// 						}
-			
+
 			// 					} else if (res.data.status === 0) {
 			// 						alert("用户名或者密码错误，请重新输入")
 			// 						// window.location.href = 'fail.html'
@@ -209,7 +209,7 @@
 			login() {
 				const self = this;
 				if (self.inForm.username != "" && self.inForm.userpwd != "") {
-					Cookies.set('username',self.inForm.username)
+					Cookies.set('username', self.inForm.username)
 					self.$axios({
 							method: 'post',
 							url: 'http://127.0.0.1:10520/api/user/login',
@@ -217,7 +217,7 @@
 								username: self.inForm.username,
 								// email: self.form.useremail,
 								password: self.inForm.userpwd,
-								role:self.inForm.role
+								role: self.inForm.role
 							}
 						})
 						.then(res => {
@@ -225,8 +225,8 @@
 								case 0:
 									// alert("登陆成功！");
 									this.$message({
-										message:'登陆成功',
-										type:'success'
+										message: '登陆成功',
+										type: 'success'
 									});
 									setToken(res.token);
 									setUserName(res.username);
@@ -246,8 +246,8 @@
 						})
 				} else {
 					this.$message({
-						message:'填写不能为空',
-						type:'warning'
+						message: '填写不能为空',
+						type: 'warning'
 					});
 				}
 			},
@@ -269,25 +269,18 @@
 							switch (res.data) {
 								case 0:
 									this.$message({
-										message:'注册成功',
-										type:'success'
+										message: '注册成功',
+										type: 'success'
 									});
 									this.login();
 									break;
 								case -1:
 									this.existed = true;
 									this.$message({
-										message:'用户名已经存在，请重新注册',
-										type:'warning'
+										message: '用户名已经存在，请重新注册',
+										type: 'warning'
 									});
 									break;
-								// case -2:
-								// 	this.existed = true;
-								// 	this.$message({
-								// 		message:'邮箱已经存在，请重新注册',
-								// 		type:'warning'
-								// 	});
-								// 	break;
 							}
 						})
 						.catch(err => {
@@ -295,41 +288,29 @@
 						})
 				} else {
 					this.$message({
-						message:'填写不能为空',
-						type:'warning'
+						message: '填写不能为空',
+						type: 'warning'
 					});
-					// alert("填写不能为空！");
 				}
 			},
+			
+			
 			resetForm(form) {
 				this.$refs[form].resetFields();
 			},
 			resetForm1(inForm) {
 				this.$refs[inForm].resetFields();
 			},
-			// 记住密码
-			// savePassword() {
-			// 	if (document.getElementById("savePassword").checked) {
-			// 		var username = this.user.username;
-			// 		var password = this.user.password;
-			// 		wind
-			// 		ow.sessionStorage.username = username;
-			// 		window.sessionStorage.password = password;
-			// 		localStorage.rmbPassword = true;
-			// 	} else {
-			// 		localStorage.rmbPassword = false;
-			// 	}
-			// }
 		},
 		// created:在模板渲染成html前调用,即通常初始化某些属性值,然后再渲染成视图。
-				created() {
-					let username = JSON.parse(sessionStorage.getItem("user"))
-					if(username) {
-						//userName.username==user.username  对应登录界面设置的key里面的value对应的数组值
-						this.user = username.username
-						console.log("this.user:"+this.user)
-					}
-				},
+		created() {
+			let username = JSON.parse(sessionStorage.getItem("user"))
+			if (username) {
+				//userName.username==user.username  对应登录界面设置的key里面的value对应的数组值
+				this.user = username.username
+				console.log("this.user:" + this.user)
+			}
+		},
 
 	}
 </script>

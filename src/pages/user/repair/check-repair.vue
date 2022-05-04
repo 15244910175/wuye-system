@@ -13,11 +13,8 @@
 					<el-form-item label="报修事项名称">
 						<el-input size="mini" v-model="formInline.name" placeholder="输入名称"></el-input>
 					</el-form-item>
-					<el-form-item label="住户地址">
-						<el-input size="mini" v-model="formInline.address" placeholder="输入住户地址"></el-input>
-					</el-form-item>
 					<el-form-item>
-						<el-button size="mini" type="primary" class="el-icon-search">查询</el-button>
+						<el-button size="mini" type="primary" class="el-icon-search" @click="searchTab">查询</el-button>
 					</el-form-item>
 					<el-form-item>
 						<el-button size="mini" type="primary" class="el-icon-refresh" @click="resetForm">重置</el-button>
@@ -63,22 +60,8 @@
 				<el-form-item label="住户地址" prop="address">
 					<el-input v-model="data.address" placeholder="请输入住户地址"></el-input>
 				</el-form-item>
-				<!-- <el-form-item label="报修日期" prop="beDate">
-					<el-date-picker v-model="data.beDate" type="datetime" placeholder="选择日期时间" style="width:100%">
-					</el-date-picker>
-				</el-form-item> -->
 				<el-form-item label="报修情况说明" prop="mark">
 					<el-input type="textarea" v-model="data.mark" placeholder="请输入报修情况说明"></el-input>
-				</el-form-item>
-				<el-form-item label="图片说明" prop="img">
-			
-					<el-upload class="upload-demo" action="http://127.0.0.1:10520/api/user/imgload"
-						:on-remove="handleRemove" :before-remove="beforeRemove" multiple :limit="5"
-						:on-exceed="handleExceed" :file-list="fileList" :on-success="uploadSuccess">
-						<el-button size="small" type="primary">点击上传</el-button>
-						<div slot="tip" class="el-upload__tip">只能上传jpg/png文件，且不超过500kb</div>
-					</el-upload>
-			
 				</el-form-item>
 				<el-button type="primary" @click="onSubmit">保存</el-button>
 				<el-button @click="resetForm('data')">重置</el-button>
@@ -100,7 +83,6 @@
 
 				formInline: {
 					name: '',
-					address: '',
 				},
 				typeList: [{
 					name: '',
@@ -175,8 +157,15 @@
 		created() {
 			// 加载列表
 			this.getRepairList();
+			this.searchTab();
+			
 		},
+		mounted() {
+		   // 加载列表
+		   
+		 },
 		methods: {
+			
 			// 时间格式化
 			dateFormat:function(row,column){
 			
@@ -210,6 +199,34 @@
 						console.log(res);
 					});
 			},
+			// 搜索
+			searchTab() {
+				// var self=this;
+				axios
+				    .post("http://127.0.0.1:10520/api/user/queryRepair",{
+					
+				})
+				.then(function(res){
+					if(res.msg==="查询成功"){
+						this.$message.success("查询成功！");
+						this.typeList=res.list;
+						this.total = this.typeList.length;
+					}
+					
+				})
+				},
+			    //   request({
+			    //     url: "http://127.0.0.1:10520/api/user/queryRepair",
+			    //     method: "get",
+			    //     data: {}
+			    //   }).then(res => {
+			    //     console.log(res);
+			    //     if (res.msg === "查询成功") {
+			    //       self.typeList = res.list;
+			    //       self.total = self.typeList.length;
+			    //     }
+			    //   });
+			    // },
 			onSubmit() {
 				this.data.beDate = formatDate(new Date());
 				// this.title=this.title;

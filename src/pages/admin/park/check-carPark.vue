@@ -127,7 +127,7 @@
 				}],
 				infoList: {
 					pass: '',
-					state: "已审核"
+					state: '已审核'
 				},
 				
 				json_fields: {
@@ -186,7 +186,12 @@
 				request({
 					url: "http://127.0.0.1:10520/api/admin/updateCarorder",
 					method: "post",
-					data: this.infoList
+					
+					data:{
+						state:this.infoList.state,
+						pass:this.infoList.pass
+					},
+					// console.log(data)
 				}).then(res => {
 					console.log(res);
 					if (res.msg === "修改成功") {

@@ -285,7 +285,7 @@ router.post('/getHouseMagList', (req, res) => {
 
 		return res.send({
 			status: 1,
-			msg: "查询成功",
+			msg: "获取数据成功",
 			list: data
 		})
 	})

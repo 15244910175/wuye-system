@@ -4,8 +4,14 @@ var sqlMap = {
         reg: 'insert into user (username, email, password, role ) values (?,?,?,?)',
         //登录
         login: 'select * from user where username=? and password=?',
+		// 搜索房产管理信息
+		ss:'select * from house_mag where rNo=?',
+		// 搜索报修实现名称
+		queryRepair:'select * from equip where name like concat("%","?","%")',
+		// 查询房产管理信息
+		table:'SELECT * FROM `t_change`',
 		// 查询报修信息列表
-		getRepairList:'select * from equip where inName="里欧"',
+		getRepairList:'select * from equip where inName="住户1"',
 		// 查看小区车位
 		getOrdercar:`select * from carorder`,
 		// 查看物业费信息

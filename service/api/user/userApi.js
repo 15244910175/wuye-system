@@ -11,7 +11,37 @@ conn.connect();
 
 
 
+router.post('/ss',(req,res)=>{
+	const params= req.query;
+	const sql = $sql.user.ss ;
+	
+	conn.query(sql, [params.rNo], (error, result)=> {
+		var data = JSON.parse(JSON.stringify(result))
+	
+		return res.send({
+			status: 1,
+			msg: "查询成功",
+			list: data
+		})
+	})
+})
 
+
+// 搜索保修事项
+router.post('/queryRepair',(req,res)=>{
+	const params= req.query;
+	// console.log(params);
+	const sql = $sql.user.queryRepair ;
+	conn.query(sql, [params.name], function(err, result) {
+		var data = JSON.parse(JSON.stringify(result))
+	
+		return res.send({
+			status: 1,
+			msg: "查询成功",
+			list: data
+		})
+	})
+})
 
 
 
@@ -135,31 +165,7 @@ router.post('/getNoticeMain', (req, res) => {
 // });
 
 // 查询快递公司
-router.post("/search", function(req, res, next) {
-	var name = req.body.name;
-	// var age = req.body.s_age;
-	var sql = $sql.body.queryPass;
-	if (name) {
-		sql += " where name = '" + name + "'";
-	}
-	//if(age){  
-	//    sql += " and age = '" + age + "'";  
-	//}  
 
-	// sql.replace("where");
-	conn.query(sql, function(err, rows) {
-		if (err) {
-			res.send("查询失败: " + err);
-		} else {
-			res.render("pass", {
-				title: "快递公司列表",
-				datas: rows,
-				name: name,
-				// s_age: age
-			});
-		}
-	});
-})
 
 
 
