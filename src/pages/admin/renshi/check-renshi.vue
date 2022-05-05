@@ -19,7 +19,7 @@
 						<el-input size="mini" v-model="formInline.post" placeholder="输入职务"></el-input>
 					</el-form-item>
 					<el-form-item>
-						<el-button size="mini" type="primary" class="el-icon-search">查询</el-button>
+						<el-button size="mini" type="primary" class="el-icon-search" @click="searchTab">查询</el-button>
 					</el-form-item>
 					<el-form-item>
 						<el-button size="mini" type="primary" class="el-icon-refresh" @click="resetForm">重置</el-button>
@@ -277,6 +277,26 @@
 			this.getRenshiList()
 		},
 		methods: {
+			// 搜索
+			searchTab() {
+				var self=this;
+				axios
+				    .get("http://127.0.0.1:10520/api/admin/queryRenshi",{
+					params:{
+						AdminName:this.formInline.AdminName,
+						post:this.formInline.post
+					}
+				})
+				.then(function(res){
+					console.log(res);
+					if(res.data.msg==="查询成功"){
+						self.$message.success("查询成功！");
+						self.typeList=res.data.list;
+						self.total = res.data.list.length;
+					}
+					
+				})
+				},
 			// 时间格式化
 			dateFormat: function(row, column) {
 

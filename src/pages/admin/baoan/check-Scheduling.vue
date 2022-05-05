@@ -14,7 +14,7 @@
 						<el-input size="mini" v-model="formInline.name" placeholder="输入保安姓名"></el-input>
 					</el-form-item>
 					<el-form-item>
-						<el-button size="mini" type="primary" class="el-icon-search">查询</el-button>
+						<el-button size="mini" type="primary" class="el-icon-search" @click="searchTab">查询</el-button>
 					</el-form-item>
 					<el-form-item>
 						<el-button size="mini" type="primary" class="el-icon-refresh" @click="resetForm">重置</el-button>
@@ -227,6 +227,25 @@
 				//row是该行tableData对应的一行
 				this.infoList = row
 			},
+			// 搜索
+			searchTab() {
+				var self=this;
+				axios
+				    .get("http://127.0.0.1:10520/api/admin/queryPa",{
+					params:{
+						name:this.formInline.name,
+					}
+				})
+				.then(function(res){
+					console.log(res);
+					if(res.data.msg==="查询成功"){
+						self.$message.success("查询成功！");
+						self.typeList=res.data.list;
+						self.total = res.data.list.length;
+					}
+					
+				})
+				},
 			add() {
 				if (
 					this.addForm.name == "" ||

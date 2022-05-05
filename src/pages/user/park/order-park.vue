@@ -10,18 +10,18 @@
 		<div class="t_box">
 			<div class="search">
 				<el-form ref="form" :model="formInline" :inline="true" class="demo-form-inline">
-					<el-form-item label="住户姓名">
+					<!-- <el-form-item label="住户姓名">
 						<el-input size="mini" v-model="formInline.userid" placeholder="输入住户姓名"></el-input>
 					</el-form-item>
-					
+					 -->
 					<el-form-item label="停车车位号">
 						<el-input size="mini" v-model="formInline.carAddress" placeholder="输入停车车位号"></el-input>
 					</el-form-item>
-					<el-form-item label="住户地址">
+					<!-- <el-form-item label="住户地址">
 						<el-input size="mini" v-model="formInline.address" placeholder="输入住户地址"></el-input>
-					</el-form-item>
+					</el-form-item> -->
 					<el-form-item>
-						<el-button size="mini" type="primary" class="el-icon-search">查询</el-button>
+						<el-button size="mini" type="primary" class="el-icon-search" @click="searchTab">查询</el-button>
 					</el-form-item>
 					<el-form-item>
 						<el-button size="mini" type="primary" class="el-icon-refresh" @click="resetForm">重置</el-button>
@@ -36,8 +36,8 @@
 				<el-table-column label="车位编号" width="120" align="center">
 					<template slot-scope="scope">{{scope.$index+1}}</template>
 				</el-table-column>
-				<el-table-column prop="userid" label="住户姓名" align="center">
-				</el-table-column>
+				<!-- <el-table-column prop="userid" label="住户姓名" align="center">
+				</el-table-column> -->
 				<el-table-column prop="persionNo" label="住户身份证" align="center">
 				</el-table-column>
 				<el-table-column prop="telephone" label="联系电话" align="center">
@@ -48,8 +48,8 @@
 				</el-table-column>
 				<el-table-column prop="address" label="住户地址" align="center">
 				</el-table-column>
-				<el-table-column prop="state" label="状态" align="center">
-				</el-table-column>
+			<!-- 	<el-table-column prop="state" label="状态" align="center">
+				</el-table-column> -->
 				<el-table-column prop="pass" label="是否通过" align="center">
 				</el-table-column>
 			</el-table>
@@ -79,7 +79,7 @@
 					<el-input v-model="addForm.carAddress" placeholder="请输入预留车位号"></el-input>
 				</el-form-item>
 				<el-button type="primary" @click="add">保存</el-button>
-				<el-button @click="resetForm('addForm')">重置</el-button>
+				<el-button @click="resetForm1('addForm')">重置</el-button>
 				<el-button @click="goBack">返回</el-button>
 			</el-form>
 		</el-dialog>
@@ -89,6 +89,7 @@
 <script>
 	import moment from 'moment';
 	import axios from 'axios';
+	import format from '../../../utils/format.js'
 	export default {
 		data() {
 			return {
@@ -148,7 +149,7 @@
 							trigger: 'blur'
 						},
 						{
-							type: 'number',
+							// type: 'number',
 							max: 11,
 							message: '联系电话输入11位正整数',
 							trigger: 'blur'
@@ -185,6 +186,26 @@
 			        return moment(date).format("YYYY-MM-DD HH:mm:ss")
 			
 			    },
+			// 搜索
+			searchTab() {
+				var self=this;
+				axios
+				    .get("http://127.0.0.1:10520/api/user/queryOrderPark",{
+					params:{
+						carAddress:this.formInline.carAddress
+					}
+				})
+				.then(function(res){
+					console.log(res);
+					if(res.data.msg==="查询成功"){
+						self.$message.success("查询成功！");
+						self.typeList=res.data.list;
+						self.total = res.data.list.length;
+					}
+					
+				})
+				},
+			
 			resetForm(){
 				this.formInline={},
 				this.getOrdercar();
@@ -255,7 +276,7 @@
 				this.getCarparkList();
 				this.dialogTableVisible1=false;
 			},
-			resetForm(addForm) {
+			resetForm1(addForm) {
 				this.$refs[addForm].resetFields();
 			},
 			goBack() {

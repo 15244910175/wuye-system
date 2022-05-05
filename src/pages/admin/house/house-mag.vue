@@ -18,11 +18,11 @@
 						<el-input size="mini" v-model="formInline.name" placeholder="输入房型名称"></el-input>
 					</el-form-item>
 					<el-form-item label="出售状况">
-						<el-input size="mini" v-model="formInline.sale_status" placeholder="输入出售状况"></el-input>
+						<el-input size="mini" v-model="formInline.sale_status" placeholder="输入出售状况" ></el-input>
 					</el-form-item>
 
 					<el-form-item>
-						<el-button size="mini" type="primary" class="el-icon-search">查询</el-button>
+						<el-button size="mini" type="primary" class="el-icon-search" @click="searchTab">查询</el-button>
 					</el-form-item>
 					<el-form-item>
 						<el-button size="mini" type="primary" class="el-icon-refresh" @click="resetForm">重置</el-button>
@@ -247,7 +247,31 @@
 		created() {
 			this.getHouseMagList()
 		},
+		mounted() {
+			this.searchTab()
+		},
 		methods: {
+			// 搜索
+			searchTab() {
+				var self=this;
+				axios
+				    .get("http://127.0.0.1:10520/api/admin/queryHouseMag",{
+					params:{
+						rNo:this.formInline.rNo,
+						name:this.formInline.name,
+						sale_status:this.formInline.sale_status
+					}
+				})
+				.then(function(res){
+					console.log(res);
+					if(res.data.msg==="查询成功"){
+						self.$message.success("查询成功！");
+						self.typeList=res.data.list;
+						self.total = res.data.list.length;
+					}
+					
+				})
+				},
 			// 查询房产信息
 			getHouseMagList() {
 				var self = this;

@@ -10,11 +10,14 @@
 		<div class="t_box">
 			<div class="search">
 				<el-form ref="formInline" :model="formInline" :inline="true" class="demo-form-inline">
-					<el-form-item label="留言/投诉标题">
-						<el-input size="mini" v-model="formInline.title" placeholder="请输入标题"></el-input>
+					<el-form-item label="留言/投诉类型">
+						<el-select size="mini" v-model="formInline.type" placeholder="请选择留言类型" style="width:100%">
+							<el-option label="留言" value="留言"></el-option>
+							<el-option label="投诉" value="投诉"></el-option>
+						</el-select>
 					</el-form-item>
 					<el-form-item >
-						<el-button size="mini" type="primary" class="el-icon-search">查询</el-button>
+						<el-button size="mini" type="primary" class="el-icon-search" @click="searchTab">查询</el-button>
 					</el-form-item>
 					<el-form-item>
 						<el-button size="mini" type="primary" class="el-icon-refresh" @click="resetForm">重置</el-button>
@@ -69,7 +72,7 @@
 					</el-select>
 				</el-form-item>
 				<el-button type="primary" @click="onSubmit">提交</el-button>
-				<el-button @click="resetForm('addForm')">重置</el-button>
+				<el-button @click="resetForm1('addForm')">重置</el-button>
 			</el-form>
 		</el-dialog>
 		
@@ -84,7 +87,7 @@
 		data() {
 			return {
 				formInline: {
-					title: '',
+					type: '',
 				},
 				typeList: [{
 					title: '',
@@ -152,6 +155,26 @@
 			        return moment(date).format("YYYY-MM-DD HH:mm:ss")
 			
 			    },
+			// 搜索
+			searchTab() {
+				var self=this;
+				axios
+				    .get("http://127.0.0.1:10520/api/user/queryNoteType",{
+					params:{
+						type:this.formInline.type
+					}
+				})
+				.then(function(res){
+					console.log(res);
+					if(res.data.msg==="查询成功"){
+						self.$message.success("查询成功！");
+						self.typeList=res.data.list;
+						self.total = res.data.list.length;
+					}
+					
+				})
+				},
+			
 			resetForm(){
 				this.formInline={},
 				this.getNoteList();
@@ -220,7 +243,7 @@
 				this.getNoteList();
 				this.dialogTableVisible=false;
 			},
-			resetForm(addForm) {
+			resetForm1(addForm) {
 				this.$refs[addForm].resetFields();
 			},
 			

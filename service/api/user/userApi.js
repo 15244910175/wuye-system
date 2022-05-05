@@ -5,44 +5,10 @@ const mysql = require('mysql');
 const $sql = require('../../db/sqlMap');
 // const multer = require('multer')
 const fs = require('fs')
+// const formatDate=require("../../../src/utils/format.js")
 // 连接数据库
 var conn = mysql.createConnection(models.mysql);
 conn.connect();
-
-
-
-router.post('/ss',(req,res)=>{
-	const params= req.query;
-	const sql = $sql.user.ss ;
-	
-	conn.query(sql, [params.rNo], (error, result)=> {
-		var data = JSON.parse(JSON.stringify(result))
-	
-		return res.send({
-			status: 1,
-			msg: "查询成功",
-			list: data
-		})
-	})
-})
-
-
-// 搜索保修事项
-router.post('/queryRepair',(req,res)=>{
-	const params= req.query;
-	// console.log(params);
-	const sql = $sql.user.queryRepair ;
-	conn.query(sql, [params.name], function(err, result) {
-		var data = JSON.parse(JSON.stringify(result))
-	
-		return res.send({
-			status: 1,
-			msg: "查询成功",
-			list: data
-		})
-	})
-})
-
 
 
 // 登录接口
@@ -93,10 +59,118 @@ router.post('/reg', (req, res) => {
 		}
 	});
 });
+
+router.get('/ss',(req,res)=>{
+	const params= req.query;
+	const sql = $sql.user.ss ;
+	
+	conn.query(sql, [params.rNo], (error, result)=> {
+		var data = JSON.parse(JSON.stringify(result))
+	
+		return res.send({
+			status: 1,
+			msg: "查询成功",
+			list: data
+		})
+	})
+})
+
+
+// 搜索保修事项
+router.get('/queryRepair',(req,res)=>{
+	const params= req.query;
+	console.log(params);
+	const sql = $sql.user.queryRepair ;
+	conn.query(sql, [params.name], function(err, result) {
+		var data = JSON.parse(JSON.stringify(result))
+	
+		return res.send({
+			status: 1,
+			msg: "查询成功",
+			list: data
+		})
+	})
+})
+// 搜索物业费信息
+router.get('/queryPay',(req,res)=>{
+	const params= req.query;
+	console.log(params);
+	const sql = $sql.user.queryPay ;
+	conn.query(sql, [params.dNo,params.changedate], function(err, result) {
+		var data = JSON.parse(JSON.stringify(result))
+	
+		return res.send({
+			status: 1,
+			msg: "查询成功",
+			list: data
+		})
+	})
+})
+// 搜索小区车位
+router.get('/queryOrderPark',(req,res)=>{
+	const params= req.query;
+	console.log(params);
+	const sql = $sql.user.queryOrderPark ;
+	conn.query(sql, [params.carAddress], function(err, result) {
+		var data = JSON.parse(JSON.stringify(result))
+	
+		return res.send({
+			status: 1,
+			msg: "查询成功",
+			list: data
+		})
+	})
+})
+// 搜索快递公司
+router.get('/queryPassMag',(req,res)=>{
+	const params= req.query;
+	console.log(params);
+	const sql = $sql.user.queryPassMag ;
+	conn.query(sql, [params.name], function(err, result) {
+		var data = JSON.parse(JSON.stringify(result))
+	
+		return res.send({
+			status: 1,
+			msg: "查询成功",
+			list: data
+		})
+	})
+})
+// 搜索收获信息
+// router.get('/queryColpass',(req,res)=>{
+// 	const params= req.query;
+// 	console.log(params);
+// 	const sql = $sql.user.queryColpass ;
+// 	conn.query(sql, [formatDate(params.paralreadyDate)], function(err, result) {
+// 		var data = JSON.parse(JSON.stringify(result))
+	
+// 		return res.send({
+// 			status: 1,
+// 			msg: "查询成功",
+// 			list: data
+// 		})
+// 	})
+// })
+// 搜索留言类型
+router.get('/queryNoteType',(req,res)=>{
+	const params= req.query;
+	console.log(params);
+	const sql = $sql.user.queryNoteType ;
+	conn.query(sql, [params.type], function(err, result) {
+		var data = JSON.parse(JSON.stringify(result))
+	
+		return res.send({
+			status: 1,
+			msg: "查询成功",
+			list: data
+		})
+	})
+})
+
 // 查看报修列表
-router.post('/getRepairList', (req, res) => {
+router.get('/getRepairList', (req, res) => {
 	var sql = $sql.user.getRepairList;
-	var params = req.body;
+	var params = req.query;
 	console.log(params);
 	conn.query(sql, [], function(err, result) {
 		var data = JSON.parse(JSON.stringify(result))
@@ -154,21 +228,6 @@ router.post('/getNoticeMain', (req, res) => {
 		});
 	})
 });
-// server.get("/detail",(req,res)=>{
-//     // 获取页面传过来的参数
-//     var id=req.query.id;
-//     var sql="sql语句 WHERE id=?"
-//     pool.query(sql,[id],(err,result)=>{
-//         if(err) throw err;
-//         res.send({code:1,msg:"查询成功",data:result});
-//     })
-// });
-
-// 查询快递公司
-
-
-
-
 // 新增报修事项
 router.post('/addRepair', (req, res) => {
 	var sql = $sql.user.addRepair;
@@ -186,8 +245,6 @@ router.post('/addRepair', (req, res) => {
 		})
 	})
 });
-
-
 
 // 新增留言、投诉
 router.post('/addNote', (req, res) => {

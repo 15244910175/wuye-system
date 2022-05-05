@@ -15,7 +15,7 @@
 						<el-date-picker size="mini" v-model="formInline.alreadyDate" type="date" placeholder="请选择收货日期"></el-date-picker>
 					</el-form-item>
 					<el-form-item>
-						<el-button size="mini" type="primary" class="el-icon-search">查询</el-button>
+						<el-button size="mini" type="primary" class="el-icon-search" @click="searchTab">查询</el-button>
 					</el-form-item>
 					<el-form-item>
 						<el-button size="mini" type="primary" class="el-icon-refresh" @click="resetForm">重置</el-button>

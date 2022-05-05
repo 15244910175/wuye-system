@@ -64,7 +64,7 @@
 					<el-input type="textarea" v-model="data.mark" placeholder="请输入报修情况说明"></el-input>
 				</el-form-item>
 				<el-button type="primary" @click="onSubmit">保存</el-button>
-				<el-button @click="resetForm('data')">重置</el-button>
+				<el-button @click="resetForm1('data')">重置</el-button>
 			</el-form>
 		</el-dialog>
 	</div>
@@ -157,12 +157,10 @@
 		created() {
 			// 加载列表
 			this.getRepairList();
-			this.searchTab();
-			
 		},
 		mounted() {
 		   // 加载列表
-		   
+		   // this.searchTab();
 		 },
 		methods: {
 			
@@ -177,13 +175,12 @@
 			
 			    },
 			resetForm(){
-				this.formInline={},
+				this.formInline.name="",
 				this.getRepairList();
 			},
 			getRepairList() {
 				var self = this;
-				axios
-					.post("http://127.0.0.1:10520/api/user/getRepairList", {
+				axios.get("http://127.0.0.1:10520/api/user/getRepairList", {
 						//   params: {
 						//     pageNum: 5,
 						//     pageSize: 300
@@ -195,22 +192,25 @@
 							self.$message.success("数据已获取到！");
 						}
 						self.typeList = res.data.list;
+						self.total = self.typeList.length;
 						// console.log(self.typeList);
 						console.log(res);
 					});
 			},
 			// 搜索
 			searchTab() {
-				// var self=this;
-				axios
-				    .post("http://127.0.0.1:10520/api/user/queryRepair",{
-					
+				var self=this;
+				axios.get("http://127.0.0.1:10520/api/user/queryRepair",{
+					params:{
+						name:this.formInline.name
+					}
 				})
 				.then(function(res){
-					if(res.msg==="查询成功"){
-						this.$message.success("查询成功！");
-						this.typeList=res.list;
-						this.total = this.typeList.length;
+					if(res.data.msg==="查询成功"){
+						self.$message.success("查询成功！");
+						
+						self.typeList=res.data.list;
+						self.total = res.data.list.length;
 					}
 					
 				})
@@ -272,7 +272,7 @@
 				this.dialogTableVisible=false;
 				this.getRepairList();
 			},
-			resetForm(data) {
+			resetForm1(data) {
 				this.$refs[data].resetFields();
 			},
 			handleDelete(id) {

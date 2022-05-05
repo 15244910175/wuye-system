@@ -249,30 +249,21 @@
 			searchTab() {
 				var self=this;
 				axios
-				    .post("http://127.0.0.1:10520/api/user/ss",{
-					
+				    .get("http://127.0.0.1:10520/api/user/ss",{
+					params:{
+						rNo:this.formInline.rNo
+					}
 				})
 				.then(function(res){
-					if(res.msg==="查询成功"){
+					console.log(res);
+					if(res.data.msg==="查询成功"){
 						self.$message.success("查询成功！");
-						self.typeList=res.list;
-						self.total = self.typeList.length;
+						self.typeList=res.data.list;
+						self.total = res.data.list.length;
 					}
 					
 				})
 				},
-				//    request({
-				//           url: "http://127.0.0.1:10520/api/user/ss",
-				//           method: "get",
-				//           data: {}
-				//         }).then(res => {
-				//           console.log(res);
-				//           if (res.msg === "查询成功") {
-				//             this.typeList = res.list;
-				//             this.total = this.typeList.length;
-				//           }
-				//         });
-				// },
 			
 			// 查询房产信息
 			getHouseMagList() {

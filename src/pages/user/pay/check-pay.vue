@@ -18,7 +18,7 @@
             </el-date-picker>
           </el-form-item>
           <el-form-item>
-          	<el-button size="mini" type="primary" class="el-icon-search">查询</el-button>
+          	<el-button size="mini" type="primary" class="el-icon-search" @click="searchTab">查询</el-button>
           </el-form-item>
           <el-form-item>
           	<el-button size="mini" type="primary" class="el-icon-refresh" @click="resetForm">重置</el-button>
@@ -133,31 +133,7 @@
 			</el-form>
 		</el-dialog>
 		
-		<el-dialog title="去缴费" :visible.sync="dialogTableVisible1">
-			<el-form ref="infoList" :model="infoList" :rules="infoListRules" label-width="120px">
-				<el-form-item label="房号" prop="rNo">
-					<el-input v-model="infoList.rNo" placeholder="请输入房号"></el-input>
-				</el-form-item>
-				<el-form-item label="建筑面积" prop="buildArea">
-					<el-input v-model="infoList.buildArea" placeholder="请输入建筑面积"></el-input>
-				</el-form-item>
-				<el-form-item label="使用面积" prop="ableArea">
-					<el-input v-model="infoList.ableArea" placeholder="请输入使用面积"></el-input>
-				</el-form-item>
-				<el-form-item label="房型名称" prop="name">
-					<el-input v-model="infoList.name" placeholder="请输入房型名称"></el-input>
-				</el-form-item>
-				<el-form-item label="出售状况" prop="sale_status">
-					<el-input v-model="infoList.sale_status" placeholder="请输入出售状况"></el-input>
-				</el-form-item>
-				<el-form-item label="产权状况" prop="own_status">
-					<el-input v-model="infoList.own_status" placeholder="请输入产权状况"></el-input>
-				</el-form-item>
-				<el-button type="primary" style="margin-left: 40%;" @click="edit">保存</el-button>
-				<el-button @click="resetForm1('infoList')">重置</el-button>
-				<el-button @click="goBack">返回</el-button>
-			</el-form>
-		</el-dialog>
+		
   </div>
 </template>
 
@@ -196,7 +172,26 @@ import axios from 'axios';
 		
 		    },
 		
-		
+		// 搜索
+		searchTab() {
+			var self=this;
+			axios
+			    .get("http://127.0.0.1:10520/api/user/queryPay",{
+				params:{
+					dNo:this.formInline.dNo,
+					changedate:this.formInline.changedate
+				}
+			})
+			.then(function(res){
+				console.log(res);
+				if(res.data.msg==="查询成功"){
+					self.$message.success("查询成功！");
+					self.typeList=res.data.list;
+					self.total = res.data.list.length;
+				}
+				
+			})
+			},
 		resetForm(){
 			this.formInline={},
 			this.getPayList();

@@ -56,8 +56,8 @@
 				</el-table-column>
 				<el-table-column prop="address" label="住户地址" align="center">
 				</el-table-column>
-				<el-table-column prop="state" label="状态" align="center">
-				</el-table-column>
+			<!-- 	<el-table-column prop="state" label="状态" align="center">
+				</el-table-column> -->
 				<el-table-column prop="pass" label="是否通过" align="center">
 				</el-table-column>
 				<el-table-column label="具体操作" align="center" width="200">

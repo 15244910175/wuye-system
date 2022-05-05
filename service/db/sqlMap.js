@@ -5,15 +5,26 @@ var sqlMap = {
         //登录
         login: 'select * from user where username=? and password=?',
 		// 搜索房产管理信息
-		ss:'select * from house_mag where rNo=?',
+		ss:'select * from house_mag where rNo like concat("%",?,"%")',
 		// 搜索报修实现名称
-		queryRepair:'select * from equip where name like concat("%","?","%")',
+		queryRepair:'select * from equip where name like concat("%",?,"%")',
+		// 搜索物业费信息
+		queryPay:'select * from t_change where dNo like concat("%",?,"%") or changedate like concat("%",?,"%")',
+		// 搜索小区车位
+		queryOrderPark:'select * from carorder where carAddress like concat("%",?,"%")',
+		// 搜索快递公司
+		queryPassMag:'select * from pass_mag where name like concat("%",?,"%")',
+		// 搜索收货日期
+		queryColpass:'select * from col_pass where alreadyDate like concat("%",?,"%")',
+		// 搜索留言类型
+		queryNoteType:'select * from t_leaverword where type=?',
+		
 		// 查询房产管理信息
 		table:'SELECT * FROM `t_change`',
 		// 查询报修信息列表
 		getRepairList:'select * from equip where inName="住户1"',
 		// 查看小区车位
-		getOrdercar:`select * from carorder`,
+		getOrdercar:`select * from carorder where userid="住户1"`,
 		// 查看物业费信息
 		getPayList:`select * from t_change`,
 		// 查看留言
@@ -41,6 +52,24 @@ var sqlMap = {
     },
 	
     admin:{
+		// 搜索住户资料
+		queryData:'select * from resident where rNo like concat("%",?,"%")',
+		// 搜索产权变更信息
+		queryHchange:'select * from h_change where rNo like concat("%",?,"%")',
+		// 搜索房产管理信息
+		// queryHouseMag:'select * from house_mag where rNo or name or sale_status like concat("%",?,"%")',
+		// queryHouseMag:'select * from house_mag where CONCAT(rNo, name, sale_status) LIKE CONCAT("%",#{fuzzy},"%")',
+		queryHouseMag:'select * from house_mag where rNo like concat("%",?,"%") or name like concat("%",?,"%") or sale_status like concat("%",?,"%")',
+		// 搜索管理员信息
+		queryAdmin:'select * from admin where AdminName like concat("%",?,"%") or post like concat("%",?,"%")',
+		// 搜索保安信息
+		queryBA:'select * from ba where name like concat("%",?,"%")',
+		// 搜索保安排班信息
+		queryPa:'select * from pb where name like concat("%",?,"%")',
+		// 搜搜人事管理信息
+		queryRenshi:'select * from rs where AdminName like concat("%",?,"%") or post like concat("%",?,"%")',
+		
+		
 		// 查询报修信息列表
 		getRepairList:'select * from equip',
 		// 查看管理员

@@ -10,6 +10,113 @@ const xlsx = require('node-xlsx');
 var conn = mysql.createConnection(models.mysql);
 conn.connect();
 
+// 搜索住户资料
+router.get('/queryData', (req, res) => {
+	var sql = $sql.admin.queryData;
+	var params = req.query;
+	console.log(params);
+	conn.query(sql, [params.rNo], function(err, result) {
+		var data = JSON.parse(JSON.stringify(result))
+
+		return res.send({
+			status: 1,
+			msg: "查询成功",
+			list: data
+		})
+	})
+});
+// 搜索产权变更
+router.get('/queryHchange', (req, res) => {
+	var sql = $sql.admin.queryHchange;
+	var params = req.query;
+	console.log(params);
+	conn.query(sql, [params.rNo], function(err, result) {
+		var data = JSON.parse(JSON.stringify(result))
+
+		return res.send({
+			status: 1,
+			msg: "查询成功",
+			list: data
+		})
+	})
+});
+// 搜索房产管理信息
+router.get('/queryHouseMag', (req, res) => {
+	var sql = $sql.admin.queryHouseMag;
+	var params = req.query;
+	console.log(params);
+	conn.query(sql, [params.rNo,params.name,params.sale_status], function(err, result) {
+		var data = JSON.parse(JSON.stringify(result))
+// var data = req.body;
+		return res.send({
+			status: 1,
+			msg: "查询成功",
+			list:data
+		})
+	})
+});
+// 搜索管理员信息
+router.get('/queryAdmin', (req, res) => {
+	var sql = $sql.admin.queryAdmin;
+	var params = req.query;
+	console.log(params);
+	conn.query(sql, [params.AdminName,params.post], function(err, result) {
+		var data = JSON.parse(JSON.stringify(result))
+// var data = req.body;
+		return res.send({
+			status: 1,
+			msg: "查询成功",
+			list:data
+		})
+	})
+});
+// 搜索管理员信息
+router.get('/queryBA', (req, res) => {
+	var sql = $sql.admin.queryBA;
+	var params = req.query;
+	console.log(params);
+	conn.query(sql, [params.name], function(err, result) {
+		var data = JSON.parse(JSON.stringify(result))
+// var data = req.body;
+		return res.send({
+			status: 1,
+			msg: "查询成功",
+			list:data
+		})
+	})
+});
+// 搜索保安排班信息
+router.get('/queryPa', (req, res) => {
+	var sql = $sql.admin.queryPa;
+	var params = req.query;
+	console.log(params);
+	conn.query(sql, [params.name], function(err, result) {
+		var data = JSON.parse(JSON.stringify(result))
+// var data = req.body;
+		return res.send({
+			status: 1,
+			msg: "查询成功",
+			list:data
+		})
+	})
+});
+// 搜索人事管理信息
+router.get('/queryRenshi', (req, res) => {
+	var sql = $sql.admin.queryRenshi;
+	var params = req.query;
+	console.log(params);
+	conn.query(sql, [params.AdminName,params.post], function(err, result) {
+		var data = JSON.parse(JSON.stringify(result))
+// var data = req.body;
+		return res.send({
+			status: 1,
+			msg: "查询成功",
+			list:data
+		})
+	})
+});
+
+
 // 查看报修列表
 router.post('/getRepairList', (req, res) => {
 	var sql = $sql.admin.getRepairList;
